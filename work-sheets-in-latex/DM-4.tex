@@ -1,0 +1,49 @@
+\begin{tabular}{%
+	|>{\colleft}p{2cm}%
+	|>{\colleft}p{4.4cm}|
+	|>{\colleft}p{4.4cm}|}
+\hline
+\bf Design Model &
+\multicolumn{2}{c}{\bf Worksheet DM-4: Application Design} \\
+\hline\hline
+\bf Element & \bf Design decision & \bf Comments \\
+\hline
+\sc Controller & Translate communication-plan control plus the
+	transactions  into event handlers. &
+	\em 
+	Need for real-time behavior? Need for concurrency?
+	Need for user control over reasoning?
+\\ \hline
+\sc Task methods & Formalize control structure. & 
+	\em Strongly constrained
+	by control language provided by the architecture. 
+	Some mapping tools already do this task for you.
+\\ \hline
+\sc Dynamic roles & Choose a datatype for each role. &
+	\em Constrained by datatypes provided by architecture. Use
+	real role sets (instead of lists) whenever possible, as it leads to more
+	natural reasoning behavior (random selection). 
+\\ \hline
+\sc Inferences & Write a specification of the 
+	invocation of the inference method(s). &
+	\em This method invocation should show how the
+	dynamic and static roles map onto arguments of the method. 
+	Often, some ``massaging'' of the inputs is necessary, as the
+	role representation of (static) roles are purposely not
+	optimized for reasoning purposes. 
+\\ \hline
+\sc Inference methods & Specify or select inference methods. &
+	\em Choose an appropriate reasoning technique or algorithm. 
+	Limit the number of methods by trying to use a method for
+	more than one inference. 
+\\ \hline
+\sc Knowledge bases & Translate knowledge-base instances into the
+representational format provided by the architecture. &
+	\em Some mapping tools already do this task for you.
+\\ \hline
+\sc View objects & Select appropriate views for the
+	application-model and the controller objects.	&
+	\em 	For the end-user interface: use as much as possible
+	domain-specific representations. 
+\\ \hline
+\end{tabular}

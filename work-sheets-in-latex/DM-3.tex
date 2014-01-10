@@ -1,0 +1,46 @@
+\begin{tabular}{%
+	|>{\colleft}p{3cm}%
+	|>{\colleft}p{8cm}|}
+\hline
+\bf Design Model 	& \bf Worksheet DM-3: Architecture Specification \\
+\hline\hline
+\bf Architecture component & \bf Typical decision points 
+\\ \hline
+\sc controller & 
+Mechanisms for internal/external event handling.
+Concurrency? Interrupts possible? Allow what-if scenarios? 
+User control over reasoning strategy? 
+\\ \hline
+\sc task & Can a task fail? Initialization method.
+\\ \hline
+\sc task method &
+Language for control structure. Define where and in what way
+the internal method control is specified:
+declarative or procedural.
+\\ \hline
+\sc Inference & 
+Define internal state variable; when should this
+variable be reset, e.g., after task completion? Define operations for
+execution and ``probe'' tests (has-solution?, new-solution?).
+\\ \hline
+\sc Inference method &
+Many-to-many mapping from inference to inference method. Algorithm
+should be selected. Catalog of inference methods?
+\\ \hline
+\sc Dynamic role &
+Data types for roles. Access/modification operations for each data
+type. 
+\\ \hline
+\sc Static role &
+Define access operation: give-all, give-one, exists-one?
+\\ \hline
+\sc Knowledge base &
+Decide about rule-instance representation. Define access and
+modify/analyze methods. Cf. the domain-expert interface.
+\\ \hline
+\sc Views &
+Standard graphical direct-manipulation interface? Special facilities
+required (e.g., natural language production)? Different interface:
+end-user, expert-user. Provide generic tracing facilities?
+\\ \hline
+\end{tabular}
