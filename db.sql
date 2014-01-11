@@ -28,8 +28,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `client` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
-  `strengths` enum('1','2','3') NOT NULL,
+  `dynamic` enum('1','2','3') NOT NULL,
   `quiet` tinyint(1) NOT NULL,
+  `category` enum('young', 'adult', 'middleAged', 'edlerly'),
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -69,6 +70,7 @@ CREATE TABLE IF NOT EXISTS `itinerary` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
   `client_ID` int(10) NOT NULL,
   `withKids` tinyint(1) NOT NULL,
+  `needsFreeTime` tinyint(1) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `client_ID` (`client_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -88,6 +90,7 @@ CREATE TABLE IF NOT EXISTS `location` (
   `rating` enum('1','2','3','4','5') NOT NULL,
   `intensive` tinyint(1) NOT NULL,
   `forKids` tinyint(1) DEFAULT NULL,
+  `excludedCategory` enum('young', 'adult', 'middleAged', 'edlerly'),
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -100,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `location` (
 CREATE TABLE IF NOT EXISTS `preference` (
   `client_ID` int(10) NOT NULL,
   `itinerary_ID` int(10) NOT NULL,
-  `type` enum('shopping','culture','gastronomy','nightlife','needsForFreeTime') NOT NULL,
+  `type` enum('shopping','culture','gastronomy','nightlife') NOT NULL,
   `range` enum('1','2','3','4','5') NOT NULL,
   PRIMARY KEY (`itinerary_ID`,`client_ID`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -128,7 +131,8 @@ CREATE TABLE IF NOT EXISTS `timeslot` (
 --
 ALTER TABLE `constraint`
   ADD CONSTRAINT `constraint_ibfk_1` FOREIGN KEY (`location_ID`) REFERENCES `location` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `constraint_ibfk_2` FOREIGN KEY (`client_ID`) REFERENCES `client` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `constraint_ibfk_2` FOREIGN KEY (`client_ID`) REFERENCES `client` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `constraint_ibfk_3` FOREIGN KEY (`itinerary_ID`) REFERENCES `itinerary` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `day`
@@ -147,6 +151,12 @@ ALTER TABLE `itinerary`
 --
 ALTER TABLE `timeslot`
   ADD CONSTRAINT `timeslot_ibfk_1` FOREIGN KEY (`day_itinerary_ID`) REFERENCES `day` (`itinerary_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `timeslot_ibfk_2` FOREIGN KEY (`location_ID`) REFERENCES `location` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+ALTER TABLE `preference`
+  ADD CONSTRAINT `preference_ibfk_1` FOREIGN KEY (`client_ID`) REFERENCES `client` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `preference_ibfk_2` FOREIGN KEY (`itinerary_ID`) REFERENCES `itinerary` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

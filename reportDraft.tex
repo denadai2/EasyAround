@@ -31,6 +31,9 @@
 \usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
 % These packages are all incorporated in the memoir class to one degree or another...
 
+\usepackage{graphicx}
+\usepackage{float}
+
 \usepackage{tabularx}
 
 
@@ -79,8 +82,14 @@
 
 \section{Inference Knowledge}
 
-As inference model we use a modified version of the Configuration design template, because given predefined components we need to find and assembly that satisfies the requirements. The inference model deriving from this task can be found in .\\ %TOBEDONE
+As inference model we use a modified version of the Configuration design template, because given predefined components we need to find and assembly that satisfies the requirements. The inference model deriving from this task can be found in Figure~\ref{fig:inference}.
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{images/inference.pdf}
+\caption{Inference structure}
+\label{fig:inference}
+\end{figure}
 
 \noindent
 \begin{tabularx}{\textwidth}{| X | X | X | X |}
@@ -114,26 +123,34 @@ critique	& itinerary, violations, customer's inputs	& fix actions list		& it cre
 %TOBEDONE: spiegare un po' le sorgenti di questo schema? Tipo risultati dell'intervista ecc? ma forse dobbiamo dirlo ben prima
 
 \subsection{Domain schema}
-The domain schema can be found in figure... This schema seems complicated, for this reason every model is explained in the following list:
+The domain schema can be found in Figure~\ref{fig:ClassDiagram}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{images/ClassDiagram.pdf}
+\caption{Domain schema}
+\label{fig:ClassDiagram}
+\end{figure}
+
+
+This schema seems complicated, for this reason every model is explained in the following list:
 \begin{description}
   \item[Client] \hfill \\
-  The client who goes to the travel agency. He could be a quite person who normally wants to visit a lot of things or very few (activeness). The clients are categorized by their age because ?? 
-
-%TOBEDONE: perchè cosa? cioè voglio dire, facciamo qualcosa nel software per le differenze di età?
+  The client who goes to the travel agency. He could be a quite person who normally wants to visit a lot of things or very few (\emph{dynamic}). The clients are categorized by their age because some locations are not suitable for a people category (ex: elderly people in a climbing location).
 
   \item[Preference] \hfill \\
   Each client needs to specify a list of preferences, valued from 1 to 5, where 1 is "I'm not so interested" and 5 is "I love to do it!". These preferences are related to the itinerary we want to create, consequently if the same clients wants to create another itinerary, it will specify again all the preferences he wants in this second trip.
   \item[Contraint] \hfill \\
   Each client needs to specify a list of contraints that have to be fulfilled. As for the \emph{Preference}, they are related to the single itinerary.
   \item[Itinerary] \hfill \\
-  This represents the itinerary we want to create. It is composed by a fixed number of \emph{Day} and it is related to a \emph{Client} who has specified his own list of \emph{Contraint} and \emph{Preference}. If there will be kids in the itinerary, the system needs to select some \emph{Location} that could entertain them. This is a requirement.\\
-The method \emph{selectLocation} takes a list of \emph{Preference} and produces a list of \emph{Location} that could fit this preferences.
+  This represents the itinerary we want to create. It is composed by a fixed number of \emph{Day} and it is related to a \emph{Client} who has specified his own list of \emph{Contraint} and \emph{Preference}. If there will be kids in the itinerary, the system needs to select some \emph{Location} that could entertain them. This is a requirement as the \emph{needsFreeTime} attribute, which specifies that the clients needs to have some not scheduled time in the arrival city.\\
+The method \emph{selectLocation} takes a list of \emph{Preference} and produces a list of \emph{Location} that could fit this preferences. 
   \item[Day] \hfill \\
   This describes a day of the itinerary.
   \item[Timeslot] \hfill \\
   A timeslot is a fixed part of a day. The division of the day came from the expert interview.
 \item[Location] \hfill \\
-  This model represents the point of interests that a customer could visit. The attribute \emph{rating} describes the quality of this place, \emph{intensive} describes if the place is not for quite people. The method \emph{distance} takes two locations and returns the distance between them. It is useful in order to create the combination of locations to visit during a trip.
+  This model represents the point of interests that a customer could visit. The attribute \emph{rating} describes the quality of this place, \emph{intensive} describes if the place is not for quite people and \emph{excludedCategory} specifies if a client category is not suitable for the location (ex: elderly people in a climbing location). The method \emph{distance} takes two locations and returns the distance between them. It is useful in order to create the combination of locations to visit during a trip.
 \end{description}
 
 %TOBEDONE: Domain schema with rule types
@@ -188,17 +205,25 @@ $\sum_{i=1}^{n-1}$i.distance(i+1) $<\delta$, $\forall$i $\in$ location;
 
 
 \begin{lstlisting}[label=Rules,caption=The client expresses four preferences with four ranges (from 1 to 5). The method selectLocation will compose the itinerary selecting the locations that fits the preferences. For example it could select 3 shopping\, 1 gastronomy and 1 cultural locations.,breaklines=true,mathescape=true]
-Var A, B, C, D; client.preference;
+Var A, B, C, D: client.preference;
+Var E: client.constraint;
 A.type=shopping AND A.range=x
 B.type=cultural AND B.range=y
 C.type=gastronomy AND C.range=w
 D.type=nightlife AND D.range=z
+E.type = avoid AND E.location = Colusseum
 PREFERS-WITH-PROBABILITY
-$\forall$itinerary.day.timeslot, timeslot.location=selectLocation(A, B, C, D);
+$\forall$itinerary.day.timeslot, timeslot.location=selectLocation(A, B, C, D, E);
 \end{lstlisting}
 
 \subsection{Knowledge Base}
-%TOBEDONE
+
+\begin{figure}[h]
+\centering
+\includegraphics[height=7cm]{images/knowledge_base.pdf}
+\caption{Knowledge base}
+\label{fig:knowledgebase}
+\end{figure}
 
 
 
