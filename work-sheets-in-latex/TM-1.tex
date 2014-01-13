@@ -1,90 +1,61 @@
 \begin{tabular}%
-       {|>{\colleft}p{2.5cm}%
-        |>{\colleft}p{9cm}|}
+       {|p{3cm}%
+        |p{9.5cm}|}
 \hline
 {\bf Task Model} &
 {\bf Task Analysis Worksheet TM-1} \\
 \hline
 \hline
 \sc Task & 
-   Task identifier and task name
+   Automated Design
 \\
 \hline
 \sc Organization & 
-   Indicate the business process this task is a part of, and
-   where in the organization (structure, people) it is carried out
+   Task is controlled by the Travel Agent and executed by the appointed software. It is the product of non-human intervention.
 \\
 \hline
 \sc Goal and value &
-   Describe the goal of the task and the value that its execution adds
-   to the process this task is a part of
+   The goal is the design of an itinerary composed of multiple locations, based on the preferences and the requirements set by the customer. 
 \\
 \hline
 \sc Dependency and flow &
-   {\em Input tasks}: tasks delivering inputs to this task
+   {\em Input tasks}: Evaluate Request
 	\newline
-   {\em Output tasks}: tasks that use (some of) the outputs of this
-    task \newline
-You can use a data-flow diagram or an activity diagram here to
-describe this.
+   {\em Output tasks}: Propose Itinerary \newline
 \\
 \hline
 \sc Objects handled &
-   {\em Input objects}: 
-   The objects, including information and knowledge items, that are
-   input to the task
+   {\em Input objects}: requirements, preferences and constraints from the customer.
 \newline
-   {\em Output objects}: 
-   The objects, including information and knowledge items, that are
-   delivered by the task as outputs
+   {\em Output objects}: itinerary.
 \newline
-   {\em Internal objects}
-   Important objects (if any), including information and knowledge
-   items, that are used internally within the task but are not input
-   or output to other tasks
+   {\em Internal objects}: database of locations.
 \newline
-You may want to include a class diagram here to describe the
-information objects handled by the task. 
 \\
 \hline
 \sc Timing and control & 
-Describe frequency and duration  of the task. \newline
-Describe the control relation with other tasks. For this 
-you may want to use a state diagram or a activity diagram. \newline
-Describe control constraints: \newline
-(i) {\em preconditions} that must hold before the task can be
-executed; \newline
-(ii) {\em postconditions} that must hold as result of execution of
-   the task.
+\textbf{Frequency and duration}: whenever a client asks for a custom-made itinerary, arbitrarily short duration. \newline
+\textbf{Control relation}: \newline %TODO
+(I) {\em Preconditions}: the request from the client must be organized in a set of requirements, constraints and preferences; \newline
+(II) {\em Postconditions}: the itinerary must satisfy the request of the client.
 \\
 \hline
 \sc Agents & 
-   The staff members
-   and/or the information systems (cf. OM-2 and OM-3)
-   that are responsible for carrying out the task
+   Travel Agent
 \\
 \hline
 \sc Knowledge and competence & 
-   Competences needed for successful task performance.
-   For the knowledge items involved, there is a separate worksheet
-   TM-2. List other relevant skills and competences here.
-   Indicate which elements of the task are knowledge intensive.
-   Note that tasks can also {\em deliver} competences to the
-   organization, and it may be worthwhile to indicate that here.
+   Requirement rules, preference rules, constraint rules.
 \\
 \hline
 \sc Resources & 
-   Describe and preferably quantify the various resources consumed
-   by the task (staff time, systems and equipment, materials, financial
-   budgets.
+   Database of exsting locations, automated software for itinerary design, Travel Agent for customer interaction; 
 \newline
-   The description is typically a refinement of the resource
-   descriptions in OM-2
+   The duration of the interaction depends on the satisfaction of the client and he number of reviews requested on the itinerary. It should be in every occasion shorter than the duration of an interaction that does not include the automated system.
 \\
 \hline
 \sc Quality and performance & 
-   List the quality and performance measures that are used by the
-   organization to determine successful task execution
+   If the design is coherent with the requirements, if there are no constraint violations, if it corresponds to the preferences of the client, and it is at least the same or better than a manual design done by the TA, then it is of good quality.
 \\
 \hline
 \end{tabular}
