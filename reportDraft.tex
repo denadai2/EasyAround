@@ -46,6 +46,20 @@
 \captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
 
 
+
+\def\worksheet#1#2{%
+  \clearpage
+  
+  \begin{center}
+  {\large\bf #1} \\
+  {\normalsize\bf #2} \\[12pt]
+  \begin{footnotesize}
+  \input work-sheets-in-latex/#1.tex
+  \end{footnotesize}
+  \end{center}  
+  \vfill}
+
+
 %%% HEADERS & FOOTERS
 \usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
 \pagestyle{fancy} % options: empty , plain , fancy
@@ -76,6 +90,25 @@
 \begin{document}
 \maketitle
 
+
+\section{Context Knowledge}
+\worksheet{OM-1}{Identifying knowledge-oriented problems and
+opportunities in the organization}
+
+\worksheet{OM-2}{Description of organizational aspects that
+have an impact on and/or are affected by chosen knowledge solutions}
+
+\worksheet{OM-5}{Checklist for the feasibility decision
+document}
+
+\worksheet{TM-1}{Refined description of the tasks within the
+target process}
+
+\worksheet{TM-2}{Specification of the knowledge employed for a
+task, and possible bottlenecks and areas for improvement}
+
+\worksheet{AM-1}{Agent specification according to the
+CommonKADS agent model}
 
 \section{Task Knowledge}
 
