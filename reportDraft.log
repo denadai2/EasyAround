@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2013.4.12)  13 JAN 2014 14:01
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2013.4.12)  14 JAN 2014 23:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -524,6 +524,15 @@ LaTeX Warning: Label `Rules' multiply defined.
 
 LaTeX Warning: Label `Rules' multiply defined.
 
+
+LaTeX Warning: Label `Rules' multiply defined.
+
+
+LaTeX Warning: Label `Rules' multiply defined.
+
+
+LaTeX Warning: Label `Rules' multiply defined.
+
 )
 \openout1 = `reportDraft.aux'.
 
@@ -687,23 +696,23 @@ Package pdftex.def Info: images/azienda-eps-converted-to.pdf used on input line
  41.
 (pdftex.def)             Requested size: 284.52756pt x 172.36311pt.
 Package epstopdf Info: Source file: <images/activity.eps>
-(epstopdf)                    date: 2014-01-13 00:29:40
-(epstopdf)                    size: 10909 bytes
+(epstopdf)                    date: 2014-01-14 21:23:00
+(epstopdf)                    size: 1044926 bytes
 (epstopdf)             Output file: <images/activity-eps-converted-to.pdf>
-(epstopdf)                    date: 2014-01-13 13:56:58
-(epstopdf)                    size: 6954 bytes
+(epstopdf)                    date: 2014-01-14 21:23:07
+(epstopdf)                    size: 75745 bytes
 (epstopdf)             Command: <repstopdf --outfile=images/activity-eps-conver
 ted-to.pdf images/activity.eps>
 (epstopdf)             \includegraphics on input line 48.
 Package epstopdf Info: Output file is already uptodate.
 
-<images/activity-eps-converted-to.pdf, id=19, 653.44125pt x 634.37pt>
+<images/activity-eps-converted-to.pdf, id=19, 495.8525pt x 501.875pt>
 File: images/activity-eps-converted-to.pdf Graphic file (type pdf)
 
 <use images/activity-eps-converted-to.pdf>
 Package pdftex.def Info: images/activity-eps-converted-to.pdf used on input lin
 e 48.
-(pdftex.def)             Requested size: 418.25368pt x 406.04381pt.
+(pdftex.def)             Requested size: 418.25368pt x 423.33345pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -812,240 +821,311 @@ Underfull \hbox (badness 10000) in paragraph at lines 21--21
 []|\OT1/cmr/m/sc/9 Responsibilities
  []
 
-) <images/inference.pdf, id=57, 1308.4685pt x 816.77075pt>
-File: images/inference.pdf Graphic file (type pdf)
+)
+Package epstopdf Info: Source file: <images/task_knowledge.eps>
+(epstopdf)                    date: 2014-01-14 23:04:20
+(epstopdf)                    size: 24144 bytes
+(epstopdf)             Output file: <images/task_knowledge-eps-converted-to.pdf
+>
+(epstopdf)                    date: 2014-01-14 23:05:54
+(epstopdf)                    size: 10469 bytes
+(epstopdf)             Command: <repstopdf --outfile=images/task_knowledge-eps-
+converted-to.pdf images/task_knowledge.eps>
+(epstopdf)             \includegraphics on input line 117.
+Package epstopdf Info: Output file is already uptodate.
+ <images/task_knowledge-eps-converted-to.pdf, id=54, 854.19125pt x 529.98pt>
+File: images/task_knowledge-eps-converted-to.pdf Graphic file (type pdf)
 
-<use images/inference.pdf>
-Package pdftex.def Info: images/inference.pdf used on input line 122.
-(pdftex.def)             Requested size: 418.25368pt x 261.08533pt.
+<use images/task_knowledge-eps-converted-to.pdf>
+Package pdftex.def Info: images/task_knowledge-eps-converted-to.pdf used on inp
+ut line 117.
+(pdftex.def)             Requested size: 321.01173pt x 199.16928pt.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 122.
+
+Overfull \hbox (6.0pt too wide) in paragraph at lines 122--122
+[][][][][][][] 
+ []
+
+[11
+
+] [12 <./images/task_knowledge-eps-converted-to.pdf>]
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 146.
+
+
+(/usr/local/texlive/2012/texmf-dist/tex/latex/base/omlcmr.fd
+File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 146.
+Package epstopdf Info: Source file: <images/inference.eps>
+(epstopdf)                    date: 2014-01-14 23:04:32
+(epstopdf)                    size: 56713 bytes
+(epstopdf)             Output file: <images/inference-eps-converted-to.pdf>
+(epstopdf)                    date: 2014-01-14 23:06:57
+(epstopdf)                    size: 20719 bytes
+(epstopdf)             Command: <repstopdf --outfile=images/inference-eps-conve
+rted-to.pdf images/inference.eps>
+(epstopdf)             \includegraphics on input line 166.
+Package epstopdf Info: Output file is already uptodate.
+
+<images/inference-eps-converted-to.pdf, id=68, 1308.89pt x 818.05624pt>
+File: images/inference-eps-converted-to.pdf Graphic file (type pdf)
+
+<use images/inference-eps-converted-to.pdf>
+Package pdftex.def Info: images/inference-eps-converted-to.pdf used on input li
+ne 166.
+(pdftex.def)             Requested size: 418.25368pt x 261.40886pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 4144) in paragraph at lines 137--137
+Underfull \hbox (badness 4144) in paragraph at lines 181--181
 \OT1/cmr/m/n/10.95 tiv-ity dur-ing the
  []
 
 
-Underfull \hbox (badness 3907) in paragraph at lines 137--137
+Underfull \hbox (badness 3907) in paragraph at lines 181--181
 \OT1/cmr/m/n/10.95 morn-ing, re-lax-ing
  []
 
 
-Underfull \hbox (badness 1038) in paragraph at lines 137--137
+Underfull \hbox (badness 1038) in paragraph at lines 181--181
 []|\OT1/cmr/m/n/10.95 needs of the cus-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 137--137
+Underfull \hbox (badness 10000) in paragraph at lines 181--181
 []|\OT1/cmr/m/n/10.95 preferences, re-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 137--137
+Underfull \hbox (badness 10000) in paragraph at lines 181--181
 \OT1/cmr/m/n/10.95 quire-ments, con-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 137--137
+Underfull \hbox (badness 10000) in paragraph at lines 181--181
 \OT1/cmr/m/n/10.95 and visit many
  []
 
 
-Underfull \hbox (badness 2334) in paragraph at lines 137--137
+Underfull \hbox (badness 2334) in paragraph at lines 181--181
 \OT1/cmr/m/n/10.95 so much in food
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 137--137
+Underfull \hbox (badness 10000) in paragraph at lines 181--181
 \OT1/cmr/m/n/10.95 places"), re-quire-
  []
 
 
-Underfull \hbox (badness 7925) in paragraph at lines 137--137
+Underfull \hbox (badness 7925) in paragraph at lines 181--181
 \OT1/cmr/m/n/10.95 quiet trip") and
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 137--137
+Underfull \hbox (badness 10000) in paragraph at lines 181--181
 \OT1/cmr/m/n/10.95 con-traints ("In
  []
 
 
-Underfull \hbox (badness 2875) in paragraph at lines 137--137
+Underfull \hbox (badness 2875) in paragraph at lines 181--181
 \OT1/cmr/m/n/10.95 Rome I want to
  []
 
 
-Underfull \hbox (badness 2689) in paragraph at lines 137--137
+Underfull \hbox (badness 2689) in paragraph at lines 181--181
 \OT1/cmr/m/n/10.95 and avoid \OT1/cmr/m/it/10.95 Pi-azza
  []
 
 
-Underfull \hbox (badness 1418) in paragraph at lines 137--137
+Underfull \hbox (badness 1418) in paragraph at lines 181--181
 \OT1/cmr/m/n/10.95 quire-ments, ske-tal
  []
 
 
-Underfull \hbox (badness 4859) in paragraph at lines 149--149
+Underfull \hbox (badness 4859) in paragraph at lines 193--193
 []|\OT1/cmr/m/n/10.95 contraints, ex-ten-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 149--149
+Underfull \hbox (badness 10000) in paragraph at lines 193--193
 []|\OT1/cmr/m/n/10.95 it checks with
  []
 
 
-Underfull \hbox (badness 6300) in paragraph at lines 149--149
+Underfull \hbox (badness 6300) in paragraph at lines 193--193
 \OT1/cmr/m/n/10.95 the help of the
  []
 
 
-Underfull \hbox (badness 1082) in paragraph at lines 149--149
+Underfull \hbox (badness 1082) in paragraph at lines 193--193
 \OT1/cmr/m/n/10.95 in-ter-nal con-traints
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 149--149
+Underfull \hbox (badness 10000) in paragraph at lines 193--193
 \OT1/cmr/m/n/10.95 and those sup-
  []
 
 
-Underfull \hbox (badness 3826) in paragraph at lines 149--149
+Underfull \hbox (badness 3826) in paragraph at lines 193--193
 \OT1/cmr/m/n/10.95 whether the cur-
  []
 
 
-Underfull \hbox (badness 4569) in paragraph at lines 149--149
+Underfull \hbox (badness 4569) in paragraph at lines 193--193
 \OT1/cmr/m/n/10.95 rent con-fig-u-ra-tion
  []
 
 
-Underfull \hbox (badness 3260) in paragraph at lines 149--149
+Underfull \hbox (badness 3260) in paragraph at lines 193--193
 \OT1/cmr/m/n/10.95 is in-ter-nally con-
  []
 
 
-Underfull \hbox (badness 5133) in paragraph at lines 149--149
+Underfull \hbox (badness 5133) in paragraph at lines 193--193
 \OT1/cmr/m/n/10.95 sis-tent. If the
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 149--149
+Underfull \hbox (badness 10000) in paragraph at lines 193--193
 \OT1/cmr/m/n/10.95 ver-i-fi-ca-tion fails,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 149--149
+Underfull \hbox (badness 10000) in paragraph at lines 193--193
 \OT1/cmr/m/n/10.95 it pro-duces the
  []
 
 
-Underfull \hbox (badness 7433) in paragraph at lines 149--149
+Underfull \hbox (badness 7433) in paragraph at lines 193--193
 \OT1/cmr/m/n/10.95 as an ad-di-tional
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 149--149
+Underfull \hbox (badness 10000) in paragraph at lines 193--193
 []|\OT1/cmr/m/n/10.95 itinerary, vi-o-la-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 149--149
+Underfull \hbox (badness 10000) in paragraph at lines 193--193
 \OT1/cmr/m/n/10.95 tions, cus-tomer's
  []
 
 
-Underfull \hbox (badness 3291) in paragraph at lines 149--149
+Underfull \hbox (badness 3291) in paragraph at lines 193--193
 \OT1/cmr/m/n/10.95 fix the vi-o-la-tions
  []
 
 
-Underfull \hbox (badness 2150) in paragraph at lines 149--149
+Underfull \hbox (badness 2150) in paragraph at lines 193--193
 \OT1/cmr/m/n/10.95 of the con-traints,
  []
 
 
-Underfull \hbox (badness 1331) in paragraph at lines 149--149
+Underfull \hbox (badness 1331) in paragraph at lines 193--193
 \OT1/cmr/m/n/10.95 fol-low-ing also the
  []
 
 
-Underfull \hbox (badness 1881) in paragraph at lines 149--149
+Underfull \hbox (badness 1881) in paragraph at lines 193--193
 \OT1/cmr/m/n/10.95 cus-tomer's in-puts.
  []
 
 
-Underfull \hbox (badness 6032) in paragraph at lines 149--149
+Underfull \hbox (badness 6032) in paragraph at lines 193--193
 \OT1/cmr/m/n/10.95 For ex-am-ple the
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 149--149
+Underfull \hbox (badness 10000) in paragraph at lines 193--193
 \OT1/cmr/m/n/10.95 the \OT1/cmr/m/it/10.95 Colos-seum\OT1/cmr/m/n/10.95 "
  []
 
 
-Underfull \hbox (badness 6220) in paragraph at lines 149--149
+Underfull \hbox (badness 6220) in paragraph at lines 193--193
 \OT1/cmr/m/n/10.95 will pro-duce the
  []
 
-[11
+[13]
+Overfull \vbox (143.57875pt too high) has occurred while \output is active []
 
-] [12 <./images/inference.pdf>] [13]
-<images/ClassDiagram.pdf, id=85, 752.41098pt x 711.458pt>
+
+[14 <./images/inference-eps-converted-to.pdf>]
+<images/ClassDiagram.pdf, id=88, 752.41098pt x 711.458pt>
 File: images/ClassDiagram.pdf Graphic file (type pdf)
 
 <use images/ClassDiagram.pdf>
-Package pdftex.def Info: images/ClassDiagram.pdf used on input line 163.
+Package pdftex.def Info: images/ClassDiagram.pdf used on input line 207.
 (pdftex.def)             Requested size: 418.25368pt x 395.48265pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[14]
-Overfull \hbox (6.0pt too wide) in paragraph at lines 193--193
-[][][][][][][] 
- []
-
 [15]
-Overfull \hbox (6.0pt too wide) in paragraph at lines 220--220
+Overfull \hbox (6.0pt too wide) in paragraph at lines 237--237
+[][][][][][][] 
+ []
+
+[16]
+Overfull \hbox (6.0pt too wide) in paragraph at lines 264--264
 [][][][][][][] 
  []
 
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 229--229
+Overfull \hbox (6.0pt too wide) in paragraph at lines 273--273
 [][][][][][][] 
  []
 
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 240--240
+Overfull \hbox (6.0pt too wide) in paragraph at lines 284--284
 [][][][][][][] 
  []
 
-[16] <images/knowledge_base.pdf, id=101, 681.4405pt x 603.38847pt>
+[17] <images/knowledge_base.pdf, id=102, 681.4405pt x 603.38847pt>
 File: images/knowledge_base.pdf Graphic file (type pdf)
 
 <use images/knowledge_base.pdf>
-Package pdftex.def Info: images/knowledge_base.pdf used on input line 256.
+Package pdftex.def Info: images/knowledge_base.pdf used on input line 300.
 (pdftex.def)             Requested size: 224.92805pt x 199.16928pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[17] [18 <./images/ClassDiagram.pdf>] [19 <./images/knowledge_base.pdf>]
+
+Overfull \hbox (12.75977pt too wide) in paragraph at lines 321--323
+[]
+ []
+
+
+Overfull \hbox (6.0pt too wide) in paragraph at lines 331--331
+[][][][][][][] 
+ []
+
+[18]
+Overfull \hbox (12.75977pt too wide) in paragraph at lines 371--373
+[]
+ []
+
+[19]
+Overfull \hbox (6.0pt too wide) in paragraph at lines 381--381
+[][][][][][][] 
+ []
+
+[20] [21 <./images/ClassDiagram.pdf>] [22 <./images/knowledge_base.pdf>]
 (./reportDraft.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 6349 strings out of 493488
- 91338 string characters out of 3141326
- 261540 words of memory out of 3000000
- 9540 multiletter control sequences out of 15000+200000
+ 6371 strings out of 493488
+ 91920 string characters out of 3141326
+ 261549 words of memory out of 3000000
+ 9558 multiletter control sequences out of 15000+200000
  12225 words of font info for 42 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
  44i,12n,43p,549b,1639s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1066,10 +1146,10 @@ e/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/local/texlive
 2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/20
 12/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/201
 2/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb>
-Output written on reportDraft.pdf (19 pages, 282897 bytes).
+Output written on reportDraft.pdf (22 pages, 356914 bytes).
 PDF statistics:
- 185 PDF objects out of 1000 (max. 8388607)
- 129 compressed objects within 2 object streams
+ 192 PDF objects out of 1000 (max. 8388607)
+ 131 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

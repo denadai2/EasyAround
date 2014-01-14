@@ -112,6 +112,50 @@ CommonKADS agent model}
 
 \section{Task Knowledge}
 
+\begin{figure}[h]
+\centering
+\includegraphics[height=7cm]{images/task_knowledge.eps}
+\caption{Task knowledge}
+\label{fig:taskknowledge}
+\end{figure}
+
+\begin{lstlisting}[label=Rules,caption=Rules,breaklines=true]
+TASK automated-design;
+  ROLES:
+    INPUT: requirements: "requirements for the design";
+    OUTPUT: itinerary: "the resulting design";
+END TASK configuration-design;
+
+TASK-METHOD propose-and-revise;
+  REALIZES: automated-design;
+  DECOMPOSITION:
+    INFERENCES: operationalize, propose, specify, verify, critique, select, modify;
+  ROLES:
+    INTERMEDIATE:
+      preferences-and-requirements: "requirements and preferences to be preferably fulfilled";
+      constraints: "requirements that have to be fulfilled";
+      sketal-design: "set of slots to be filled";
+      proposal: "a possible compilation of the sketal-design";
+      customer-input: "set of new requirements or constraints";
+      violation: "new constraints violated by the current design";
+      truth-value: "boolean indicating the result of the verification";
+      action-list: "ordered list of possible repair (fix) actions";
+      action: "a single repair action";
+      itinerary: "a new possible compilation of the sketal-design";
+  CONTROL-STRUCTURE:
+    operationalize(requirements -> preferences-and-requirements + constraints);
+    specify(requirements -> sketal-design);
+    propose(constraints + preferences-and-requirements + sketal-design -> proposal);
+    itinerary := proposal ADD itinerary;
+    WHILE verify(customer-input + itinerary -> truth-value + violation) IS truth-value == false DO
+      critique(violation + itinerary -> action-list)
+      select(action-list -> action)
+      modify(itinerary + action -> itinerary)
+      verify(itinerary + customer-input -> truth-value + violation);
+    END WHILE
+END TASK-METHOD propose-and-revise;
+\end{lstlisting}
+
 
 \section{Inference Knowledge}
 
@@ -119,7 +163,7 @@ As inference model we use a modified version of the Configuration design templat
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=\textwidth]{images/inference.pdf}
+\includegraphics[width=\textwidth]{images/inference.eps}
 \caption{Inference structure}
 \label{fig:inference}
 \end{figure}
@@ -261,6 +305,107 @@ $\forall$itinerary.day.timeslot, timeslot.location=selectLocation(A, B, C, D, E)
 
 
 \section{Scenarios}
+
+\subsection{Scenario 1}
+Rose, a 76 years old lady would like to visit Rome for three days with her nephew John who is ten years old. She would like to have her trip planned but with the possibility to explore the city on her own. 
+
+\begin{description}
+  \item[Are you used to walk long distances?] \hfill \\
+  Not at all, I usually don't walk a lot.
+  \item[In a scale from one to five, how do you enjoy shopping?] \hfill \\
+  I really love to do shopping, so five!
+  \item[In a scale from one to five, how do you enjoy cultural places?] \hfill \\
+  I am going to Rome, so four!
+  \item[In a scale from one to five, how do you enjoy nightlife?] \hfill \\
+  Have you looked at me? 1!
+  \item[In a scale from one to five, how much would you like to try new restaurants?] \hfill 
+  I guess... I don't know, 3?
+  \item[Is there anything that you'd absolutely like to see?] \hfill \\
+  Yes, I've never seen the Colosseum.
+  \item[Is there anything that you have already seen or don't want to see?] \hfill \\
+  Not really, everything is fine.
+\end{description}
+
+The travel agent while is interviewing the customer, inserts the acquired data into the system through graphic interface.
+
+\begin{lstlisting}[label=Rules,caption=Domain instance of the data inserted into the system,breaklines=true,mathescape=true]
+REQUIREMENTS:
+  client.quiet = true
+  client.dynamic = 1
+  itinerary.withKids = true
+  itinerary.needsFreeTime = true
+  VAR a,b,c: day;
+  a.date = "14/05/2014"
+  b.date = "15/05/2014"
+  c.date = "16/05/2014"
+PREFERENCES:
+  VAR a,b,c,d : preference;
+  a.type = shopping
+  a.range = 5
+  b.type = culture
+  b.range = 4
+  c.type = nightlife
+  c.range = 1
+  d.type = gastronomy
+  d.range = 3
+CONSTRAINTS:
+  constraint.location.name = Colosseum
+  constraint.type = include
+\end{lstlisting}
+
+
+\subsection{Scenario 2}
+Richard a 30 years old guy, would like to visit Rome for four days alone. 
+
+\begin{description}
+  \item[Would you consider yourself a quite person or ready to have some fun?] \hfill \\
+  Definitely have fun.
+  \item[Are you used to walk long distances?] \hfill \\
+  Yeah.
+  \item[In a scale from one to five, how do you enjoy shopping?] \hfill \\
+  Not that much I only need to buy some souvenirs, 1.
+  \item[In a scale from one to five, how do you enjoy cultural places?] \hfill \\
+  I am going to Rome, so four!
+  \item[In a scale from one to five, how do you enjoy nightlife?] \hfill \\
+  I don't know... 5?
+  \item[In a scale from one to five, how much would you like to try new restaurants?] \hfill 
+  I definitely like to eat, 5.
+  \item[Is there anything that you'd absolutely like to see?] \hfill \\
+  Yes, I've never seen the EUR.
+  \item[Is there anything that you have already seen or don't want to see?] \hfill \\
+  I'm not interested in San Pietro.
+\end{description}
+
+The travel agent while is interviewing the customer, inserts the acquired data into the system through graphic interface.
+
+\begin{lstlisting}[label=Rules,caption=Domain instance of the data inserted into the system,breaklines=true,mathescape=true]
+REQUIREMENTS:
+  client.quiet = false
+  client.dynamic = 3
+  itinerary.withKids = false
+  itinerary.needsFreeTime = false
+  VAR a,b,c,d: day;
+  a.date = "14/05/2014"
+  b.date = "15/05/2014"
+  c.date = "16/05/2014"
+  d.date = "17/05/2014"
+PREFERENCES:
+  VAR a,b,c,d : preference;
+  a.type = shopping
+  a.range = 1
+  b.type = culture
+  b.range = 4
+  c.type = nightlife
+  c.range = 5
+  d.type = gastronomy
+  d.range = 5
+CONSTRAINTS:
+  VAR a,b : constraint;
+  a.location.name = EUR
+  a.type = include
+  a.location.name = San Pietro
+  a.type = avoid
+\end{lstlisting}
 
 
 
