@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg height="580" version="1.1" width="740" xmlns="http://www.w3.org/2000/svg">
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="725" x2="725" y1="14" y2="566"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="462" x2="725" y1="14" y2="14"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="462" x2="725" y1="566" y2="566"/>
+<text font-family="Dialog" font-size="12" x="535" y="27">
+Automated System</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="462" x2="725" y1="39" y2="39"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="221" x2="221" y1="14" y2="566"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="14" x2="14" y1="14" y2="566"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="14" x2="221" y1="14" y2="14"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="14" x2="221" y1="566" y2="566"/>
+<text font-family="Dialog" font-size="12" x="100" y="27">
+Client</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="14" x2="221" y1="39" y2="39"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="461" x2="461" y1="14" y2="566"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="222" x2="461" y1="14" y2="14"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="222" x2="461" y1="566" y2="566"/>
+<text font-family="Dialog" font-size="12" x="303" y="27">
+Travel Agent</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="222" x2="461" y1="39" y2="39"/>
+<rect fill="#00ff" height="48" rx="50" ry="50" stroke="#00ff" stroke-width="1" width="116" x="279" y="79"/>
+<rect fill="#ffffff" height="50" rx="50" ry="50" stroke="#000000" stroke-width="1" width="118" x="278" y="78"/>
+<rect fill="#ffffff" height="48" rx="50" ry="50" stroke="#ffffff" stroke-width="1" width="116" x="279" y="79"/>
+<text font-family="Dialog" font-size="12" x="317" y="97">
+obtain</text>
+<text font-family="Dialog" font-size="12" x="295" y="112">
+requirements</text>
+<rect fill="#00ff" height="48" rx="50" ry="50" stroke="#00ff" stroke-width="1" width="110" x="55" y="79"/>
+<rect fill="#ffffff" height="50" rx="50" ry="50" stroke="#000000" stroke-width="1" width="112" x="54" y="78"/>
+<rect fill="#ffffff" height="48" rx="50" ry="50" stroke="#ffffff" stroke-width="1" width="110" x="55" y="79"/>
+<text font-family="Dialog" font-size="12" x="85" y="97">
+Provide </text>
+<text font-family="Dialog" font-size="12" x="68" y="112">
+requirements</text>
+<polyline fill="none" points="164,94 279,94" stroke="#333399" stroke-width="1"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="267" x2="279" y1="101" y2="94"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="267" x2="279" y1="87" y2="94"/>
+<text font-family="Dialog" font-size="12" x="106" y="71">
+presentation of initial requirements</text>
+<rect fill="#00ff" height="63" rx="65" ry="65" stroke="#00ff" stroke-width="1" width="178" x="487" y="79"/>
+<rect fill="#ffffff" height="65" rx="65" ry="65" stroke="#000000" stroke-width="1" width="180" x="486" y="78"/>
+<rect fill="#ffffff" height="63" rx="65" ry="65" stroke="#ffffff" stroke-width="1" width="178" x="487" y="79"/>
+<text font-family="Dialog" font-size="12" x="535" y="97">
+Differentiate </text>
+<text font-family="Dialog" font-size="12" x="498" y="112">
+constraint, requirements</text>
+<text font-family="Dialog" font-size="12" x="524" y="127">
+and preferences</text>
+<polyline fill="none" points="394,103 487,103" stroke="#333399" stroke-width="1"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="475" x2="487" y1="110" y2="103"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="475" x2="487" y1="96" y2="103"/>
+<text font-family="Dialog" font-size="12" x="364" y="69">
+insert data into the system</text>
+<rect fill="#00ff" height="48" rx="50" ry="50" stroke="#00ff" stroke-width="1" width="154" x="503" y="223"/>
+<rect fill="#ffffff" height="50" rx="50" ry="50" stroke="#000000" stroke-width="1" width="156" x="502" y="222"/>
+<rect fill="#ffffff" height="48" rx="50" ry="50" stroke="#ffffff" stroke-width="1" width="154" x="503" y="223"/>
+<text font-family="Dialog" font-size="12" x="538" y="241">
+Automatically</text>
+<text font-family="Dialog" font-size="12" x="525" y="256">
+build the itinerary</text>
+<rect fill="#00ff" height="33" rx="35" ry="35" stroke="#00ff" stroke-width="1" width="124" x="287" y="223"/>
+<rect fill="#ffffff" height="35" rx="35" ry="35" stroke="#000000" stroke-width="1" width="126" x="286" y="222"/>
+<rect fill="#ffffff" height="33" rx="35" ry="35" stroke="#ffffff" stroke-width="1" width="124" x="287" y="223"/>
+<text font-family="Dialog" font-size="12" x="298" y="241">
+obtain feedback</text>
+<rect fill="#00ff" height="33" rx="35" ry="35" stroke="#00ff" stroke-width="1" width="130" x="55" y="223"/>
+<rect fill="#ffffff" height="35" rx="35" ry="35" stroke="#000000" stroke-width="1" width="132" x="54" y="222"/>
+<rect fill="#ffffff" height="33" rx="35" ry="35" stroke="#ffffff" stroke-width="1" width="130" x="55" y="223"/>
+<text font-family="Dialog" font-size="12" x="91" y="241">
+feedback</text>
+<polyline fill="none" points="576,141 576,223" stroke="#333399" stroke-width="1"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="569" x2="576" y1="211" y2="223"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="583" x2="576" y1="211" y2="223"/>
+<polyline fill="none" points="503,238 410,238" stroke="#333399" stroke-width="1"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="422" x2="410" y1="231" y2="238"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="422" x2="410" y1="245" y2="238"/>
+<text font-family="Dialog" font-size="12" x="412" y="203">
+propose itinerary</text>
+<polyline fill="none" points="287,238 184,238" stroke="#333399" stroke-width="1"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="196" x2="184" y1="231" y2="238"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="196" x2="184" y1="245" y2="238"/>
+<text font-family="Dialog" font-size="12" x="183" y="205">
+propose itinerary</text>
+<polyline fill="none" points="110,255 110,286 350,286 350,255" stroke="#333399" stroke-width="1"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="357" x2="350" y1="267" y2="255"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="343" x2="350" y1="267" y2="255"/>
+<text font-family="Dialog" font-size="12" x="176" y="281">
+provide feedback</text>
+<rect fill="#00ff" height="33" rx="35" ry="35" stroke="#00ff" stroke-width="1" width="123" x="231" y="415"/>
+<rect fill="#ffffff" height="35" rx="35" ry="35" stroke="#000000" stroke-width="1" width="125" x="230" y="414"/>
+<rect fill="#ffffff" height="33" rx="35" ry="35" stroke="#ffffff" stroke-width="1" width="123" x="231" y="415"/>
+<text font-family="Dialog" font-size="12" x="242" y="433">
+confirm itinerary</text>
+<polygon fill="#ffffff" points="350,350 366,366 350,382 334,366" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="350,350 366,366 350,382 334,366" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="350,255 350,350" stroke="#333399" stroke-width="1"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="343" x2="350" y1="338" y2="350"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="357" x2="350" y1="338" y2="350"/>
+<polyline fill="none" points="334,366 286,366 286,415" stroke="#333399" stroke-width="1"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="279" x2="286" y1="403" y2="415"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="293" x2="286" y1="403" y2="415"/>
+<text font-family="Dialog" font-size="12" x="204" y="358">
+feedback=truth value</text>
+<rect fill="#00ff" height="33" rx="35" ry="35" stroke="#00ff" stroke-width="1" width="118" x="343" y="463"/>
+<rect fill="#ffffff" height="35" rx="35" ry="35" stroke="#000000" stroke-width="1" width="120" x="342" y="462"/>
+<rect fill="#ffffff" height="33" rx="35" ry="35" stroke="#ffffff" stroke-width="1" width="118" x="343" y="463"/>
+<text font-family="Dialog" font-size="12" x="362" y="481">
+edit itinerary</text>
+<polyline fill="none" points="366,366 390,366 390,463" stroke="#333399" stroke-width="1"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="383" x2="390" y1="451" y2="463"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="397" x2="390" y1="451" y2="463"/>
+<text font-family="Dialog" font-size="12" x="371" y="361">
+else</text>
+<polyline fill="none" points="460,494 550,494 550,270" stroke="#333399" stroke-width="1"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="557" x2="550" y1="282" y2="270"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="543" x2="550" y1="282" y2="270"/>
+<text font-family="Dialog" font-size="12" x="405" y="518">
+insert new requirements</text>
+</svg>
