@@ -19,7 +19,10 @@ def make_dicts(cur, row):
     return dict((cur.description[idx][0], value) for idx, value in enumerate(row))
 
 def query_db(query, args=(), one=False):
-    cur = Flask.db.execute(query, args)
+    try:
+        cur = Flask.db.execute(query, args)
+    except sqlite3.OperationalError, msg:
+        print msg
     rv = cur.fetchall()
     cur.close()
     return (rv[0] if rv else None) if one else rv
@@ -54,11 +57,7 @@ def getClient(q):
 
     Returns:
         A list of clients
-
-        {'Serak': ('Rigel VII', 'Preparer'),
-         'Zim': ('Irk', 'Invader'),
-         'Lrrr': ('Omicron Persei 8', 'Emperor')}
-
+        
          {"clients": [[2, "Marco"]
                     [3, "Marcello"]
         ]}

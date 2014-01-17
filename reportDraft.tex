@@ -59,6 +59,15 @@
   \end{center}  
   \vfill}
 
+\renewcommand\appendix{\par
+  \setcounter{section}{0}
+  \setcounter{subsection}{0}
+  \setcounter{figure}{0}
+  \setcounter{table}{0}
+  \renewcommand\thesection{Appendix \Alph{section}}
+  \renewcommand\thefigure{\Alph{section}\arabic{figure}}
+  \renewcommand\thetable{\Alph{section}\arabic{table}}
+}
 
 %%% HEADERS & FOOTERS
 \usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
@@ -119,7 +128,9 @@ CommonKADS agent model}
 \label{fig:taskknowledge}
 \end{figure}
 
-\begin{lstlisting}[label=Rules,caption=Rules,breaklines=true]
+%TODO: dobbiamo spiegare perchè è diverso da quello standard
+
+\begin{lstlisting}[label=Task,caption=Task and task method description,breaklines=true]
 TASK automated-design;
   ROLES:
     INPUT: requirements: "requirements for the design";
@@ -161,6 +172,8 @@ END TASK-METHOD propose-and-revise;
 
 As inference model we use a modified version of the Configuration design template, because given predefined components we need to find and assembly that satisfies the requirements. The inference model deriving from this task can be found in Figure~\ref{fig:inference}.
 
+%TODO: spiegare perchè abbiamo modificato il configuration design
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{images/inference.eps}
@@ -192,12 +205,12 @@ critique	& itinerary, violations, customer's inputs	& fix actions list		& it cre
 \\ \hline
 \end{tabularx}
 
-%TOBEDONE: forse dobbiamo commentare i knwoledge roles?
+%TODO: forse dobbiamo commentare i knwoledge roles?
 
 
 \section{Domain knowledge}
 
-%TOBEDONE: spiegare un po' le sorgenti di questo schema? Tipo risultati dell'intervista ecc? ma forse dobbiamo dirlo ben prima
+%TODO: spiegare un po' le sorgenti di questo schema? Tipo risultati dell'intervista ecc? ma forse dobbiamo dirlo ben prima
 
 \subsection{Domain schema}
 The domain schema can be found in Figure~\ref{fig:ClassDiagram}
@@ -238,6 +251,9 @@ The method \emph{selectLocation} takes a list of \emph{Preference} and produces 
 \label{fig:MappingDomainInference}
 \end{figure}
 
+
+\subsection{Domain mapping}
+
 \noindent
 \begin{tabularx}{\textwidth}{| X | X | X | X |}
 \hline 
@@ -261,9 +277,6 @@ violation  & dynamic    & Constraint, Location %CONTROLLARE SCHEMA
 \\ \hline
 \end{tabularx}
 
-
-
-%TOBEDONE: Domain schema with rule types
 
 \subsection{Rule types}
 
@@ -302,7 +315,7 @@ $\exists$itinerary.day.timeslot, timeslot.location.name$=$A;
 
 
 
-%TOBEDONE!!!!
+%TODO!!!!
 \begin{lstlisting}[label=Rules,caption=The client is a quite person,breaklines=true,mathescape=true]
 client.quiet=true, client.needsFreeTime=true, client.active=1
 REQUIRES
@@ -338,6 +351,8 @@ $\forall$itinerary.day.timeslot, timeslot.location=selectLocation(A, B, C, D, E)
 
 
 \section{Scenarios}
+
+%TODO: gli scenari devono spiegare pure come le informazioni passano all'interno tutto l'inference
 
 \subsection{Scenario 1}
 Rose, a 76 years old lady would like to visit Rome for three days with her nephew John who is ten years old. She would like to have her trip planned but with the possibility to explore the city on her own. 
@@ -445,12 +460,49 @@ CONSTRAINTS:
 
 \section{Communication Knowledge}
 
+%TODO: spiegare come si mappa con l'inference model
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{images/communication.eps}
 \caption{Communication process}
 \label{fig:CommunicationDiagram}
 \end{figure}
+
+
+\section{Design Knowledge}
+%TODO: fare il DM-1 E DM-2. Questo perchè sono difficili :D
+
+\appendix
+\section{Design Knowledge}
+
+In preparation for the interview with the expert we listed a series of concepts to be clarified in order to better structure the application domain. 
+
+\begin{enumerate}
+  \item Target of the application: which kind of customer the application is more suitable for;
+  \item Subcategories of the target: is it possible to recognize different subcategories in the target that correspond to different needs for the creation of an itinerary;
+  \item Locations of interest: understand which categories of locations can be created and in which way they can be matched with the customer's preferences;
+  \item Composition of the itinerary: understand the basic structure of an itinerary, and whether it can be composed automatically.
+\end{enumerate}
+
+The interviewing techniques applied were mainly two: problem solving (the interviewer poses himself as a customer and watches the expert "in action") and 20-Questions (the interviewer thinks about a destination for an hypothetical itinerary and the expert needs to guess which one it is). Relatively to the categorization of the locations, it has also been used the "Card sorting".
+The results of the interview were satisfying:
+
+\begin{enumerate}
+  \item The target of the application are the "lonely travelers", people who prefer traveling on their own, at most with their family.
+  \item It has been concluded that the target can be divided in four age-based category, such as "Young" (18-30), "Adults" (30-40), "Middle aged" (40-60), "Elderly" (60+). Relating to these categories the aspects that change the most are: need for entertainment, need for quiet, free time available, amount of time spent walking.
+  \item The locations can be divided in four main categories such as "shopping", "gastronomy", "cultural" and "entertainment"; of these, "cultural" can be divided in "historical locations" (such as monuments) and "museums", and "entertainment" can be divided in "amusement" (such as clubs, pubs and discos), "performance" (such as cinemas, theatres, \ldots)  and "outdoor" (such as amusement parks or gardens).
+  \item It has been concluded that the itinerary can be seen as an aggregation of days, which in turn have a basic fixed structure. 
+\begin{description}
+  \item[Morning] non intensive activity (monuments, gardens\ldots);
+  \item[Afternoon] intensive activity (museums, shopping\ldots);
+  \item[Evening] the intensity of the activity depends on personal preferences.
+\end{description}
+\end{enumerate}
+
+From the interview emerged an aspect not considered before, that is to say the presence of kids. The expert pointed out that in case a child is present, the itinerary is to be built as usual but having care of including children activities every once in a while.
+A constraint to be considered is the fact that the customer can request a location to be included or excluded from the itinerary.
+
 
 
 
