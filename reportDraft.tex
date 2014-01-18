@@ -26,7 +26,8 @@
 %%% PACKAGES
 \usepackage{booktabs} % for much better looking tables
 \usepackage{array} % for better arrays (eg matrices) in maths
-\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+%\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+%TODO uncomment paralist
 \usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
 \usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
 % These packages are all incorporated in the memoir class to one degree or another...
@@ -77,15 +78,17 @@
 \lfoot{}\cfoot{\thepage}\rfoot{}
 
 %%% SECTION TITLE APPEARANCE
-\usepackage{sectsty}
-\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+%\usepackage{sectsty}
+%TODO uncomment sectsty
+%\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
 % (This matches ConTeXt defaults)
 
 %%% ToC (table of contents) APPEARANCE
-\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
-\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
-\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
-\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+%\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+%TODO uncomment tocbibind
+%\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+%\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+%\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
 
 %%% END Article customizations
 
@@ -128,7 +131,8 @@ CommonKADS agent model}
 \label{fig:taskknowledge}
 \end{figure}
 
-%TODO: dobbiamo spiegare perchè è diverso da quello standard
+%DONE: dobbiamo spiegare perchè è diverso da quello standard
+The ``propose and revise" method for configuration design presented in its original form in the textbook for the course has been slightly modified to obtain a method that reflects the needs of our software. The \textit{WHILE} loop to revise the the design has been postponed from a state of \textit{propose} to a state of \textit{verify}, and the internal \textit{REPEAT UNTIL} loop to select the actions has been integrated in the outer cycle. This way the method reflects exactly the intended steps to be realized in the software. 
 
 \begin{lstlisting}[label=Task,caption=Task and task method description,breaklines=true]
 TASK automated-design;
@@ -170,9 +174,16 @@ END TASK-METHOD propose-and-revise;
 
 \section{Inference Knowledge}
 
-As inference model we use a modified version of the Configuration design template, because given predefined components we need to find and assembly that satisfies the requirements. The inference model deriving from this task can be found in Figure~\ref{fig:inference}.
-
-%TODO: spiegare perchè abbiamo modificato il configuration design
+As inference model we use a modified version of the Configuration design template, because given predefined components we need to find and assembly that satisfies the requirements. The inference model deriving from this task can be found in Figure~\ref{fig:inference}. \\
+The standard inference model for the configuration design template (propose and revise) has been modified to better express the needs of our software: 
+\begin{itemize}
+\item Soft and hard requirements have been transformed in ``preferences and requirements'' and ``constraints'' respectively
+\item Extension has been changed into ``proposal''
+\item Verify requires the direct input of the customer, since it's a verification of subjective correctness more than a verification of constraint violation. 
+\item Design has been changed int ``itinerary'' for coherency purposes.
+\end{itemize}
+It has to be noted that the subsystem building the proposal, in the implementation of the system, does not permit a constraint violation, so the verification of the constrait has been removed because redundant.
+%DONE: spiegare perchè abbiamo modificato il configuration design
 
 \begin{figure}[h]
 \centering
@@ -205,7 +216,7 @@ critique	& itinerary, violations, customer's inputs	& fix actions list		& it cre
 \\ \hline
 \end{tabularx}
 
-%TODO: forse dobbiamo commentare i knwoledge roles?
+%TODO: forse dobbiamo commentare i knwoledge roles (aggiungere tabella rettangoli)?
 
 
 \section{Domain knowledge}
@@ -229,7 +240,7 @@ This schema seems complicated, for this reason every model is explained in the f
   The client who goes to the travel agency. He could be a quite person who normally wants to visit a lot of things or very few (\emph{dynamic}). The clients are categorized by their age because some locations are not suitable for a people category (ex: elderly people in a climbing location).
 
   \item[Preference] \hfill \\
-  Each client needs to specify a list of preferences, valued from 1 to 5, where 1 is "I'm not so interested" and 5 is "I love to do it!". These preferences are related to the itinerary we want to create, consequently if the same clients wants to create another itinerary, it will specify again all the preferences he wants in this second trip.
+  Each client needs to specify a list of preferences, valued from 1 to 5, where 1 is ``I'm not so interested" and 5 is "I love to do it!". These preferences are related to the itinerary we want to create, consequently if the same clients wants to create another itinerary, it will specify again all the preferences he wants in this second trip.
   \item[Contraint] \hfill \\
   Each client needs to specify a list of contraints that have to be fulfilled. As for the \emph{Preference}, they are related to the single itinerary.
   \item[Itinerary] \hfill \\
@@ -459,8 +470,17 @@ CONSTRAINTS:
 
 
 \section{Communication Knowledge}
-
-%TODO: spiegare come si mappa con l'inference model
+%DONE
+The communication model specifies the information exchange between tasks carried out by different agents. It has been designed as an Activity Diagram where the name of the interaction corresponds to the type of communication happensing between the agents in the connected lanes.\\
+It has to be noted that the only task knowledge intensive is ``Automatically build the itinerary'' carried out by the automated system \textit{easyAround}.\\
+The mapping between the activities in the communication model and the inference model is schematized as follows:
+\begin{itemize}
+\item ``operationalize'' corresponds to ``differentiate constraints, requirements and preferences''
+\item ``specify'' and ``propose'' are mapped to ``automatically build the itinerary''
+\item ``verify'' corresponds to ``obtain feedback''
+\item ``critique'' corresponds to ``edit itinerary''
+\end{itemize}
+%TODO: fare worksheets CM
 
 \begin{figure}[h]
 \centering
