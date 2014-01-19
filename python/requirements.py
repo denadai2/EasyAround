@@ -14,7 +14,7 @@ class Requirements:
 	def operationalize(self):
 		return 0
 	def specify(self):
-		'''Assuming a Json array of requirements as follows
+		'''Assuming an array (dictionary is a possibility) of requirements as follows
 		numberOfDays: int
 		presenceOfKids: boolean
 		needsFreeTime: boolean
