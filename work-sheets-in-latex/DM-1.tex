@@ -1,26 +1,29 @@
-\begin{tabular}{%
-	|>{\colleft}p{3cm}%
-	|>{\colleft}p{8cm}|}
+\begin{tabular}%
+		{|p{3cm}%
+        |p{9cm}|}
 \hline
 \bf Design Model 	& \bf Worksheet DM-1: System Architecture \\
 \hline\hline
 \bf Architecture decision	& \bf Format \\ 
 \hline
 {\sc Subsystem structure}	& 
-Refer to diagram with subsystems. \newline 
-\em One can also refer here to standard subsystem structures such as a
-repository model, a client-server model, MVC model, abstract machine
-model, \ldots \\
+The architecture of our system is a variation of the MVC (Model-View-Controller) architecture, as denoted in the CommonKADS. See Figure~\ref{fig:MVC}
+ \\
 \hline
 {\sc Control model} &
-Characterization of the overall system control regimen. \newline
- \em E.g., event-driven, centralized control, call-return model, \ldots \\
+Centralized control unit which handles the input
+\\
 \hline
 {\sc Sub-System decomposition} &
-Refer to diagrams in which subsystems are being
 decomposed. \newline
-\em Indicate for each decomposition the paradigm
-underlying the decomposition, e.g., object-oriented or
-function-oriented. \\
+ - %TODO
+ \\
 \hline
 \end{tabular}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{images/mvc.eps}
+\caption{Model-View-Controller architecture}
+\label{fig:MVC}
+\end{figure}

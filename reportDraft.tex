@@ -364,7 +364,10 @@ $\forall$itinerary.day.timeslot, timeslot.location=selectLocation(A, B, C, D, E)
 %TODO: gli scenari devono spiegare pure come le informazioni passano all'interno tutto l'inference
 
 \subsection{Scenario 1}
+
 Rose, a 76 years old lady would like to visit Rome for three days with her nephew John who is ten years old. She would like to have her trip planned but with the possibility to explore the city on her own. 
+
+\subsubsection{Interview}
 
 \begin{description}
   \item[Are you used to walk long distances?] \hfill \\
@@ -385,7 +388,10 @@ Rose, a 76 years old lady would like to visit Rome for three days with her nephe
 
 The travel agent while is interviewing the customer, inserts the acquired data into the system through graphic interface.
 
-\begin{lstlisting}[label=Rules,caption=Domain instance of the data inserted into the system,breaklines=true,mathescape=true]
+\subsubsection{Operazionalize}
+The system once it receives the requirements divides them into three categories: requirements, preferences and constraints.
+
+\begin{lstlisting}[breaklines=true,mathescape=true]
 REQUIREMENTS:
   client.quiet = true
   client.dynamic = 1
@@ -410,9 +416,106 @@ CONSTRAINTS:
   constraint.type = include
 \end{lstlisting}
 
+\subsubsection{Specify}
+The system reads the requirements and compiles the skeletal design, an empty itinerary containing only the structure of the days.
+
+\begin{lstlisting}[breaklines=true,mathescape=true]
+REQUIREMENTS:
+  VAR a,b,c: day;
+  a.date = "14/05/2014"
+  b.date = "15/05/2014"
+  c.date = "16/05/2014"
+SKELETAL-DESIGN:
+  NEW-ITINERARY(a.date, c.date)
+\end{lstlisting}
+
+\subsubsection{Propose}
+The system processes the request using the knwoledge rules and returns a first version of the itinerary.
+
+\begin{lstlisting}[breaklines=true,mathescape=true]
+ITINERARY:
+  VAR a,b,c: day;
+  a.date = "14/05/2014"
+  b.date = "15/05/2014"
+  c.date = "16/05/2014"
+  a.morning = Colosseum
+  a.afternoon = Shopping mall "I gladiatori"
+  a.meal = Parolaccia
+  a.evening = Fontana di Trevi
+  b.morning = Villa Borghese
+  b.afternoon = Outlet shoes Roma
+  b.meal = Pizzeria da Matteo
+  b.evening = Piazza di Spagna
+  c.morning = EMPTY
+  c.afternoon = EMPTY 
+  c.evening = Piazza del Popolo
+  
+\end{lstlisting}
+
+\subsubsection{Verify}
+The system passes the itinerary to the TA through the GUI. The TA asks the Client for a confirmation or the need for modification.
+
+\begin{description}
+  \item[This is a possible itinerary, do you have any modifications you want to do?] \hfill \\
+  Yes please, I don't need shoes.
+\end{description}
+
+\subsubsection{Critique}
+Based on the Client feedback, the system builds an action list of modifications
+
+\begin{lstlisting}[breaklines=true,mathescape=true]
+ACTION-LIST:
+  contraint.location = Outlet shoes Roma
+  constraint.type = avoid
+  
+\end{lstlisting}
+
+\subsubsection{Select}
+The system chooses one action at the time for the itinerary to be modified
+
+\begin{lstlisting}[breaklines=true,mathescape=true]
+ACTION:
+  contraint.location = Outlet shoes Roma
+  constraint.type = avoid
+  
+\end{lstlisting}
+
+\subsubsection{Modify}
+The system modifies the itinerary accordingly to the selected action.
+
+\begin{lstlisting}[breaklines=true,mathescape=true]
+ITINERARY:
+  VAR a,b,c: day;
+  a.date = "14/05/2014"
+  b.date = "15/05/2014"
+  c.date = "16/05/2014"
+  a.morning = Colosseum
+  a.afternoon = Shopping mall "I gladiatori"
+  a.meal = Parolaccia
+  a.evening = Fontana di Trevi
+  b.morning = Villa Borghese
+  b.afternoon = Le Piramidi
+  b.meal = Pizzeria da Nando
+  b.evening = Piazza di Spagna
+  c.morning = EMPTY
+  c.afternoon = EMPTY 
+  c.meal = EMPTY
+  c.evening = Piazza del Popolo
+  
+\end{lstlisting}
+
+\subsubsection{Verify}
+The system passes the itinerary to the TA through the GUI. The TA asks the Client for a confirmation or the need for modification.
+
+\begin{description}
+  \item[This is a possible itinerary, do you have any modifications you want to do?] \hfill \\
+  No, the itinerary is fine.
+\end{description}
 
 \subsection{Scenario 2}
-Richard a 30 years old guy, would like to visit Rome for four days alone. 
+Richard a 30 years old guy, would like to visit Rome for two days alone.
+
+\subsubsection{Interview} 
 
 \begin{description}
   \item[Would you consider yourself a quite person or ready to have some fun?] \hfill \\
@@ -435,6 +538,9 @@ Richard a 30 years old guy, would like to visit Rome for four days alone.
 
 The travel agent while is interviewing the customer, inserts the acquired data into the system through graphic interface.
 
+\subsubsection{Operazionalize}
+The system once it receives the requirements divides them into three categories: requirements, preferences and constraints.
+
 \begin{lstlisting}[label=Rules,caption=Domain instance of the data inserted into the system,breaklines=true,mathescape=true]
 REQUIREMENTS:
   client.quiet = false
@@ -444,8 +550,6 @@ REQUIREMENTS:
   VAR a,b,c,d: day;
   a.date = "14/05/2014"
   b.date = "15/05/2014"
-  c.date = "16/05/2014"
-  d.date = "17/05/2014"
 PREFERENCES:
   VAR a,b,c,d : preference;
   a.type = shopping
@@ -464,7 +568,44 @@ CONSTRAINTS:
   a.type = avoid
 \end{lstlisting}
 
+\subsubsection{Specify}
+The system reads the requirements and compiles the skeletal design, an empty itinerary containing only the structure of the days.
 
+\begin{lstlisting}[breaklines=true,mathescape=true]
+REQUIREMENTS:
+  VAR a,b,c: day;
+  a.date = "14/05/2014"
+  b.date = "15/05/2014"
+SKELETAL-DESIGN:
+  NEW-ITINERARY(a.date, b.date)
+\end{lstlisting}
+
+\subsubsection{Propose}
+The system processes the request using the knwoledge rules and returns a first version of the itinerary.
+
+\begin{lstlisting}[breaklines=true,mathescape=true]
+ITINERARY:
+  VAR a,b,c: day;
+  a.date = "14/05/2014"
+  b.date = "15/05/2014"
+  a.morning = Colosseum
+  a.afternoon = Pantheon
+  a.meal = Parolaccia
+  a.evening = Discoteca el muendo
+  b.morning = Villa Borghese
+  b.afternoon = EUR
+  b.meal = Pizzeria da Matteo
+  b.evening = Discoteca Roma
+  
+\end{lstlisting}
+
+\subsubsection{Verify}
+The system passes the itinerary to the TA through the GUI. The TA asks the Client for a confirmation or the need for modification.
+
+\begin{description}
+  \item[This is a possible itinerary, do you have any modifications you want to do?] \hfill \\
+  No, the itinerary is fine.
+\end{description}
 
 
 \section{Communication Knowledge}
@@ -480,7 +621,7 @@ The mapping between the activities in the communication model and the inference 
 
 \worksheet{CM-1}{Transaction Descritpion worksheets}
 
-%TODO: fare worksheets CM
+\worksheet{CM-2}{Information exchange specification}
 
 \begin{figure}[h]
 \centering
@@ -491,7 +632,10 @@ The mapping between the activities in the communication model and the inference 
 
 
 \section{Design Knowledge}
-%TODO: fare il DM-1 E DM-2. Questo perchè sono difficili :D
+
+\worksheet{DM-1}{System Architecture}
+
+\worksheet{DM-2}{Target implementation platform}
 
 \appendix
 \section{Design Knowledge}

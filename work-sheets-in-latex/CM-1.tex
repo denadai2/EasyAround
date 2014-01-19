@@ -103,7 +103,7 @@
 \hline
 \sc Constraints &
    {\rm Precondition: the automated system must have already build the itinerary}\\
-	& {\rm Postcondition: the requirements have to be correctly separated into categories } \\
+	& {\rm Postcondition: the TA must obtain the itinerary } \\
 \hline
 \sc Information exchange specification &
    {\rm
@@ -111,3 +111,127 @@
    } \\
 \hline
 \end{tabular}
+\newline
+\vspace{0.8 cm}
+\newline
+\noindent
+\begin{tabular}%
+      {|p{3cm}%
+        |p{9cm}|}
+\hline
+{\bf Communication model} &
+   {\bf Transaction Description Worksheet CM-1} \\
+\hline
+\hline
+\sc Transaction identifier/name &
+   {\rm Propose Itinerary } \\
+\hline
+\sc Information object &
+   {\rm
+   Transmission of \textit{itinerary} between \textit{Obtain feedback} and \textit{feedback}
+   } \\
+\hline
+\sc Agents involved &
+   {\rm Sender: Travel Agent} \\
+   & {\rm Receiver: Client}\\
+\hline
+\sc Communication plan &
+   {\rm
+   Figure~\ref{fig:CommunicationDiagram}
+   } \\
+\hline
+\sc Constraints &
+   {\rm Precondition: the automated system must have already build the itinerary}\\
+   & {\rm Postcondition: the Client must obtain the itinerary } \\
+\hline
+\sc Information exchange specification &
+   {\rm
+   Oral transaction not concerning the automated system
+   } \\
+\hline
+\end{tabular}
+\newline
+\vspace{0.8 cm}
+\newline
+\noindent
+\begin{tabular}%
+      {|p{3cm}%
+        |p{9cm}|}
+\hline
+{\bf Communication model} &
+   {\bf Transaction Description Worksheet CM-1} \\
+\hline
+\hline
+\sc Transaction identifier/name &
+   {\rm provide feedback } \\
+\hline
+\sc Information object &
+   {\rm
+   Transmission of \textit{constraints} between \textit{feedback} and \textit{obtain feedback}
+   } \\
+\hline
+\sc Agents involved &
+   {\rm Sender: Client} \\
+   & {\rm Receiver: Travel Agent}\\
+\hline
+\sc Communication plan &
+   {\rm
+   Figure~\ref{fig:CommunicationDiagram}
+   } \\
+\hline
+\sc Constraints &
+   {\rm Precondition: the Client must have received the itinerary}\\
+   & {\rm Postcondition: the TA must process the feedback } \\
+\hline
+\sc Information exchange specification &
+   {\rm
+   Oral transaction not concerning the automated system
+   } \\
+\hline
+\end{tabular}
+\newline
+\vspace{0.8 cm}
+\newline
+\noindent
+\begin{tabular}%
+      {|p{3cm}%
+        |p{9cm}|}
+\hline
+{\bf Communication model} &
+   {\bf Transaction Description Worksheet CM-1} \\
+\hline
+\hline
+\sc Transaction identifier/name &
+   {\rm insert new requirements } \\
+\hline
+\sc Information object &
+   {\rm
+   Transmission of \textit{constraints} between \textit{edit itinerary} and \textit{Automatically build the itinerary}
+   } \\
+\hline
+\sc Agents involved &
+   {\rm Sender: Travel Agent} \\
+   & {\rm Receiver: Automated system}\\
+\hline
+\sc Communication plan &
+   {\rm
+   Figure~\ref{fig:CommunicationDiagram}
+   } \\
+\hline
+\sc Constraints &
+   {\rm Precondition: the feedback must not be equal to truth-value}\\
+   & {\rm Postcondition: the Automated system must construct a new itinerary } \\
+\hline
+\sc Information exchange specification &
+   {\rm
+   See CM-2 
+   } \\
+\hline
+\end{tabular}
+
+
+
+
+
+
+
