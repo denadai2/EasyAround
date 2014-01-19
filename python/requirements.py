@@ -24,7 +24,7 @@ class Requirements:
 		clientQuiet: boolean
 		'''
 		itinerary = Itinerary ((self.constraints['numberOfDays'], self.constraints['existingClient']))
-		return 0 
+		return itinerary 
 		
 def main(argv=None):
 	req = Requirements()

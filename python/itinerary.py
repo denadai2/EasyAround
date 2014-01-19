@@ -3,8 +3,13 @@ from flask import jsonify
 import sqlite3
 import sys
 
+Timeslot = namedtuple("Timeslot", "morning afternoon meal evening")
+
 class Day:
-	timeslot = []
+	timeslot = Timeslot()
+
+	
+	timeslot.morning = Location
 	''' Note: the correspondence between timeslots is unique: 
 		timeslot[1] == morning
 		timeslot[2] == afternoon
