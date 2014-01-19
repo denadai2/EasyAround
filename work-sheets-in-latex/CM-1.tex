@@ -1,55 +1,113 @@
-\begin{tabular}{%
-       |>{\colleft}p{3cm}%
-       |>{\colleft}p{8.5cm}|}
+\begin{tabular}%
+		{|p{3cm}%
+        |p{9cm}|}
 \hline
 {\bf Communication model} &
    {\bf Transaction Description Worksheet CM-1} \\
 \hline
 \hline
 \sc Transaction identifier/name &
-   {\rm
-   A transaction is to be defined for each information object that is
-   output from some leaf task in the task model or in the knowledge
-   model (i.e., a transfer function), and that must be communicated to
-   another agent for use in its own tasks. The name must reflect, in a
-   user-understandable way, what is done with this information object
-   by the transaction. In addition to the name, give a brief
-   explanation here of the purpose of the transaction.
-   } \\
+   {\rm Provide requirements } \\
 \hline
 \sc Information object &
    {\rm
-   Indicate the (core) information object, and between which two
-   tasks it is to be transmitted.
+   Transmission of \textit{requirements} between the starting point and \textit{obtain requirements}
    } \\
 \hline
 \sc Agents involved &
-   {\rm
-   Indicate the agent that is sender of the information object,
-   and the agent that is receiving it.
-   } \\
+	{\rm Sender: Client} \\
+	& {\rm Receiver: Travel Agent}\\
 \hline
 \sc Communication plan &
    {\rm
-   Indicate the communication plan of which this transaction is a
-   component.
+   Figure~\ref{fig:CommunicationDiagram}
    } \\
 \hline
 \sc Constraints &
-   {\rm
-   Specify the requirements and (pre)conditions that must be fulfilled
-   so that the transaction can be carried out. Sometimes, it is also
-   useful to state post-conditions that are assumed to be valid after
-   the transaction.
-   } \\
+   {\rm Precondition: - }\\
+	& {\rm Postcondition: the TA has the requirements } \\
 \hline
 \sc Information exchange specification &
    {\rm
-   Transactions can have an internal structure, in that they consist
-   of several messages of different types, and/or handle additional
-   supporting information objects such as explanation or help items.
-   This is detailed in worksheet CM-2. At this point, only a reference
-   or pointer needs to be given to a later info exchange spec.
+   Oral transaction not concerning the automated system
+   } \\
+\hline
+\end{tabular}
+\newline
+\vspace{0.8 cm}
+\newline
+\noindent
+\begin{tabular}%
+		{|p{3cm}%
+        |p{9cm}|}
+\hline
+{\bf Communication model} &
+   {\bf Transaction Description Worksheet CM-1} \\
+\hline
+\hline
+\sc Transaction identifier/name &
+   {\rm Insert data into the system } \\
+\hline
+\sc Information object &
+   {\rm
+   Transmission of \textit{requirements} between \textit{obtain requirements} and \textit{Differentiate constraint, requirements and preferences}
+   } \\
+\hline
+\sc Agents involved &
+	{\rm Sender: Travel Agent} \\
+	& {\rm Receiver: Automated System}\\
+\hline
+\sc Communication plan &
+   {\rm
+   Figure~\ref{fig:CommunicationDiagram}
+   } \\
+\hline
+\sc Constraints &
+   {\rm Precondition: the TA must have obtained the requirements}\\
+	& {\rm Postcondition: the requirements have to be correctly separated into categories } \\
+\hline
+\sc Information exchange specification &
+   {\rm
+   See CM-2 
+   } \\
+\hline
+\end{tabular}
+\newline
+\vspace{0.8 cm}
+\newline
+\noindent
+\begin{tabular}%
+		{|p{3cm}%
+        |p{9cm}|}
+\hline
+{\bf Communication model} &
+   {\bf Transaction Description Worksheet CM-1} \\
+\hline
+\hline
+\sc Transaction identifier/name &
+   {\rm Propose Itinerary } \\
+\hline
+\sc Information object &
+   {\rm
+   Transmission of \textit{itinerary} between \textit{Automatically build the itinerary} and \textit{Obtain feedback}
+   } \\
+\hline
+\sc Agents involved &
+	{\rm Sender: Automated System} \\
+	& {\rm Receiver: Travel Agent}\\
+\hline
+\sc Communication plan &
+   {\rm
+   Figure~\ref{fig:CommunicationDiagram}
+   } \\
+\hline
+\sc Constraints &
+   {\rm Precondition: the automated system must have already build the itinerary}\\
+	& {\rm Postcondition: the requirements have to be correctly separated into categories } \\
+\hline
+\sc Information exchange specification &
+   {\rm
+   See CM-2 
    } \\
 \hline
 \end{tabular}

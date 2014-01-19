@@ -131,7 +131,6 @@ CommonKADS agent model}
 \label{fig:taskknowledge}
 \end{figure}
 
-%DONE: dobbiamo spiegare perchè è diverso da quello standard
 The ``propose and revise" method for configuration design presented in its original form in the textbook for the course has been slightly modified to obtain a method that reflects the needs of our software. The \textit{WHILE} loop to revise the the design has been postponed from a state of \textit{propose} to a state of \textit{verify}, and the internal \textit{REPEAT UNTIL} loop to select the actions has been integrated in the outer cycle. This way the method reflects exactly the intended steps to be realized in the software. 
 
 \begin{lstlisting}[label=Task,caption=Task and task method description,breaklines=true]
@@ -175,7 +174,7 @@ END TASK-METHOD propose-and-revise;
 \section{Inference Knowledge}
 
 As inference model we use a modified version of the Configuration design template, because given predefined components we need to find and assembly that satisfies the requirements. The inference model deriving from this task can be found in Figure~\ref{fig:inference}. \\
-The standard inference model for the configuration design template (propose and revise) has been modified to better express the needs of our software: 
+The standard inference model for the configuration design template (propose and revise) has been modified to better express the needs of our software, in a way that the system interacts directly with the client a second time right after the proposal phase: 
 \begin{itemize}
 \item Soft and hard requirements have been transformed in ``preferences and requirements'' and ``constraints'' respectively
 \item Extension has been changed into ``proposal''
@@ -183,7 +182,6 @@ The standard inference model for the configuration design template (propose and 
 \item Design has been changed int ``itinerary'' for coherency purposes.
 \end{itemize}
 It has to be noted that the subsystem building the proposal, in the implementation of the system, does not permit a constraint violation, so the verification of the constrait has been removed because redundant.
-%DONE: spiegare perchè abbiamo modificato il configuration design
 
 \begin{figure}[h]
 \centering
@@ -470,7 +468,6 @@ CONSTRAINTS:
 
 
 \section{Communication Knowledge}
-%DONE
 The communication model specifies the information exchange between tasks carried out by different agents. It has been designed as an Activity Diagram where the name of the interaction corresponds to the type of communication happensing between the agents in the connected lanes.\\
 It has to be noted that the only task knowledge intensive is ``Automatically build the itinerary'' carried out by the automated system \textit{easyAround}.\\
 The mapping between the activities in the communication model and the inference model is schematized as follows:
@@ -480,6 +477,9 @@ The mapping between the activities in the communication model and the inference 
 \item ``verify'' corresponds to ``obtain feedback''
 \item ``critique'' corresponds to ``edit itinerary''
 \end{itemize}
+
+\worksheet{CM-1}{Transaction Descritpion worksheets}
+
 %TODO: fare worksheets CM
 
 \begin{figure}[h]
