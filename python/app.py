@@ -1,52 +1,39 @@
 from flask import Flask
 from flask import jsonify
-import sqlite3
-from contextlib import closing
+
+from db.helpers import *                    #Database connection helpers
+from Models.Client import Models_Client
 
 # configuration
 DATABASE = 'db/easyAround.db'
 DEBUG = True
 
 
-
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-def connect_db():
-    return sqlite3.connect(app.config['DATABASE'])
-
-def make_dicts(cur, row):
-    return dict((cur.description[idx][0], value) for idx, value in enumerate(row))
-
-def query_db(query, args=(), one=False):
-    try:
-        cur = Flask.db.execute(query, args)
-    except sqlite3.OperationalError, msg:
-        print msg
-    rv = cur.fetchall()
-    cur.close()
-    return (rv[0] if rv else None) if one else rv
+#----------------------------------------
+# database helpers
+#----------------------------------------
 
 @app.before_request
 def before_request():
-    Flask.db = connect_db()
+    Flask.db = connect_db(app)
     Flask.db.row_factory = make_dicts
 
 @app.teardown_request
 def teardown_request(exception):
-    db = getattr(Flask, 'db', None)
-    if db is not None:
-        db.close()
+    Flask.db = getattr(Flask, 'db', None)
+    if Flask.db is not None:
+        Flask.db.close()
 
+#----------------------------------------
+# controllers
+#----------------------------------------
 
 @app.route('/')
 def index():
     return "Hello, World!"
-
-@app.route('/user/<username>')
-def show_user_profile(username):
-    # show the user profile for that user
-    return 'User %s' % username
 
 @app.route('/getClient/<q>', methods = ['GET'])
 def getClient(q):
@@ -67,9 +54,8 @@ def getClient(q):
     Raises:
         ?
     """
-    pass
-    q = q+"%"
-    clientsList = query_db('select name, ID from client WHERE name LIKE ? ORDER BY name', [q]);
+    clientDB = Models_Client(Flask.db)
+    clientsList = clientDB.getClientList(q)
     response = []
     for row in clientsList:
         response.append((row['ID'], row['name']))
