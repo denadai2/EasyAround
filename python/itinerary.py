@@ -1,20 +1,13 @@
 from flask import Flask
 from flask import jsonify
+from collections import namedtuple
 import sqlite3
 import sys
 
 Timeslot = namedtuple("Timeslot", "morning afternoon meal evening")
 
 class Day:
-	timeslot = Timeslot()
-
-	
-	timeslot.morning = Location
-	''' Note: the correspondence between timeslots is unique: 
-		timeslot[1] == morning
-		timeslot[2] == afternoon
-		timeslot[3] == meal
-		timeslot[4] == evening'''
+	timeslot = None
 
 class Itinerary:
 	startDay = None
