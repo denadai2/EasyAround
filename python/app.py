@@ -61,6 +61,10 @@ def getClient(q):
         response.append((row['ID'], row['name']))
     return jsonify({'clients': response });
 
+#----------------------------------------
+# main
+#----------------------------------------
+
 if __name__ == '__main__':
     app.run(debug = True)
 
