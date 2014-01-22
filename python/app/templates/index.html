@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="row">
+                                    <div class="large-6 columns">
+                                        <div class="row">
+                                            <div class="large-6 columns">
+                                                <input type="date" placeholder="From" name="from" />
+                                            </div>
+                                            <div class="large-6 columns">
+                                                <input type="date" placeholder="To" name="to" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="large-12 columns" style="padding-top:35px">
+                                                <input type="text" placeholder="Client name" />
+                                              
+
+                                                <div id="clientDetails">
+                                                    <input name="quiet" type="checkbox"><label for="quiet">Quiet person</label><br />
+                                                    <label for="dinamicity">Dinamicity:</label>
+                                                    <input type="hidden" id="dinamicity" name="dinamicity">
+                                                    <div id="dinamicity-slider"></div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="large-6 columns">
+                                        <div class="row">
+                                            <div class="large-6 columns">
+                                                <input name="kidsPresence" type="checkbox"><label for="kidsPresence">Presence of kids</label>
+                                            </div>
+                                            <div class="large-6 columns">
+                                                <input name="needsFreeTime" type="checkbox"><label for="needsFreeTime">Needs free time</label>
+                                            </div>
+                                        </div>
+
+                                        <label for="preferenceShopping">Shopping:</label>
+                                        <input type="hidden" id="shopping" name="preferenceShopping">
+                                        <div id="shopping-slider" class="ui-slider"></div>
+
+                                        <label for="preferenceCulture">Culture:</label>
+                                        <input type="hidden" id="culture" name="preferenceCulture">
+                                        <div id="culture-slider" class="ui-slider"></div>
+
+                                        <label for="preferenceGastronomy">Gastronomy:</label>
+                                        <input type="hidden" id="gastronomy" name="preferenceGastronomy">
+                                        <div id="gastronomy-slider" class="ui-slider"></div>
+
+                                        <label for="preferenceNightLife">Night Life:</label>
+                                        <input type="hidden" id="nightLife" name="preferenceNightLife">
+                                        <div id="nightLife-slider" class="ui-slider"></div>
+                                    </div>
+                                </div>
+                    <div class="row">
+                        <div class="large-12 columns" style="text-align:right">
+                            <a href="#" class="button [tiny small large]">Next &gt;</a>
+                        </div>
+                    </div>
+{% endblock %}
