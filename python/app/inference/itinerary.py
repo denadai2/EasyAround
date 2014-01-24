@@ -11,7 +11,7 @@ class Day:
 class Itinerary:
 	def __init__(self, duration, client):
 		if duration is 0:
-			return 0
+			return None
 		self.clientID = client
 		for i in range(0, duration):
 			self.listOfDays.append(Day())

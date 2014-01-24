@@ -47,14 +47,21 @@ class Request:
 	    Raises:
 	        ?
 	    """
-		self.requirements = Requirements(startDate, numberOfDays, presenceOfKids, needsFreeTime, existingClient, clientName, clientDinamicity, clientQuiet)
+		self.requirements = Requirements(startDate, numberOfDays, presenceOfKids, needsFreeTime)
 		self.preferences = Preferences(preferenceShopping, preferenceCulture, preferenceGastronomy, preferenceNightLife)
 		self.constraints = Constraints(exclude, include)
+		self.client = client
 		return 0
 
 
 	def specify(self):
-		itinerary = Itinerary (self.requirements.startDate, self.requirements.days, self.requirementsq.existingClient)
+		''' Initializes the empty itinerary as a skeletal design, to be later filled with locations
+		Args:
+			self
+		Returns: 
+			Itinerary initialized with the correct number of days to be filled with location
+		'''
+		itinerary = Itinerary (self.requirements.startDate, self.requirements.days, self.client)
 		return itinerary 
 
 

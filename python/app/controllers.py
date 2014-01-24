@@ -48,10 +48,10 @@ def getRequest():
         client = models.Client.query.get(request.form['existingClient'])
 
     newReq = inference.Request()
-    newReq.operationalize(request.form['startDate'], request.form['numberOfDays'], request.form['presenceOfKids'], request.form['needsFreeTime'], 
-        request.form['exclude'], request.form['include'], request.form['existingClient'], client, request.form['preferenceShopping'], 
-        request.form['preferenceCulture'], request.form['preferenceGastronomy'], request.form['preferenceNightLife'])
-    itinerary = newReq.specify()
+    newReq.operationalize(request.form['startDate'], request.form['numberOfDays'], request.form['presenceOfKids'], request.form['needsFreeTime'], request.form['exclude'], request.form['include'], client, request.form['preferenceShopping'], request.form['preferenceCulture'], request.form['preferenceGastronomy'], request.form['preferenceNightLife'])
+    if itinerary = newReq.specify() is None
+    	#TODO come si mandano le risposte al client tipo "400 Bad Request"?
+    	return None
     return itinerary
 
 
