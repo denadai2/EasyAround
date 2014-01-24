@@ -7,6 +7,8 @@ import sys
 Timeslot = namedtuple("Timeslot", "morning afternoon meal evening")
 
 class Day:
+	def __init__(self):
+		self.timeslot = Timeslot()
 
 class Itinerary:
 	def __init__(self, duration, client):
