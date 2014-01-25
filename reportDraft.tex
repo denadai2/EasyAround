@@ -138,7 +138,7 @@ The ``propose and revise" method for configuration design presented in its origi
 \begin{lstlisting}[label=Task,caption=Task and task method description,breaklines=true]
 TASK automated-design;
   ROLES:
-    INPUT: requirements: "requirements for the design";
+    INPUT: request: "request for the design";
     OUTPUT: itinerary: "the resulting design";
 END TASK configuration-design;
 
@@ -159,8 +159,8 @@ TASK-METHOD propose-and-revise;
       action: "a single repair action";
       itinerary: "a new possible compilation of the sketal-design";
   CONTROL-STRUCTURE:
-    operationalize(requirements -> preferences-and-requirements + constraints);
-    specify(requirements -> sketal-design);
+    operationalize(request -> preferences-and-requirements + constraints);
+    specify(request -> sketal-design);
     propose(constraints + preferences-and-requirements + sketal-design -> proposal);
     itinerary := proposal ADD itinerary;
     WHILE verify(customer-input + itinerary -> truth-value + violation) IS truth-value == false DO
@@ -178,6 +178,7 @@ END TASK-METHOD propose-and-revise;
 As inference model we use a modified version of the Configuration design template, because given predefined components we need to find and assembly that satisfies the requirements. The inference model deriving from this task can be found in Figure~\ref{fig:inference}. \\
 The standard inference model for the configuration design template (propose and revise) has been modified to better express the needs of our software, in a way that the system interacts directly with the client a second time right after the proposal phase: 
 \begin{itemize}
+\item Requirements have been transformed in Request
 \item Soft and hard requirements have been transformed in ``preferences and requirements'' and ``constraints'' respectively
 \item Extension has been changed into ``proposal''
 \item Verify requires the direct input of the customer, since it's a verification of subjective correctness more than a verification of constraint violation. 
@@ -191,12 +192,13 @@ It has to be noted that the subsystem building the proposal, in the implementati
 \caption{Inference structure}
 \label{fig:inference}
 \end{figure}
+%TODO: requirements deve diventare request
 
 \noindent
 \begin{tabularx}{\textwidth}{| X | X | X | X |}
   \hline
 Inference		& Input	& Output 	& Description \\ \hline \hline
-specify		& requirements	& sketal design		& the function look-up the default sketal design: the basic structure of a trip day (heavy activity during the morning, relaxing afternoon, evening and meal).
+specify		& request	& sketal design		& the function look-up the default sketal design: the basic structure of a trip day (heavy activity during the morning, relaxing afternoon, evening and meal).
 \\ \hline 
    optionalize	& needs of the customers		& preferences, requirements, constraints	& the needs and desires are translated into preferences ("I would like to have time for shopping and visit many cultural places. I am not interested so much in food places"), requirements ("I want a quiet trip") and contraints ("In Rome I want to visit the \emph{Colosseum} and avoid \emph{Piazza di Spagna}"). 
 \\ \hline
@@ -232,7 +234,7 @@ The domain schema can be found in Figure~\ref{fig:ClassDiagram}
 \caption{Domain schema}
 \label{fig:ClassDiagram}
 \end{figure}
-
+%TODO: nel domain Client.Name dovrebbe essere Client.name. Togliere la chiave esterna a preferences e contraints. Location.lng, non long. creare Day.ID per semplicità
 
 This schema seems complicated, for this reason every model is explained in the following list:
 \begin{description}
@@ -270,7 +272,7 @@ The method \emph{selectLocation} takes a list of \emph{Preference} and produces 
 \hline 
 knowledge role & type & domain mapping
 \\ \hline \hline
-requirements    &   dynamic  & Client
+request    &   dynamic  & Client
 \\ \hline
 skeletal design  & static    & Timeslot
 \\ \hline
@@ -284,7 +286,13 @@ proposal  & dynamic    & Itinerary
 \\ \hline
 itinerary  & dynamic    & Itinerary
 \\ \hline
-violation  & dynamic    & Constraint, Location %CONTROLLARE SCHEMA
+violation  & dynamic    & Constraint, Location %TODO: CONTROLLARE SCHEMA
+\\ \hline
+constraint-rule  & static    & Constraint
+\\ \hline
+preference-rule  & static    & Preference
+\\ \hline
+requirement-rule  & static    & Client, Itinerary
 \\ \hline
 \end{tabularx}
 
@@ -391,7 +399,7 @@ Rose, a 76 years old lady would like to visit Rome for three days with her nephe
 The travel agent while is interviewing the customer, inserts the acquired data into the system through graphic interface.
 
 \subsubsection{Operazionalize}
-The system once it receives the requirements divides them into three categories: requirements, preferences and constraints.
+The system once it receives the request divides them into three categories: requirements, preferences and constraints.
 
 \begin{lstlisting}[breaklines=true,mathescape=true]
 REQUIREMENTS:
@@ -419,7 +427,7 @@ CONSTRAINTS:
 \end{lstlisting}
 
 \subsubsection{Specify}
-The system reads the requirements and compiles the skeletal design, an empty itinerary containing only the structure of the days.
+The system reads the request and compiles the skeletal design, an empty itinerary containing only the structure of the days.
 
 \begin{lstlisting}[breaklines=true,mathescape=true]
 REQUIREMENTS:
@@ -541,7 +549,7 @@ Richard a 30 years old guy, would like to visit Rome for two days alone.
 The travel agent while is interviewing the customer, inserts the acquired data into the system through graphic interface.
 
 \subsubsection{Operazionalize}
-The system once it receives the requirements divides them into three categories: requirements, preferences and constraints.
+The system once it receives the request divides them into three categories: requirements, preferences and constraints.
 
 \begin{lstlisting}[label=Rules,caption=Domain instance of the data inserted into the system,breaklines=true,mathescape=true]
 REQUIREMENTS:
@@ -571,7 +579,7 @@ CONSTRAINTS:
 \end{lstlisting}
 
 \subsubsection{Specify}
-The system reads the requirements and compiles the skeletal design, an empty itinerary containing only the structure of the days.
+The system reads the request and compiles the skeletal design, an empty itinerary containing only the structure of the days.
 
 \begin{lstlisting}[breaklines=true,mathescape=true]
 REQUIREMENTS:

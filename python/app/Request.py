@@ -1,25 +1,28 @@
 #!flask/bin/python
-from flask import Flask
-from flask import jsonify
-import sqlite3
-from contextlib import closing
-from itinerary import *
-import json
-
-app = Flask(__name__)
+from app import app
+from app import db
+import models
+from collections import namedtuple
+from datetime import timedelta
 
 #---------------
 # Classes and data structures
 #---------------
 
-Requirements = namedtuple("Requirements", "startDate days kids freeTime existingClient clientName clientDinamicity clientQuiet")
+Requirements = namedtuple("Requirements", "startDate days kids freeTime client")
 Preferences = namedtuple("Preferences", "shopping culture gastronomy nightlife")
 Constraints = namedtuple("Constraints", "exclude include")
 
 
 # Note: changed class name from "Requirements" to "Request" otherwise it will get messed up
-class Request:
-	''' Class that has to handle the methods operationalize and specify.'''
+class Request(object):
+	"""Class that has to handle the methods operationalize and specify
+
+    Attributes:
+        requirements: the Requirements namedtuple which represents the itinerary requirements
+        preferences: the Preferences namedtuple which represents the preferences requirements
+        constraints: the Constraints namedtuple which represents the constraints requirements
+    """
 	
 
 	def operationalize(self, startDate, numberOfDays, presenceOfKids, needsFreeTime, exclude, include, client, 
@@ -42,20 +45,39 @@ class Request:
 	    Returns:
 	        None
 
-	        If there are no results, an empty array will be returned
-
 	    Raises:
 	        ?
 	    """
-		self.requirements = Requirements(startDate, numberOfDays, presenceOfKids, needsFreeTime, existingClient, clientName, clientDinamicity, clientQuiet)
+		self.requirements = Requirements(startDate, numberOfDays, presenceOfKids, needsFreeTime, client)
 		self.preferences = Preferences(preferenceShopping, preferenceCulture, preferenceGastronomy, preferenceNightLife)
 		self.constraints = Constraints(exclude, include)
 		return 0
 
 
 	def specify(self):
-		itinerary = Itinerary (self.requirements.startDate, self.requirements.days, self.requirementsq.existingClient)
-		return itinerary 
+		"""Creates the basic structure of the itinerary (sketal_design)
+
+	    Args:
+	        None
+
+	    Returns:
+	        A tuple composed by the itinerary Model and the days Models
+
+	    Raises:
+	        ?
+	    """
+		itinerary = models.Itinerary(self.requirements.kids, self.requirements.freeTime, self.requirements.client.ID)
+		db.session.add(itinerary)
+		db.session.commit()
+
+		days = []
+		for i in range(0, self.requirements.days):
+			day = models.Day(itinerary.ID, self.requirements.startDate + timedelta(days=i))
+			days.append(day)
+
+		return (itinerary, days)
+
+
 
 
 
