@@ -91,10 +91,13 @@ class Itinerary(db.Model):
         #now we know how many locations types we need to pick from the DB
         i = 0
         locations = []
+        meals = []
         for preferenceType in preferences._fields:
             if locationTypes[i] > 0:
-                q1 = Location.query.filter_by(category=preferenceType).filter(Location.excludedCategory!=requirements.client.category)\
-                    .filter(Location.category!='gastronomy')
+                q1 = Location.query.filter_by(category=preferenceType).filter(Location.excludedCategory!=requirements.client.category)
+
+                if not preferenceType == "gastronomy":
+                    q1 = q1.filter(Location.category!='gastronomy')
 
                 if requirements.client.quiet:
                     q1 = q1.filter_by(intensive=False)
@@ -104,7 +107,10 @@ class Itinerary(db.Model):
 
                 q1 = q1.limit(locationTypes[i])
 
-                locations.append(q1.all())
+                if not preferenceType == "gastronomy":
+                    locations.append(q1.all())
+                else:
+                    meals.append(q1.all())
             i = i + 1
 
 
@@ -124,7 +130,7 @@ class Itinerary(db.Model):
 
 
 
-        return (locations, [])
+        return (locations, meals)
 
 
     def __random_pick(self, some_list, probabilities):
