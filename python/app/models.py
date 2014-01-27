@@ -45,7 +45,44 @@ class Itinerary(db.Model):
         self.withKids = withKids
         self.needsFreeTime = needsFreeTime
         self.client_ID = client_ID
-
+	
+	def critique(self, violation):
+		''' Handles the request from the client to modify the itinerary with new constraints
+		ArgS:
+			violation: the new set of constraints from the client
+		Returns:
+			itinerary
+		'''
+		if len(violation.form['locations']) > 0:
+			for locationID in violation.form['locations']:
+				itinerary = self.select(locationID, violation.form['itineraryID'])
+			return itinerary
+		else:
+			return None
+				
+	def	select(self, locationID, itineraryID):
+		''' Foreach violation, selects an action to perform and passes the control to modify
+		ArgS:
+			locationID: the location that corresponds to the violation, a.k.a. the single action to perform
+		Returns:
+			itinerary
+		'''
+		c = models.Constraint(itineraryID, locationID, 'avoid')
+        session.db.add(c)
+        session.db.commit()
+        itinerary = self.modify(itineraryID)
+        return itinerary
+    
+    def modify(itineraryID):
+    	''' Recovers the necessary parameters and perfors a new selectLocation, editing the faulty itinerary
+		ArgS:
+			itineraryID: id needed to recover the requirements, constraints and preferences
+		Returns:
+			itinerary
+		'''
+    	#TODO
+    	itinerary = Itinerary(0, 0, 0)
+    	return itinerary
 
     def selectLocation(self, requirements, preferences, constraints):
         """Select all the locations based on the requirements, preferences and constraints

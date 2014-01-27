@@ -50,19 +50,19 @@ def excludeLocations():
         locations: POST variable which represent the list of locations ID to be excluded
 
     Returns:
-        A confirm of the insertion
-        
-         {"response": "OK}
+       The new itinerary with the requested modifications
 
     Raises:
         ?
     """
-    if len(request.form['locations']) > 0:
-        for locationID in request.form['locations']:
-            c = models.Constraint(request.form['itineraryID'], locationID, 'avoid')
-            session.db.add(c)
-        session.db.commit()
-
+    #critique handles the request and calls directly select, that loops through the actions and calls modify
+    oldItinerary = Itinerary.query.filter_by(ID = request.form['itineraryID']).first()
+    
+    #TODO gestire itinerario
+    #costruire skeletal design + get requirements + get preferences + get nuovi constraints -> crea nuovo itinerario
+    itinerary = Itinerary(oldItinerary.withKids, oldItinerary.needsFreeTime, oldItinerary.client_ID)
+    itinerary.critique(request)
+    
     return jsonify({'response':  'OK' });
 
 
