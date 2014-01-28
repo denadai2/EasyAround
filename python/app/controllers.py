@@ -42,28 +42,22 @@ def getClient():
 
 @app.route('/excludeLocations', methods = ['POST'])
 def excludeLocations():
-    """Exclude a list of locations from an itinerary
+	'''Exclude a list of locations from an itinerary
+		Args:
+			itineraryID: POST variable which represent the ID of the considered itinerary
+			clientID: POST variable which represent the ID of the client
+			locations: POST variable which represent the list of locations ID to be excluded
 
-    Args:
-        itineraryID: POST variable which represent the ID of the considered itinerary
-        clientID: POST variable which represent the ID of the client
-        locations: POST variable which represent the list of locations ID to be excluded
+		Returns:
+		   The new itinerary with the requested modifications
 
-    Returns:
-       The new itinerary with the requested modifications
-
-    Raises:
-        ?
-    """
-    #critique handles the request and calls directly select, that loops through the actions and calls modify
-    oldItinerary = Itinerary.query.filter_by(ID = request.form['itineraryID']).first()
-    
-    #TODO gestire itinerario
-    #costruire skeletal design + get requirements + get preferences + get nuovi constraints -> crea nuovo itinerario
-    itinerary = Itinerary(oldItinerary.withKids, oldItinerary.needsFreeTime, oldItinerary.client_ID)
-    itinerary.critique(request)
-    
-    return jsonify({'response':  'OK' });
+		Raises:
+			? '''
+	oldItinerary = Itinerary.query.filter_by(ID = request.form['itineraryID']).first()
+	eA = easyAround()
+	eA.critique(request, oldItinerary)
+	#TODO return something to the customer
+	return jsonify({'response':  'OK' });
 
 
 '''@app.route('/bu', methods = ['GET'])

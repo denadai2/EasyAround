@@ -1,7 +1,10 @@
 from app import app
 from app import db
 from app import models
+from collections import namedtuple
 
+
+Requirements = namedtuple("Requirements", "startDate days kids freeTime client")
 
 class easyAround(object):
     """Class that has to propose the itinerary to the TA
@@ -9,8 +12,6 @@ class easyAround(object):
     Attributes:
         None
     """
-
-
     def propose(self, requirements, preferences, sketal_design, constraints):
         """Divides all the parameters in requirements, preferences and constraints.
 
@@ -67,6 +68,45 @@ class easyAround(object):
                 db.session.add(timeslot)
 
             db.session.commit()
+            
+	def critique(self, violation, itinerary):
+		''' Handles the request from the client to modify the itinerary with new constraints
+		ArgS:
+			violation: the new set of constraints from the client
+			itinerary: the old itinerary to be modified
+		Returns: -
+		'''
+		if len(violation.form['locations']) > 0:
+			for locationID in violation.form['locations']:
+				itinerary.select(locationID, violation.form['itineraryID'])
+				
+			constraints = Constraint.query.filter_by(itinerary_ID = request.form['itineraryID']).all() #TODO be careful during testing
+			preferences = Preference.query.filter_by(itinerary_ID = request.form['itineraryID']).first()
+			countDays = Day.query.filter_by(itinerary_ID = request.form['itineraryID']).count()
+			days = Day.query.filter_by(itinerary_ID = request.form['itineraryID']).all()
+			requirements = Requirements(0, countDays, itinerary.withKids, itinerary.needsFreeTime, itinerary.client_ID)
+			
+			locations, meals = itinerary.selectLocation(requirements, preferences, constraints)
+			
+			for day in days:
+				
+				for type in ['morning', 'afternoon', 'meal', 'evening']:
+					if type == 'meal':
+						if len(meals) == 0:
+							timeslot = None
+						else:
+							timeslot = Timeslot.query.filter_by(day_ID = day.ID, type = type)
+							location = meals.pop()
+							timeslot.location_ID = int(location['ID'])
+					else:
+						if len(locations) == 0:
+							timeslot = None
+						else:
+							timeslot = Timeslot.query.filter_by(day_ID = day.ID, type = type)
+							location = location.pop()
+							timeslot.location_ID = int(location['ID'])
+					db.session.add(timeslot)
+			db.session.commit()
 
     		
 
