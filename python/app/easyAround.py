@@ -70,26 +70,27 @@ class easyAround(object):
             db.session.commit()
             
 	def critique(self, violation, itinerary):
-		''' Handles the request from the client to modify the itinerary with new constraints
+		''' Handles the request from the client to modify the itinerary with new constraints. Passes the control to select()
+		and modify() to make the fix action permanent into the database, and then proceeds to edit the old itinerary accordingly.
 		ArgS:
 			violation: the new set of constraints from the client
 			itinerary: the old itinerary to be modified
 		Returns: -
 		'''
+		#passes control to select() and modify() to make the fix actions permanent
 		if len(violation.form['locations']) > 0:
 			for locationID in violation.form['locations']:
 				itinerary.select(locationID, violation.form['itineraryID'])
-				
+			#recovers the old preferences and requirements, and the new set of constraints obtained from the violation	
 			constraints = Constraint.query.filter_by(itinerary_ID = request.form['itineraryID']).all() #TODO be careful during testing
 			preferences = Preference.query.filter_by(itinerary_ID = request.form['itineraryID']).first()
 			countDays = Day.query.filter_by(itinerary_ID = request.form['itineraryID']).count()
 			days = Day.query.filter_by(itinerary_ID = request.form['itineraryID']).all()
 			requirements = Requirements(0, countDays, itinerary.withKids, itinerary.needsFreeTime, itinerary.client_ID)
-			
+			#performs a selectLocation to chose new locations that will overwrite the violations
 			locations, meals = itinerary.selectLocation(requirements, preferences, constraints)
-			
+			#assigns the new locations to the timeslots inside each day of the itinerary, updating them
 			for day in days:
-				
 				for type in ['morning', 'afternoon', 'meal', 'evening']:
 					if type == 'meal':
 						if len(meals) == 0:

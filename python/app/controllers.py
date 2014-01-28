@@ -50,7 +50,6 @@ def excludeLocations():
 
 		Returns:
 		   The new itinerary with the requested modifications
-
 		Raises:
 			? '''
 	oldItinerary = Itinerary.query.filter_by(ID = request.form['itineraryID']).first()

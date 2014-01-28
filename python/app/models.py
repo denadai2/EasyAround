@@ -47,16 +47,17 @@ class Itinerary(db.Model):
         self.client_ID = client_ID
 				
 	def	select(self, locationID, itineraryID):
-		''' Foreach violation, selects an action to perform and passes the control to modify
+		''' Foreach violation, selects one single action to be performed and passes the control to modify
 		ArgS:
 			locationID: the location that corresponds to the violation, the single action that needs to be selected
+			itineraryID: the id of the itinerary to be modified
 		Returns: -
 		'''
 		c = models.Constraint(itineraryID, locationID, 'avoid')
         self.modify(c)
     
     def modify(constraints):
-    	''' Makes the action selected permanent
+    	''' Takes the selected action and commits the modification into the database
 		ArgS:
 			constraints: single action that the modify commits to make it permanent
 		Returns: -
