@@ -667,11 +667,15 @@ If the customer is satisfied with the proposed itinerary, then the TA can confir
 The back-end consists in the set of rules and functions that constitute the server-side of the application. It has been neatly divided using a model-view-controller approach as illustrated in the previous diagrams, and provides functionalities of communication with the database, communication with the front-end, and a "knowledge engine" embedding the TA knowledge necessary to build the itinerary.\\
 The entire server-side application has been build on the base of the inference model designed in the previous part of the document, and will be explained further in Section \ref{sec:common}.
 \item[Database] \hfill \\
-The SQL based database contains the information relative to the client and the locations that will be handled by the "knowledge engine" to build the itinerary. The database has been build on the base of the domain model in Section \ref{sec:domain}, and has been filled with information coming directly from the \textit{TripAdvisor} database.
+The SQL based database contains the information relative to the client and the locations that will be handled by the "knowledge engine" to build the itinerary. The database has been build on the base of the domain model in Section \ref{sec:domain}, and has been filled with information coming directly from the \textit{TripAdvisor} database. This specific way of building and filling the database favours the reusability of the whole application (for more information see Section \ref{sec:reusability})
 \end{description}
 \subsection{Role of the CommonKADS model set in the implementation} \label{sec:common}
 \subsection{Reflection on problems and results}
-\subsection{Reusability}
+\subsection{Reusability} \label{sec:reusability}
+The application was build to be completely reusable, making sure that the choice of a restricted domain (the city of Rome) would not influence the performance of the system itself.\\
+\indent If, for example, the travel agency is interested in focusing the choice of points of interest on Amsterdam instead of Rome, the only thing that would be subjected to change is the data inside the database. The construction of the database itself and the whole application are absolutely not domain dependant, so they will automatically adapt the choice for the new itinerary on the available data, independently from its origin. The only action that needs to be performed in this case is just the one that recovers the data from the \textit{TripAdvisor} database (or any other tourism-related database) accordingly to the need of the application.\\
+\indent This can be possible thanks to the generality of the rules in the \textit{knowledge engine}, that base the choice of points of interest not on the locations themselves, but on the category to which they belong: a location dedicated to culture like a museum is easily recognizable both in Amsterdam and in Rome, even if the theme or purpose of that specific location are different. For example, \textit{Van Gogh Museum} in Amsterdam and \textit{Museo Civico di Zoologia} in Rome have nothing in common, but the application is able to suggest both to a person interested in culture.\\
+\indent Note however that the data inside the database \textit{must} be complete of all the necessary information: if a location is not correctly classified (for example its coordinates are not known or its category is not specified) the application will not be able to perform at its full capacity.
 
 \newpage
 
