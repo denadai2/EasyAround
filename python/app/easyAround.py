@@ -51,20 +51,21 @@ class easyAround(object):
             db.session.add(day)
             db.session.commit()
 
-            for type in ['morning', 'afternoon', 'meal', 'evening']:
-                if type == 'meal':
-                    if len(meals) == 0:
-                        timeslot = None
-                    else:
-                        location = meals.pop()
-                        timeslot = models.Timeslot(day.ID, int(location['ID']), type)
+            for type in ['morning', 'afternoon', 'evening']:
+                if len(locations) == 0:
+                    timeslot = None
                 else:
-                    if len(locations) == 0:
-                        timeslot = None
-                    else:
-                        location = locations.pop()
-                        timeslot = models.Timeslot(day.ID, int(location['ID']), type)
+                    location = locations.pop()
+                    timeslot = models.Timeslot(day.ID, int(location['ID']), type)
                 db.session.add(timeslot)
+
+            if len(meals) == 0:
+                timeslot = None
+            else:
+                location = meals.pop()
+                timeslot = models.Timeslot(day.ID, int(location['ID']), 'meal')
+            db.session.add(timeslot)
+                
 
             db.session.commit()
 

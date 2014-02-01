@@ -115,7 +115,7 @@ class Itinerary(db.Model):
 
 
         if nKids > 0:
-            q1 = Location.query.filter_by(category=preferenceType).filter(Location.excludedCategory!=requirements.client.category)
+            q1 = Location.query.filter(Location.excludedCategory!=requirements.client.category)
             q1 = q1.filter_by(forKids=True)
 
             if len(constraints.exclude) > 0:
