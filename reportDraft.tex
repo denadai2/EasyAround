@@ -15,7 +15,6 @@
 %%% PAGE DIMENSIONS
 \usepackage{geometry} % to change the page dimensions
 \geometry{a4paper} % or letterpaper (US) or a5paper or....
-% \geometry{margins=2in} % for example, change the margins to 2 inches all round
 % \geometry{landscape} % set up the page for landscape
 %   read geometry.pdf for detailed page layout information
 
@@ -32,12 +31,8 @@
 \usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
 % These packages are all incorporated in the memoir class to one degree or another...
 
-\usepackage{graphicx}
 \usepackage{float}
-
 \usepackage{tabularx}
-
-
 \usepackage{color}
 \usepackage{xcolor}
 \usepackage{listings}
@@ -49,8 +44,6 @@
 
 
 \def\worksheet#1#2{%
-  \clearpage
-  
   \begin{center}
   {\large\bf #1} \\
   {\normalsize\bf #2} \\[12pt]
@@ -94,34 +87,54 @@
 
 %%% The "real" document content comes below...
 
-\title{Brief Article}
-\author{The Author}
+\title{easyAround}
+\author{Marco De Nadai, Claudia Minardi}
 %\date{} % Activate to display a given date or no date (if empty),
          % otherwise the current date is printed 
 
 \begin{document}
 \maketitle
 
-
+\section{Introduction}
+This document illustrates the process of the development of an information system according to the CommonKADS approach. \\
+The idea at the base of the project is to build a system capable of assisting a Travel Agent in satisfying the customers. The software must be able to exploit the knowledge of the Travel Agent in order to build a customized itinerary that reflect the desire of the client. \\
+To do so, it is necessary to have precise knowledge rules embedded inside the system itself: this can be done by building a series of models that will constitute the core structure of the software. \\
+The final piece of software, namely \textit{easyAround} will be able to:
+\begin{itemize}
+\item Classify customers according to their age and physical capabilities;
+\item Gather information on each customer's preferences and personal taste;
+\item Gather specific information on each customer's desire for a specific trip;
+\item Propose to each customer an ideal trip, based on the gathered information;
+\item Let the customers revise and personalize their own itinerary;
+\end{itemize}
+The target domain of the software resides inside one single city: the final itineary will be composed of locations to be visited inside that particular city, according to a standard timetable possessed by the Travel Agency. \\
+The target user of the software is the Travel Agent appointed with the task of creating cusomized itineraries for clients who travel alone or accompanied by children.
+\newpage
 \section{Context Knowledge}
 \worksheet{OM-1}{Identifying knowledge-oriented problems and
 opportunities in the organization}
-
 \worksheet{OM-2}{Description of organizational aspects that
 have an impact on and/or are affected by chosen knowledge solutions}
-
+\begin{figure}[H]
+\centering
+\includegraphics[width=10cm]{images/azienda.eps}
+\caption{Organization structure}
+\label{fig:orgStructure}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/activity.eps}
+\caption{Organization process}
+\label{fig:orgProcess}
+\end{figure}
 \worksheet{OM-5}{Checklist for the feasibility decision
 document}
-
 \worksheet{TM-1}{Refined description of the tasks within the
 target process}
-
 \worksheet{TM-2}{Specification of the knowledge employed for a
 task, and possible bottlenecks and areas for improvement}
-
 \worksheet{AM-1}{Agent specification according to the
 CommonKADS agent model}
-
 
 \clearpage
 \section{Task Knowledge}
@@ -192,10 +205,9 @@ It has to be noted that the subsystem building the proposal, in the implementati
 \caption{Inference structure}
 \label{fig:inference}
 \end{figure}
-%TODO: requirements deve diventare request
 
 \noindent
-\begin{tabularx}{\textwidth}{| X | X | X | X |}
+\begin{tabular}{|p{2cm}|p{3cm}|p{3cm}|p{6cm}|}
   \hline
 Inference		& Input	& Output 	& Description \\ \hline \hline
 specify		& request	& sketal design		& the function look-up the default sketal design: the basic structure of a trip day (heavy activity during the morning, relaxing afternoon, evening and meal).
@@ -205,11 +217,6 @@ specify		& request	& sketal design		& the function look-up the default sketal de
 propose	& preferences and requirements, sketal design slots		& filled sketal design	& fill the slots of the sketal design with locations that fits the preferences and requirements.
 \\
 \hline
-\end{tabularx}
-\newpage
-\noindent
-\begin{tabularx}{\textwidth}{| X | X | X | X |}
-\hline
 verify		& contraints, extension design	& the list of violated contraints	& it checks with the help of the internal contraints and those supplied by the user whether the current configuration is internally consistent. If the verification fails, it produces the violated contraints as an additional output
 \\ \hline
 select 	& fix actions list		& fix action		& It simply selects an action from the fix actions list generated by the critique function.
@@ -218,7 +225,7 @@ modify	& itinerary design, fix actions list		& fixed itinerary design		& it appl
 \\ \hline
 critique	& itinerary, violations, customer's inputs	& fix actions list		& it creates a series of actions which will fix the violations of the contraints, following also the customer's inputs. For example the contraint "I absolutely want to visit the \emph{Colosseum}" will produce the action "Insert the \emph{Colosseum} into the itinerary".
 \\ \hline
-\end{tabularx}
+\end{tabular}
 
 \clearpage
 \section{Domain knowledge}
@@ -234,7 +241,6 @@ The domain schema can be found in Figure~\ref{fig:ClassDiagram}
 \caption{Domain schema}
 \label{fig:ClassDiagram}
 \end{figure}
-%TODO: nel domain Client.Name dovrebbe essere Client.name. Togliere la chiave esterna a preferences e contraints. Location.lng, non long. creare Day.ID per semplicità
 
 This schema seems complicated, for this reason every model is explained in the following list:
 \begin{description}
@@ -256,21 +262,17 @@ The method \emph{selectLocation} takes a list of \emph{Preference} and produces 
   This model represents the point of interests that a customer could visit. The attribute \emph{rating} describes the quality of this place, \emph{intensive} describes if the place is not for quite people and \emph{excludedCategory} specifies if a client category is not suitable for the location (ex: elderly people in a climbing location). The method \emph{distance} takes two locations and returns the distance between them. It is useful in order to create the combination of locations to visit during a trip.
 \end{description}
 
-
-\begin{figure}[h]
+\subsection{Domain mapping}
+\begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{images/dom_VS_inference.eps}
 \caption{Mapping between the domain model and the inference model}
 \label{fig:MappingDomainInference}
 \end{figure}
-
-
-\subsection{Domain mapping}
-
 \noindent
 \begin{tabularx}{\textwidth}{| X | X | X | X |}
 \hline 
-knowledge role & type & domain mapping
+\textbf{Knowledge Role} & \textbf{Type} & \textbf{Domain Mapping}
 \\ \hline \hline
 request    &   dynamic  & Client
 \\ \hline
@@ -295,7 +297,6 @@ preference-rule  & static    & Preference
 requirement-rule  & static    & Client, Itinerary
 \\ \hline
 \end{tabularx}
-
 
 \subsection{Rule types}
 
@@ -361,8 +362,9 @@ $\forall$itinerary.day.timeslot, timeslot.location=selectLocation(A, B, C, D, E)
 \subsection{Knowledge Base}
 
 The Knowledge base can be seen in Figure~\ref{fig:knowledgebase}.
+In the model it is shown the relation between instances of the types specified in the domain schema, according to the rules used to build the system.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[height=7cm]{images/knowledge_base.pdf}
 \caption{Knowledge base}
@@ -650,6 +652,14 @@ Our Communication Process can be see in Figure~\ref{fig:CommunicationDiagram}.
 \worksheet{DM-1}{System Architecture}
 
 \worksheet{DM-2}{Target implementation platform}
+
+\newpage
+\section{Implementation}
+\subsection{Role of the CommonKADS model set in the implementation}
+\subsection{Reflection on problems and results}
+\subsection{Spiral Approach}
+
+\newpage
 
 \appendix
 \section{Design Knowledge}

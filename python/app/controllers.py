@@ -42,28 +42,21 @@ def getClient():
 
 @app.route('/excludeLocations', methods = ['POST'])
 def excludeLocations():
-    """Exclude a list of locations from an itinerary
+	'''Exclude a list of locations from an itinerary
+		Args:
+			itineraryID: POST variable which represent the ID of the considered itinerary
+			clientID: POST variable which represent the ID of the client
+			locations: POST variable which represent the list of locations ID to be excluded
 
-    Args:
-        itineraryID: POST variable which represent the ID of the considered itinerary
-        clientID: POST variable which represent the ID of the client
-        locations: POST variable which represent the list of locations ID to be excluded
-
-    Returns:
-        A confirm of the insertion
-        
-         {"response": "OK}
-
-    Raises:
-        ?
-    """
-    if len(request.form['locations']) > 0:
-        for locationID in request.form['locations']:
-            c = models.Constraint(request.form['itineraryID'], locationID, 'avoid')
-            session.db.add(c)
-        session.db.commit()
-
-    return jsonify({'response':  'OK' });
+		Returns:
+		   The new itinerary with the requested modifications
+		Raises:
+			? '''
+	oldItinerary = Itinerary.query.filter_by(ID = request.form['itineraryID']).first()
+	eA = easyAround()
+	eA.critique(request, oldItinerary)
+	#TODO return something to the customer
+	return jsonify({'response':  'OK' });
 
 
 '''@app.route('/bu', methods = ['GET'])
