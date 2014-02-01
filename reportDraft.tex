@@ -232,7 +232,7 @@ critique	& itinerary, violations, customer's inputs	& fix actions list		& it cre
 
 %TODO: spiegare un po' le sorgenti di questo schema? Tipo risultati dell'intervista ecc? ma forse dobbiamo dirlo ben prima
 
-\subsection{Domain schema}
+\subsection{Domain schema} \label{sec:domain}
 The domain schema can be found in Figure~\ref{fig:ClassDiagram}
 
 \begin{figure}[h]
@@ -655,9 +655,23 @@ Our Communication Process can be see in Figure~\ref{fig:CommunicationDiagram}.
 
 \newpage
 \section{Implementation}
-\subsection{Role of the CommonKADS model set in the implementation}
+To implement the system in order to create a portable, scalable and user-friendly application it has been decided to develop a web-based service in python with a basic GUI using HTML, CSS and Javascript (jQuery framework).\\
+\indent As the client/server communication is based on AJAX and standard HTTP requests, we exploited the functionalities provided by the Flask framework for pyhton. Additionally, we adopted an ulterior python framework, SQLAlchemy, to manage the communicaton between the application and the database.\\
+\indent The basic setup of the final system is built as follows:
+\begin{description}
+\item[GUI] \hfill \\
+The user interface needs to be user friendly and easy to use, so to prevent the necessity of additional training for the Travel Agent that interacts directly with it. Built as a standard webpage, the GUI provides the TA with an extremely easy-to-use panel where to insert the information provided by the client such as: start date and end date of the planned trip, the presence of kids, the need for free time (time not filled in by the TA to be able to roam freely around the city), the customer's preference for quiet environments, the customer's willingness to walk long distances, and his preferences regarding four types of attractions (shopping, culture, gastronomy or night-life).\\
+Once the TA has filled in the necessary information, can request the itinerary to the system by simply clicking the \textit{Next} button. The interface will then show a list of the locations chosen for each day, which can be furtherly modified by the travel agent. By chosing to edit the itinerary, it will in fact be offered the opportunity to exclude some locations that do not satisfy the customer's desires. These modifications will then be forwarded to the system that will provide a new itinerary to show.\\
+If the customer is satisfied with the proposed itinerary, then the TA can confirm the choice and end the procedure.
+\item[Server Side] \hfill \\
+The back-end consists in the set of rules and functions that constitute the server-side of the application. It has been neatly divided using a model-view-controller approach as illustrated in the previous diagrams, and provides functionalities of communication with the database, communication with the front-end, and a "knowledge engine" embedding the TA knowledge necessary to build the itinerary.\\
+The entire server-side application has been build on the base of the inference model designed in the previous part of the document, and will be explained further in Section \ref{sec:common}.
+\item[Database] \hfill \\
+The SQL based database contains the information relative to the client and the locations that will be handled by the "knowledge engine" to build the itinerary. The database has been build on the base of the domain model in Section \ref{sec:domain}, and has been filled with information coming directly from the \textit{TripAdvisor} database.
+\end{description}
+\subsection{Role of the CommonKADS model set in the implementation} \label{sec:common}
 \subsection{Reflection on problems and results}
-\subsection{Spiral Approach}
+\subsection{Reusability}
 
 \newpage
 
