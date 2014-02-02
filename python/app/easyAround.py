@@ -30,12 +30,12 @@ class easyAround(object):
         (itinerary, days) = sketal_design
 
         #insert everything into the DB
-        for exclude in constraints.exclude:
+        '''for exclude in constraints.exclude:
             c = models.Constraint(itinerary.ID, exclude, 'avoid')
             db.session.add(c)
         for include in constraints.include:
             c = models.Constraint(itinerary.ID, include, 'include')
-            db.session.add(c)
+            db.session.add(c)'''
 
 
         for preferenceType in preferences._fields:
@@ -46,7 +46,8 @@ class easyAround(object):
 
         #selectLocation
         locations, meals = itinerary.selectLocation(requirements, preferences, constraints)
-
+        print locations
+        print meals
 
         for day in sketal_design[1]:
             db.session.add(day)
@@ -54,29 +55,31 @@ class easyAround(object):
 
             for type in ['morning', 'afternoon', 'evening']:
                 if len(locations) == 0:
-                    timeslot = None
+                    timeslot = models.Timeslot(day.ID, None, type)
                 else:
                     location = locations.pop()
-                    timeslot = models.Timeslot(day.ID, int(location['ID']), type)
+
+                    timeslot = models.Timeslot(day.ID, int(location.ID), type)
                 db.session.add(timeslot)
 
             if len(meals) == 0:
-                timeslot = None
+                timeslot = models.Timeslot(day.ID, None, 'meal')
             else:
                 location = meals.pop()
-                timeslot = models.Timeslot(day.ID, int(location['ID']), 'meal')
+                timeslot = models.Timeslot(day.ID, int(location.ID), 'meal')
             db.session.add(timeslot)
-                
-
             db.session.commit()
             
+
 	def critique(self, violation, itinerary):
 		''' Handles the request from the client to modify the itinerary with new constraints. Passes the control to select()
 		and modify() to make the fix action permanent into the database, and then proceeds to edit the old itinerary accordingly.
-		ArgS:
+		
+        Args:
 			violation: the new set of constraints from the client
 			itinerary: the old itinerary to be modified
-		Returns: -
+		Returns: 
+            None
 		'''
 		#passes control to select() and modify() to make the fix actions permanent
 		if len(violation.form['locations']) > 0:

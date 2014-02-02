@@ -34,7 +34,7 @@ if __name__ == '__main__':
         'museum' : ("http://www.tripadvisor.com/Attractions-g187791-Activities-c49-Rome_Lazio.html", "http://www.tripadvisor.com/Attractions-g187791-Activities-c49-oa30-Rome_Lazio.html"),
         'historical': ("http://www.tripadvisor.com/Attractions-g187791-Activities-c50-Rome_Lazio.html", "http://www.tripadvisor.com/Attractions-g187791-Activities-c50-oa30-Rome_Lazio.html"),
         'shopping' : ("http://www.tripadvisor.com/Attractions-g187791-Activities-c26-Rome_Lazio.html", "http://www.tripadvisor.com/Attractions-g187791-Activities-c26-oa30-Rome_Lazio.html"),
-        'gastronomic': ("http://www.tripadvisor.com/Attractions-g187791-Activities-c36-Rome_Lazio.html", "http://www.tripadvisor.com/Attractions-g187791-Activities-c36-oa30-Rome_Lazio.html"),
+        'gastronomy': ("http://www.tripadvisor.com/Attractions-g187791-Activities-c36-Rome_Lazio.html", "http://www.tripadvisor.com/Attractions-g187791-Activities-c36-oa30-Rome_Lazio.html"),
         'entertainment': ("http://www.tripadvisor.com/Attractions-g187791-Activities-c43-Rome_Lazio.html",),
         'performance': ("http://www.tripadvisor.com/Attractions-g187791-Activities-c43-Rome_Lazio.html",),
         'outdoors': ("http://www.tripadvisor.com/Attractions-g187791-Activities-c45-Rome_Lazio.html",),
@@ -47,8 +47,6 @@ if __name__ == '__main__':
     for key in pages:
         for category in pages[key]:
             places = get_places_links(category)
-
-            print len(places)
             
             placesContent = pool.map(urlopen, places)
             for place in placesContent:
@@ -60,10 +58,9 @@ if __name__ == '__main__':
                 description = ""
                 if soup.find("span", {"class":"onShow"}) != None:
                     description = soup.find("span", {"class":"onShow"}).get_text().replace("less", "").replace("Owner description:", "").strip()
-                print description
                 intensive = False
                 rating = int(float(soup.find("img", {"class": "sprite-ratings"})["content"]))
-                type = category
+                type = key
                 excludedCategory=None
                 forKids=None
 
@@ -76,7 +73,7 @@ if __name__ == '__main__':
                     intensive = True
                     excludedCategory='elderly'
 
-                if models.Location.query.filter_by(name = title).first() != None:
+                if models.Location.query.filter_by(name = title).first() is None:
                     l = models.Location(title, description, 0,0, intensive, rating, type, excludedCategory, forKids)
                     db.session.add(l)
                     db.session.commit()

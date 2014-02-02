@@ -66,7 +66,9 @@ class Request(object):
 	    Raises:
 	        ?
 	    """
+		print self.requirements
 		itinerary = models.Itinerary(self.requirements.kids, self.requirements.freeTime, self.requirements.client.ID)
+		print "a"
 		db.session.add(itinerary)
 		db.session.commit()
 

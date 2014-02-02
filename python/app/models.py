@@ -12,16 +12,15 @@ class Client(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200)) #, unique=True
     quiet = db.Column(db.Boolean)
-    dynamic = db.Column(db.Enum('1', '2', '3'))
+    #dynamic = db.Column(db.Enum('1', '2', '3')) modificare
     category = db.Column(db.Enum('young', 'adult', 'middleAged', 'elderly'))
 
     itineraries = db.relationship('Itinerary', backref='clients', lazy='dynamic')
 
 
-    def __init__(self, name, quiet, dynamic, category):
+    def __init__(self, name, quiet, category):
         self.name = name
         self.quiet = quiet
-        self.dynamic = dynamic
         self.category = category
 
     def __repr__(self):
@@ -45,17 +44,8 @@ class Itinerary(db.Model):
         self.withKids = withKids
         self.needsFreeTime = needsFreeTime
         self.client_ID = client_ID
-				
-	def	select(self, locationID, itineraryID):
-		''' Foreach violation, selects one single action to be performed and passes the control to modify
-		ArgS:
-			locationID: the location that corresponds to the violation, the single action that needs to be selected
-			itineraryID: the id of the itinerary to be modified
-		Returns: -
-		'''
-		c = models.Constraint(itineraryID, locationID, 'avoid')
-        self.modify(c)
-    
+
+
     def modify(constraints):
     	''' Takes the selected action and commits the modification into the database
 		ArgS:
@@ -64,6 +54,17 @@ class Itinerary(db.Model):
 		'''
     	session.db.add(constraints)
         session.db.commit()
+
+
+    def select(self, locationID, itineraryID):
+        ''' Foreach violation, selects one single action to be performed and passes the control to modify
+        ArgS:
+            locationID: the location that corresponds to the violation, the single action that needs to be selected
+            itineraryID: the id of the itinerary to be modified
+        Returns: -
+        '''
+        self.modify(Constraint(itineraryID, locationID, 'avoid'))
+
 
     def selectLocation(self, requirements, preferences, constraints):
         """Select all the locations based on the requirements, preferences and constraints
@@ -80,7 +81,7 @@ class Itinerary(db.Model):
             ?
         """
         #Calculate the number of slots needed to be fulfilled
-        nSlots = requirements.days * 3
+        nSlots = requirements.days * 4
         #calculate the kids locations, that needs to be inserted in the slots. 1/6 of the locations must be for kids
         nKids = 0
         if requirements.kids:
@@ -88,10 +89,10 @@ class Itinerary(db.Model):
             nSlots = nSlots - nKids
         #list of the probabilities. Probabilities of: ['shopping', 'culture' 'gastronomy', 'nightlife']
         probabilities = [0,0,0,0]
-        sum = 0
+        sum = 0.0
         i = 0
         for preferenceType in preferences._fields:
-            probabilities[i] = getattr(preferences, preferenceType)
+            probabilities[i] = float(getattr(preferences, preferenceType))
             sum = sum + probabilities[i]
             i = i+1
         
@@ -110,38 +111,52 @@ class Itinerary(db.Model):
         i = 0
         locations = []
         meals = []
+        categoryMapping = {
+            'culture': ('cultural', 'museum', 'historical'),
+            'shopping': ('shopping',),
+            'gastronomy': ('gastronomy',),
+            'nightlife': ('entertainment', 'amusement', 'performance')
+            }
         for preferenceType in preferences._fields:
             if locationTypes[i] > 0:
-                q1 = Location.query.filter_by(category=preferenceType).filter(Location.excludedCategory!=requirements.client.category)
-
+                q1 = Location.query.filter(Location.category.in_(categoryMapping[preferenceType]))\
+                .filter((Location.excludedCategory==None) | (Location.excludedCategory!=requirements.client.category))
+                
                 if not preferenceType == "gastronomy":
                     q1 = q1.filter(Location.category!='gastronomy')
 
                 if requirements.client.quiet:
                     q1 = q1.filter_by(intensive=False)
 
-                if len(constraints.exclude) > 0:
-                    q1 = q1.filter(~Location.ID.in_(constraints.exclude))
+                '''if len(constraints.exclude) > 0:
+                    q1 = q1.filter(~Location.ID.in_(constraints.exclude))'''
 
                 q1 = q1.limit(locationTypes[i])
-
+                
                 if not preferenceType == "gastronomy":
-                    locations.append(q1.all())
+                    locations.extend(q1.all())
                 else:
-                    meals.append(q1.all())
+                    meals.extend(q1.all())
             i = i + 1
 
-
+        
         if nKids > 0:
-            q1 = Location.query.filter(Location.excludedCategory!=requirements.client.category)
+            IDsToExclude = []
+            for location in locations:
+                IDsToExclude.append(location.ID)
+
+            q1 = Location.query.filter((Location.excludedCategory==None) | (Location.excludedCategory!=requirements.client.category))
             q1 = q1.filter_by(forKids=True)
 
             if len(constraints.exclude) > 0:
-                    q1 = q1.filter(~Location.ID.in_(constraints.exclude))
+                q1 = q1.filter(~Location.ID.in_(constraints.exclude))
+
+            #exclude already selected locations
+            q1 = q1.filter(~Location.ID.in_(IDsToExclude))
 
             q1 = q1.limit(nKids)
 
-            locations.append(q1.all())
+            locations.extend(q1.all())
 
       
         #Now I have all the results, I should calculate the distances, but I will not XD
@@ -200,12 +215,12 @@ class Preference(db.Model):
 
 class Timeslot(db.Model):
     day_ID = db.Column(db.Integer, db.ForeignKey('day.ID'), primary_key=True)
-    location_ID = db.Column(db.Integer, db.ForeignKey('location.ID'), primary_key=True)
+    location_ID = db.Column(db.Integer, db.ForeignKey('location.ID'))
     type = db.Column(db.Enum('morning', 'afternoon', 'meal', 'evening'), primary_key=True)
 
 
-    def __init__(self, client_ID, location_ID, type):
-        self.client_ID = client_ID
+    def __init__(self, day_ID, location_ID, type):
+        self.day_ID = day_ID
         self.location_ID = location_ID
         self.type = type
 
@@ -231,18 +246,18 @@ class Location(db.Model):
     intensive = db.Column(db.Boolean)
     rating = db.Column(db.Enum('1', '2', '3', '4', '5'))
     excludedCategory = db.Column(db.Enum('young', 'adult', 'middleAged', 'elderly'))
-    category = db.Column(db.Enum('shopping', 'cultural', 'gastronomic', 'entertainment', 'museum', 'historical', 'performance', 'outdoors', 'amusement'))
+    category = db.Column(db.Enum('shopping', 'cultural', 'gastronomy', 'entertainment', 'museum', 'historical', 'performance', 'outdoors', 'amusement'))
     forKids = db.Column(db.Boolean, default=False)
 
 
-    def __init__(self, name, description, lat, lng, intensive, rating, type, excludedCategory=None, forKids=None):
+    def __init__(self, name, description, lat, lng, intensive, rating, category, excludedCategory=None, forKids=None):
         self.name = name
         self.description = description
         self.lat = lat
         self.lng = lng
         self.intensive = intensive
         self.rating = rating
-        self.type = type
+        self.category = category
         self.excludedCategory = excludedCategory
         self.forKids = forKids
 

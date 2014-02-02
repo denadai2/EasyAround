@@ -7,15 +7,19 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
-        <link rel="stylesheet" href="css/normalize.min.css">
-        <link rel="stylesheet" href="css/flick/jquery-ui-1.10.4.custom.min.css">
-        <link rel="stylesheet" href="css/flat-ui.css">
-        <link rel="stylesheet" href="css/foundation.css" />
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/flick/jquery-ui-1.10.4.custom.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/flat-ui.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='js/vendor/textext/css/textext.core.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='js/vendor/textext/css/textext.plugin.tags.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='js/vendor/textext/css/textext.plugin.autocomplete.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='js/vendor/textext/css/textext.plugin.tags.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 
         <!--[if lt IE 9]>
             <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-            <script>window.html5 || document.write('<script src="js/vendor/html5shiv.js"><\/script>')</script>
+            <script>window.html5 || document.write('<script src="{{ url_for('static', filename='js/vendor/html5shiv.js') }}"><\/script>')</script>
         <![endif]-->
     </head>
     <body>
@@ -42,8 +46,12 @@
         </div>
 
 
-        <script src="js/vendor/jquery-1.10.2.js"></script>
-        <script src="js/vendor/jquery-ui-1.10.4.custom.min.js"></script>
-        <script src="js/main.js"></script>
+        <script src="{{ url_for('static', filename='js/vendor/jquery-1.10.2.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/vendor/jquery-ui-1.10.4.custom.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/vendor/textext/js/textext.core.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/vendor/textext/js/textext.plugin.ajax.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/vendor/textext/js/textext.plugin.autocomplete.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/vendor/textext/js/textext.plugin.tags.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     </body>
 </html>
