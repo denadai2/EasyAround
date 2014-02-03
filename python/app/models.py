@@ -218,6 +218,7 @@ class Timeslot(db.Model):
     location_ID = db.Column(db.Integer, db.ForeignKey('location.ID'))
     type = db.Column(db.Enum('morning', 'afternoon', 'meal', 'evening'), primary_key=True)
 
+    location = db.relationship('Location', backref='timeslot')
 
     def __init__(self, day_ID, location_ID, type):
         self.day_ID = day_ID
@@ -230,7 +231,7 @@ class Day(db.Model):
     itinerary_ID = db.Column(db.Integer, db.ForeignKey('itinerary.ID'))
     date = db.Column(db.Date)
 
-    timeslots = db.relationship('Timeslot', lazy='dynamic')
+    timeslots = db.relationship('Timeslot', lazy='joined')
 
     def __init__(self, itinerary_ID, date):
         self.itinerary_ID = itinerary_ID
@@ -243,6 +244,7 @@ class Location(db.Model):
     description = db.Column(db.Text)
     lat = db.Column(db.Float)
     lng = db.Column(db.Float) 
+    image = db.Column(db.String(200)) #todo: documento
     intensive = db.Column(db.Boolean)
     rating = db.Column(db.Enum('1', '2', '3', '4', '5'))
     excludedCategory = db.Column(db.Enum('young', 'adult', 'middleAged', 'elderly'))
@@ -250,11 +252,12 @@ class Location(db.Model):
     forKids = db.Column(db.Boolean, default=False)
 
 
-    def __init__(self, name, description, lat, lng, intensive, rating, category, excludedCategory=None, forKids=None):
+    def __init__(self, name, description, lat, lng, image, intensive, rating, category, excludedCategory=None, forKids=None):
         self.name = name
         self.description = description
         self.lat = lat
         self.lng = lng
+        self.image = image
         self.intensive = intensive
         self.rating = rating
         self.category = category

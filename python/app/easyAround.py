@@ -22,7 +22,7 @@ class easyAround(object):
             constraints: the Constraints namedtuple which represents the constraints requirements
 
         Returns:
-            None
+            the list of the days inserted in the database (and their respective assigned locations)
 
         Raises:
             ?
@@ -46,8 +46,6 @@ class easyAround(object):
 
         #selectLocation
         locations, meals = itinerary.selectLocation(requirements, preferences, constraints)
-        print locations
-        print meals
 
         for day in sketal_design[1]:
             db.session.add(day)
@@ -55,20 +53,25 @@ class easyAround(object):
 
             for type in ['morning', 'afternoon', 'evening']:
                 if len(locations) == 0:
-                    timeslot = models.Timeslot(day.ID, None, type)
+                    ID = None
                 else:
                     location = locations.pop()
+                    ID = int(location.ID)
 
-                    timeslot = models.Timeslot(day.ID, int(location.ID), type)
+                timeslot = models.Timeslot(day.ID, ID, type)
                 db.session.add(timeslot)
 
             if len(meals) == 0:
-                timeslot = models.Timeslot(day.ID, None, 'meal')
+                ID = None
             else:
                 location = meals.pop()
-                timeslot = models.Timeslot(day.ID, int(location.ID), 'meal')
+                ID = int(location.ID)
+            
+            timeslot = models.Timeslot(day.ID, ID, 'meal')
             db.session.add(timeslot)
             db.session.commit()
+
+        return sketal_design[1]
             
 
 	def critique(self, violation, itinerary):

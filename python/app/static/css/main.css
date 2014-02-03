@@ -136,9 +136,34 @@ input[type=date]{
 }
 
 
+th{
+    padding:10px;
+}
 
+td.first{
+    width:60px;
+}
 
+td{
+    padding:1px;
+}
 
+.location{
+    height: 200px;
+    position: relative;
+    background-position: center;
+    background-repeat: none;
+}
+
+.location > div {
+    position: absolute; 
+    bottom: 0px; 
+    width: 100%; 
+    background: none repeat scroll 0% 0% black;
+    color: rgb(238, 238, 238); 
+    padding: 8px;
+    font-size:13px;
+} 
 
 
 

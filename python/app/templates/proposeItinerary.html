@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="row">
+    <div class="large-12 columns">
+
+        <table style="width:100%">
+            <tr>
+                <th>Day</th>
+                <th>Morning</th>
+                <th>Afternoon</th>
+                <th>Meal</th>
+                <th>Evening</th>
+            </tr>
+            {% for day in days %}
+            <tr>
+                <td class="first">{{ day.date.strftime("%d-%m") }}</td>
+                {% for timeslot in day.timeslots %}
+                    {% if timeslot.location is none %}
+                    <td></td>
+                    {% else %}
+                    <td>
+                        <div class="location" style="background:url({{ url_for('static', filename='images/locations/'+timeslot.location.image) }})">
+                            <div>{{ timeslot.location.name }}</div>
+                        </div>
+                    </td>
+                    {% endif %}
+                {% endfor %}
+            <tr>
+            {% endfor %}
+
+        </table>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,5 +1,8 @@
 from bs4 import BeautifulSoup
 from urllib2 import urlopen
+import urllib
+import json
+import os
 from time import sleep # be nice
 from multiprocessing import Pool
 from multiprocessing.dummy import Pool as ThreadPool
@@ -64,6 +67,18 @@ if __name__ == '__main__':
                 excludedCategory=None
                 forKids=None
 
+                
+                scripts = soup.findAll('script')
+                script = scripts[len(scripts)-5].get_text()
+                script = script.replace("ta.queueForLoad( function() {", "")
+                script = script.replace("window.setupLazyLoad();", "").replace("}, 'lazy load images');", "")
+                script = script.replace("var lazyHtml = [", "").replace("var lazyImgs = ", "").replace("];", "").strip() + "]"
+                value = json.loads(script)
+                imgUrl = value[0]['data']
+                imgName = os.path.basename(imgUrl)
+                urllib.urlretrieve(imgUrl, 'images/'+imgName)
+
+
                 if type == "kids":
                     type = "entertainment"
                     forKids = True
@@ -74,7 +89,7 @@ if __name__ == '__main__':
                     excludedCategory='elderly'
 
                 if models.Location.query.filter_by(name = title).first() is None:
-                    l = models.Location(title, description, 0,0, intensive, rating, type, excludedCategory, forKids)
+                    l = models.Location(title, description, 0,0, imgName, intensive, rating, type, excludedCategory, forKids)
                     db.session.add(l)
                     db.session.commit()
     

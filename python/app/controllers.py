@@ -79,10 +79,9 @@ def excludeLocations():
 		   The new itinerary with the requested modifications
 		Raises:
 			? '''
-	oldItinerary = Itinerary.query.filter_by(ID = request.form['itineraryID']).first()
+	oldItinerary = models.Itinerary.query.filter_by(ID = request.form['itineraryID']).first()
 	eA = easyAround()
 	eA.critique(request, oldItinerary)
-	#TODO return something to the customer
 	return jsonify({'response':  'OK' });
 
 
@@ -128,10 +127,10 @@ def getItinerary():
     sketal_design = r.specify()
 
     eA = easyAround()
-    eA.propose(r.requirements, r.preferences, sketal_design, r.constraints)
+    days = eA.propose(r.requirements, r.preferences, sketal_design, r.constraints)
 
 
-    return ''
+    return render_template('proposeItinerary.html', days=days, step=2)
 
 
 

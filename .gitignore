@@ -2,6 +2,7 @@ web/
 puphpet(1).zip
 reportDraft.log
 python/easyAround
+python/app/static/images/locations/*
 *.pyc
 *.aux
 *.glo

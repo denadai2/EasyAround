@@ -31,8 +31,8 @@
                 <div class="large-3 columns" id="sidebar">
                     <h1>easyAround</h1>
                     <ul>
-                        <li class="selected" id="step1">Trip details</li>
-                        <li id="step2">Schedule</li>
+                        <li {% if step != 2 %}class="selected"{% endif %} id="step1">Trip details</li>
+                        <li {% if step == 2 %}class="selected"{% endif %} id="step2">Schedule</li>
                     </ul>
                 </div>
                 <div class="large-9 columns" id="content">
