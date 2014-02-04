@@ -88,6 +88,7 @@ if __name__ == '__main__':
                     intensive = True
                     excludedCategory='elderly'
 
+
                 if models.Location.query.filter_by(name = title).first() is None:
                     l = models.Location(title, description, 0,0, imgName, intensive, rating, type, excludedCategory, forKids)
                     db.session.add(l)

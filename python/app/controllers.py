@@ -1,6 +1,8 @@
 from flask import Flask
+from flask import Response
 from flask import request
 from flask import jsonify
+from flask import json
 from flask import render_template
 from app import app
 from app import models
@@ -12,7 +14,7 @@ import datetime
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', step=1)
 
 
 @app.route('/getClients', methods = ['GET'])
@@ -37,8 +39,9 @@ def getClients():
     clientsList = models.Client.query.filter(models.Client.name.startswith(term)).all()
     response = []
     for row in clientsList:
-        response.append((row.ID, row.name))
-    return jsonify(response);
+        dict = {'value': row.ID, 'label': row.name}
+        response.append(dict)
+    return Response(json.dumps(response),  mimetype='application/json')
 
 
 @app.route('/getLocations', methods = ['GET'])

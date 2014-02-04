@@ -14,19 +14,21 @@ $(document).ready(function() {
 	});
 	$( "#amount" ).val( "$" + $( "#slider" ).slider( "value" ) );
 
-	function log( message ) {
-		$( "<div>" ).text( message ).prependTo( "#log" );
-		$( "#log" ).scrollTop( 0 );
-	}
-
 	$( "#clientName" ).autocomplete({
 		source: "getClients",
 		minLength: 2,
-		select: function( event, ui ) {
-		log( ui.item ?
-		"Selected: " + ui.item.value + " aka " + ui.item.id :
-		"Nothing selected, input was " + this.value );
-		}
+		select: function (event, ui) {
+			console.log(ui.item);
+			event.preventDefault();
+	        $("#clientName").val(ui.item.label); // display the selected text
+	        $("#existingClient").val(ui.item.value); // save selected id to hidden input
+			$("#clientDetails").hide();
+	    }
+	});
+
+	$( "#clientName" ).keyup(function(){
+		$("#existingClient").val(0);
+		$("#clientDetails").show();
 	});
 
 
