@@ -8,9 +8,10 @@ from app import app
 from app import models
 from app.Request import *
 from app.easyAround import *
-
+from collections import namedtuple
 import datetime
 
+Violation = namedtuple("Violation", "itineraryID clientID locations")
 
 @app.route('/')
 def index():
@@ -82,9 +83,11 @@ def excludeLocations():
 		   The new itinerary with the requested modifications
 		Raises:
 			? '''
-	oldItinerary = models.Itinerary.query.filter_by(ID = request.form['itineraryID']).first()
+	oldItinerary = Itinerary.query.filter_by(ID = request.form['itineraryID']).first()
 	eA = easyAround()
-	eA.critique(request, oldItinerary)
+	violation = Violation(request.form['itineraryID'], request.form['clientID'], request.form['locations'])
+	eA.critique(violation, oldItinerary)
+	#TODO return something to the customer
 	return jsonify({'response':  'OK' });
 
 

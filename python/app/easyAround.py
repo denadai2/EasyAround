@@ -75,9 +75,7 @@ class easyAround(object):
             
 
 	def critique(self, violation, itinerary):
-		''' Handles the request from the client to modify the itinerary with new constraints. Passes the control to select()
-		and modify() to make the fix action permanent into the database, and then proceeds to edit the old itinerary accordingly.
-		
+		''' Edits the itinerary accordingly to the critique obtained from the client.
         Args:
 			violation: the new set of constraints from the client
 			itinerary: the old itinerary to be modified
@@ -85,14 +83,14 @@ class easyAround(object):
             None
 		'''
 		#passes control to select() and modify() to make the fix actions permanent
-		if len(violation.form['locations']) > 0:
-			for locationID in violation.form['locations']:
-				itinerary.select(locationID, violation.form['itineraryID'])
+		if len(violation.locations) > 0:
+			for locationID in violation.locations:
+				itinerary.select(locationID, violation.itineraryID)
 			#recovers the old preferences and requirements, and the new set of constraints obtained from the violation	
-			constraints = Constraint.query.filter_by(itinerary_ID = request.form['itineraryID']).all() #TODO be careful during testing
-			preferences = Preference.query.filter_by(itinerary_ID = request.form['itineraryID']).first()
-			countDays = Day.query.filter_by(itinerary_ID = request.form['itineraryID']).count()
-			days = Day.query.filter_by(itinerary_ID = request.form['itineraryID']).all()
+			constraints = Constraint.query.filter_by(itinerary_ID = violation.itineraryID).all() #TODO be careful during testing
+			preferences = Preference.query.filter_by(itinerary_ID = violation.itineraryID).first()
+			countDays = Day.query.filter_by(itinerary_ID = violation.itineraryID).count()
+			days = Day.query.filter_by(itinerary_ID = violation.itineraryID).all()
 			requirements = Requirements(0, countDays, itinerary.withKids, itinerary.needsFreeTime, itinerary.client_ID)
 			#performs a selectLocation to chose new locations that will overwrite the violations
 			locations, meals = itinerary.selectLocation(requirements, preferences, constraints)
