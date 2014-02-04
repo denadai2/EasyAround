@@ -126,6 +126,10 @@ def getItinerary():
     presenceOfKids = True if request.form.get('presenceOfKids', False) == "yes" else False 
     excludeList = request.form.get('exclude').replace('["', "").replace('"]', "").split('","')
     includeList = request.form.get('include').replace('["', "").replace('"]', "").split('","')
+    if excludeList[0] == "[]":
+        excludeList = []
+    if includeList[0] == "[]":
+        includeList = []
     
     r = Request()
     r.operationalize(startDate, delta.days, presenceOfKids, needsFreeTime, excludeList, includeList, client, 

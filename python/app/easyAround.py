@@ -29,13 +29,14 @@ class easyAround(object):
         """
         (itinerary, days) = sketal_design
 
+        print constraints
         #insert everything into the DB
-        '''for exclude in constraints.exclude:
-            c = models.Constraint(itinerary.ID, exclude, 'avoid')
+        for exclude in constraints.exclude:
+            c = models.Constraint(itinerary.ID, models.Location.query.filter_by(name=exclude).first().ID, 'avoid')
             db.session.add(c)
         for include in constraints.include:
-            c = models.Constraint(itinerary.ID, include, 'include')
-            db.session.add(c)'''
+            c = models.Constraint(itinerary.ID, models.Location.query.filter_by(name=include).first().ID, 'include')
+            db.session.add(c)
 
 
         for preferenceType in preferences._fields:
@@ -44,32 +45,23 @@ class easyAround(object):
 
         db.session.commit()
 
-        #selectLocation
-        locations, meals = itinerary.selectLocation(requirements, preferences, constraints)
+        #locations: places, meals, eveningPlaces
+        locations = itinerary.selectLocation(requirements, preferences, constraints)
+        mapping = { 'morning': 0, 'afternoon': 0, 'meal':1, 'evening':2}
 
         for day in sketal_design[1]:
             db.session.add(day)
             db.session.commit()
 
-            for type in ['morning', 'afternoon', 'evening']:
-                if len(locations) == 0:
+            for type in mapping:
+                if len(locations[mapping[type]]) == 0:
                     ID = None
                 else:
-                    location = locations.pop()
+                    location = locations[mapping[type]].pop(0)
                     ID = int(location.ID)
 
                 timeslot = models.Timeslot(day.ID, ID, type)
                 db.session.add(timeslot)
-
-            if len(meals) == 0:
-                ID = None
-            else:
-                location = meals.pop()
-                ID = int(location.ID)
-            
-            timeslot = models.Timeslot(day.ID, ID, 'meal')
-            db.session.add(timeslot)
-            db.session.commit()
 
         return sketal_design[1]
             
@@ -82,38 +74,45 @@ class easyAround(object):
 		Returns: 
             The list of days of the modified itinerary
 		'''
-		#passes control to select() and modify() to make the fix actions permanent
-		if len(violation.locations) > 0:
-			for locationID in violation.locations:
-				itinerary.select(locationID, violation.itineraryID)
-			#recovers the old preferences and requirements, and the new set of constraints obtained from the violation	
-			constraints = Constraint.query.filter_by(itinerary_ID = violation.itineraryID).all() #TODO be careful during testing
-			preferences = Preference.query.filter_by(itinerary_ID = violation.itineraryID).first()
-			countDays = Day.query.filter_by(itinerary_ID = violation.itineraryID).count()
-			days = Day.query.filter_by(itinerary_ID = violation.itineraryID).all()
-			requirements = Requirements(0, countDays, itinerary.withKids, itinerary.needsFreeTime, itinerary.client_ID)
+        #passes control to select() and modify() to make the fix actions permanent
+        if len(violation.locations) > 0:
+            for locationID in violation.locations:
+                itinerary.select(locationID, violation.itineraryID)
+            #recovers the old preferences and requirements, and the new set of constraints obtained from the violation	
+            constraintsDB = models.Constraint.query.filter_by(itinerary_ID = violation.itineraryID).all()
+            excludeList = []
+            includeList = []
+            for constraint in constraintsDB:
+                if constraint.type == 'avoid':
+                    excludeList.append(constraint.location.name)
+                else:
+                    includeList.append(constraint.location.name)
+            constraints = Constraints(excludeList, includeList)
+
+            preferenceShopping = models.Preference.query.filter_by(itinerary_ID = violation.itineraryID, type="shopping").first()
+            preferenceCulture = models.Preference.query.filter_by(itinerary_ID = violation.itineraryID, type="culture").first()
+            preferenceGastronomy = models.Preference.query.filter_by(itinerary_ID = violation.itineraryID, type="gastronomy").first()
+            preferenceNightLife = models.Preference.query.filter_by(itinerary_ID = violation.itineraryID, type="nightlife").first()
+            preferences = Preferences(preferenceShopping.range, preferenceCulture.range, preferenceGastronomy.range, preferenceNightLife.range)
+
+            days = models.Day.query.filter_by(itinerary_ID = violation.itineraryID).all()
+            requirements = Requirements(0, len(days), itinerary.withKids, itinerary.needsFreeTime, itinerary.client_ID)
 			#performs a selectLocation to chose new locations that will overwrite the violations
-			locations, meals = itinerary.selectLocation(requirements, preferences, constraints)
+			#locations: places, meals, eveningPlaces
+            locations = itinerary.selectLocation(requirements, preferences, constraints)
+            mapping = { 'morning': 0, 'afternoon': 0, 'meal': 1, 'evening': 2}
 			#assigns the new locations to the timeslots inside each day of the itinerary, updating them
-			for day in days:
-				for type in ['morning', 'afternoon', 'meal', 'evening']:
-					if type == 'meal':
-						if len(meals) == 0:
-							timeslot = None
-						else:
-							timeslot = Timeslot.query.filter_by(day_ID = day.ID, type = type)
-							location = meals.pop()
-							timeslot.location_ID = int(location.ID)
-					else:
-						if len(locations) == 0:
-							timeslot = None
-						else:
-							timeslot = Timeslot.query.filter_by(day_ID = day.ID, type = type)
-							location = location.pop()
-							timeslot.location_ID = int(location.ID)
-					db.session.add(timeslot)
-			db.session.commit()
-			return days
+            for day in days:
+                for timeslot in day.timeslots:
+                    if len(locations[mapping[timeslot.type]]) == 0:
+                        ID = None
+                    else:
+                        location = locations[mapping[timeslot.type]].pop(0)
+                        ID = int(location.ID)
+                    timeslot.location_ID = ID
+                    db.session.add(timeslot)
+            db.session.commit()
+        return days
 
     		
 

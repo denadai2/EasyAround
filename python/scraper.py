@@ -35,7 +35,7 @@ if __name__ == '__main__':
     places = []
     pages = {
         'museum' : ("http://www.tripadvisor.com/Attractions-g187791-Activities-c49-Rome_Lazio.html", "http://www.tripadvisor.com/Attractions-g187791-Activities-c49-oa30-Rome_Lazio.html"),
-        'historical': ("http://www.tripadvisor.com/Attractions-g187791-Activities-c50-Rome_Lazio.html", "http://www.tripadvisor.com/Attractions-g187791-Activities-c50-oa30-Rome_Lazio.html"),
+        'historical': ("http://www.tripadvisor.com/Attractions-g187791-Activities-c50-Rome_Lazio.html", "http://www.tripadvisor.com/Attractions-g187791-Activities-c50-oa30-Rome_Lazio.html", "http://www.tripadvisor.com/Attractions-g187791-Activities-c50-oa60-Rome_Lazio.html", "http://www.tripadvisor.com/Attractions-g187791-Activities-c47-oa30-Rome_Lazio.html", "http://www.tripadvisor.com/Attractions-g187791-Activities-c47-Rome_Lazio.html"),
         'shopping' : ("http://www.tripadvisor.com/Attractions-g187791-Activities-c26-Rome_Lazio.html", "http://www.tripadvisor.com/Attractions-g187791-Activities-c26-oa30-Rome_Lazio.html"),
         'gastronomy': ("http://www.tripadvisor.com/Attractions-g187791-Activities-c36-Rome_Lazio.html", "http://www.tripadvisor.com/Attractions-g187791-Activities-c36-oa30-Rome_Lazio.html"),
         'entertainment': ("http://www.tripadvisor.com/Attractions-g187791-Activities-c43-Rome_Lazio.html",),

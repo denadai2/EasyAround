@@ -1,5 +1,6 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import func
 from app import db
 import random
 
@@ -87,6 +88,8 @@ class Itinerary(db.Model):
         if requirements.kids:
             nKids = (nSlots/6)
             nSlots = nSlots - nKids
+        if requirements.freeTime:
+            nSlots = nSlots - requirements.days
         #list of the probabilities. Probabilities of: ['shopping', 'culture' 'gastronomy', 'nightlife']
         probabilities = [0,0,0,0]
         sum = 0.0
@@ -101,9 +104,14 @@ class Itinerary(db.Model):
 
         #calculates how many locations I need to select in the categories: ['shopping', 'culture' 'gastronomy', 'nightlife']
         locationTypes = [0,0,0,0]
+        pickTypes = [0,1,2,3]
 
         for i in range(0, nSlots):
-            randomNumber = self.__random_pick([0,1,2,3], probabilities)
+            if locationTypes[2] == requirements.days:
+                pickTypes = [0,1,3]
+                probabilities = [(probabilities[0]*3)/4, (probabilities[1]*3)/4, 1-probabilities[0]-probabilities[1]]
+
+            randomNumber = self.__random_pick(pickTypes, probabilities)
             locationTypes[randomNumber] = locationTypes[randomNumber] + 1
 
 
@@ -111,12 +119,23 @@ class Itinerary(db.Model):
         i = 0
         locations = []
         meals = []
+        evening = []
         categoryMapping = {
             'culture': ('cultural', 'museum', 'historical'),
             'shopping': ('shopping',),
             'gastronomy': ('gastronomy',),
             'nightlife': ('entertainment', 'amusement', 'performance')
             }
+
+        
+        if len(constraints.include) > 0:
+            q1 = Location.query.filter((Location.excludedCategory==None) | (Location.excludedCategory!=requirements.client.category))
+            q1 = q1.filter(Location.name.in_(constraints.include))
+            q1 = q1.order_by(Location.rating).order_by(func.random()).limit(len(constraints.include))
+
+            locations.extend(q1.all())
+
+
         for preferenceType in preferences._fields:
             if locationTypes[i] > 0:
                 q1 = Location.query.filter(Location.category.in_(categoryMapping[preferenceType]))\
@@ -128,12 +147,14 @@ class Itinerary(db.Model):
                 if requirements.client.quiet:
                     q1 = q1.filter_by(intensive=False)
 
-                '''if len(constraints.exclude) > 0:
-                    q1 = q1.filter(~Location.ID.in_(constraints.exclude))'''
+                if len(constraints.exclude) > 0:
+                    q1 = q1.filter(~Location.name.in_(constraints.exclude))
 
-                q1 = q1.limit(locationTypes[i])
+                q1 = q1.order_by(Location.rating).order_by(func.random()).limit(locationTypes[i])
                 
-                if not preferenceType == "gastronomy":
+                if preferenceType == "nightlife":
+                    evening.extend(q1.all())
+                elif not preferenceType == "gastronomy":
                     locations.extend(q1.all())
                 else:
                     meals.extend(q1.all())
@@ -154,16 +175,12 @@ class Itinerary(db.Model):
             #exclude already selected locations
             q1 = q1.filter(~Location.ID.in_(IDsToExclude))
 
-            q1 = q1.limit(nKids)
+            q1 = q1.order_by(Location.rating).order_by(func.random()).limit(nKids)
 
             locations.extend(q1.all())
 
-      
-        #Now I have all the results, I should calculate the distances, but I will not XD
 
-
-
-        return (locations, meals)
+        return (locations, meals, evening)
 
 
     def __random_pick(self, some_list, probabilities):
@@ -193,6 +210,8 @@ class Constraint(db.Model):
     location_ID = db.Column(db.Integer, db.ForeignKey('location.ID'), primary_key=True)
     type = db.Column(db.Enum('avoid', 'include'))
 
+    location = db.relationship('Location', backref='constraint')
+
 
     def __init__(self, itinerary_ID, location_ID, type):
         self.itinerary_ID = itinerary_ID
@@ -217,6 +236,7 @@ class Timeslot(db.Model):
     day_ID = db.Column(db.Integer, db.ForeignKey('day.ID'), primary_key=True)
     location_ID = db.Column(db.Integer, db.ForeignKey('location.ID'))
     type = db.Column(db.Enum('morning', 'afternoon', 'meal', 'evening'), primary_key=True)
+    order = db.Column(db.Integer) #todo: commentare
 
     location = db.relationship('Location', backref='timeslot')
 
@@ -224,6 +244,17 @@ class Timeslot(db.Model):
         self.day_ID = day_ID
         self.location_ID = location_ID
         self.type = type
+        if type == 'morning':
+            self.order = 1
+        elif type == 'afternoon':
+            self.order = 2
+        elif type == 'meal':
+            self.order = 3
+        else:
+            self.order = 4
+
+    def __repr__(self):
+        return '<Timeslot %r %r>' % (self.type, self.location)
 
 
 class Day(db.Model):
@@ -231,7 +262,7 @@ class Day(db.Model):
     itinerary_ID = db.Column(db.Integer, db.ForeignKey('itinerary.ID'))
     date = db.Column(db.Date)
 
-    timeslots = db.relationship('Timeslot', lazy='joined')
+    timeslots = db.relationship('Timeslot', lazy='joined', order_by="asc(Timeslot.order)")
 
     def __init__(self, itinerary_ID, date):
         self.itinerary_ID = itinerary_ID
