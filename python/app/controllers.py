@@ -85,10 +85,10 @@ def excludeLocations():
 			? '''
 	oldItinerary = Itinerary.query.filter_by(ID = request.form['itineraryID']).first()
 	eA = easyAround()
-	violation = Violation(request.form['itineraryID'], request.form['clientID'], request.form['locations'])
-	eA.critique(violation, oldItinerary)
-	#TODO return something to the customer
-	return jsonify({'response':  'OK' });
+	locations = request.form.get('locations').replace('["', "").replace('"]', "").split('","')
+	violation = Violation(request.form['itineraryID'], request.form['clientID'], locations)
+	days = eA.critique(violation, oldItinerary)
+	return render_template('proposeItinerary.html', days=days, step=2)
 
 
 @app.route('/proposeItinerary', methods = ['POST'])

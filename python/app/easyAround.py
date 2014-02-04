@@ -80,7 +80,7 @@ class easyAround(object):
 			violation: the new set of constraints from the client
 			itinerary: the old itinerary to be modified
 		Returns: 
-            None
+            The list of days of the modified itinerary
 		'''
 		#passes control to select() and modify() to make the fix actions permanent
 		if len(violation.locations) > 0:
@@ -103,16 +103,17 @@ class easyAround(object):
 						else:
 							timeslot = Timeslot.query.filter_by(day_ID = day.ID, type = type)
 							location = meals.pop()
-							timeslot.location_ID = int(location['ID'])
+							timeslot.location_ID = int(location.ID)
 					else:
 						if len(locations) == 0:
 							timeslot = None
 						else:
 							timeslot = Timeslot.query.filter_by(day_ID = day.ID, type = type)
 							location = location.pop()
-							timeslot.location_ID = int(location['ID'])
+							timeslot.location_ID = int(location.ID)
 					db.session.add(timeslot)
 			db.session.commit()
+			return days
 
     		
 
