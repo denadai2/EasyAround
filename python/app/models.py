@@ -114,7 +114,6 @@ class Itinerary(db.Model):
             randomNumber = self.__random_pick(pickTypes, probabilities)
             locationTypes[randomNumber] = locationTypes[randomNumber] + 1
 
-
         #now we know how many locations types we need to pick from the DB
         i = 0
         locations = []
@@ -179,7 +178,7 @@ class Itinerary(db.Model):
 
             locations.extend(q1.all())
 
-
+        
         return (locations, meals, evening)
 
 

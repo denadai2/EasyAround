@@ -3,6 +3,7 @@ from urllib2 import urlopen
 import urllib
 import json
 import os
+from PIL import Image
 from time import sleep # be nice
 from multiprocessing import Pool
 from multiprocessing.dummy import Pool as ThreadPool
@@ -31,6 +32,13 @@ def get_category_winner(category_url):
             "winner": winner,
             "runners_up": runners_up}
 
+def getHeroPhoto(list):
+    for dict in list:
+        if dict['id'] == 'HERO_PHOTO':
+            return dict['data']
+
+    return list[0]['data']
+    
 if __name__ == '__main__':
     places = []
     pages = {
@@ -74,9 +82,23 @@ if __name__ == '__main__':
                 script = script.replace("window.setupLazyLoad();", "").replace("}, 'lazy load images');", "")
                 script = script.replace("var lazyHtml = [", "").replace("var lazyImgs = ", "").replace("];", "").strip() + "]"
                 value = json.loads(script)
-                imgUrl = value[0]['data']
+                imgUrl = getHeroPhoto(value)
                 imgName = os.path.basename(imgUrl)
                 urllib.urlretrieve(imgUrl, 'images/'+imgName)
+
+                im = Image.open('images/'+imgName)
+                width, height = im.size   # Get dimensions
+                new_width = 150
+                new_height = 150
+
+                left = (width - new_width)/2
+                top = (height - new_height)/2
+                right = (width + new_width)/2
+                bottom = (height + new_height)/2
+
+                im = im.crop((left, top, right, bottom))
+
+                im.save('images/'+imgName)
 
 
                 if type == "kids":
@@ -96,10 +118,8 @@ if __name__ == '__main__':
     
     
 
-    '''data = [] # a list to store our dictionaries
-    for category in categories:
-        winner = get_category_winner(category)
-        data.append(winner)
-        sleep(1) # be nice
 
-    print data'''
+   
+
+
+

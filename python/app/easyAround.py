@@ -2,6 +2,7 @@ from app import app
 from app import db
 from app import models
 from collections import namedtuple
+from flask import render_template
 
 
 Requirements = namedtuple("Requirements", "startDate days kids freeTime client")
@@ -29,7 +30,6 @@ class easyAround(object):
         """
         (itinerary, days) = sketal_design
 
-        print constraints
         #insert everything into the DB
         for exclude in constraints.exclude:
             c = models.Constraint(itinerary.ID, models.Location.query.filter_by(name=exclude).first().ID, 'avoid')
@@ -63,8 +63,19 @@ class easyAround(object):
                 timeslot = models.Timeslot(day.ID, ID, type)
                 db.session.add(timeslot)
 
+            db.session.commit()
+
         return sketal_design[1]
-            
+           
+    def verify(self, proposal):
+        ''' submits the proposal to the client
+        Args:
+            proposal: list of the days inserted in the database (and their respective assigned locations)
+        Returns: 
+            The HTML ready for the client
+        '''
+        return render_template('proposeItinerary.html', days=proposal, step=2)
+
 
 	def critique(self, violation, itinerary):
 		''' Edits the itinerary accordingly to the critique obtained from the client.

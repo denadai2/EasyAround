@@ -13,15 +13,22 @@
             </tr>
             {% for day in days %}
             <tr>
-                <td class="first">{{ day.date.strftime("%d-%m") }}</td>
+                <td class="first" rowspan="2">{{ day.date.strftime("%d-%m") }}</td>
+                {% for timeslot in day.timeslots %}
+                    {% if timeslot.location is none %}
+                    <td></td>
+                    {% else %}
+                    <td class="title">{{ timeslot.location.name }}</td>
+                    {% endif %}
+                {% endfor %}
+                </tr>
+                <tr>
                 {% for timeslot in day.timeslots %}
                     {% if timeslot.location is none %}
                     <td></td>
                     {% else %}
                     <td>
-                        <div class="location" style="background:url({{ url_for('static', filename='images/locations/'+timeslot.location.image) }})">
-                            <div>{{ timeslot.location.name }}</div>
-                        </div>
+                        <img src="{{ url_for('static', filename='images/locations/'+timeslot.location.image) }}" alt="" width="160" height="160" />
                     </td>
                     {% endif %}
                 {% endfor %}

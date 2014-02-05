@@ -138,9 +138,9 @@ def getItinerary():
 
     eA = easyAround()
     days = eA.propose(r.requirements, r.preferences, sketal_design, r.constraints)
+    verify = eA.verify(days)
 
-
-    return render_template('proposeItinerary.html', days=days, step=2)
+    return verify
 
 
 
