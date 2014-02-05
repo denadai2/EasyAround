@@ -15,10 +15,8 @@ class Client(db.Model):
     quiet = db.Column(db.Boolean)
     #dynamic = db.Column(db.Enum('1', '2', '3')) modificare
     category = db.Column(db.Enum('young', 'adult', 'middleAged', 'elderly'))
-
     itineraries = db.relationship('Itinerary', backref='clients', lazy='dynamic')
-
-
+    
     def __init__(self, name, quiet, category):
         self.name = name
         self.quiet = quiet
@@ -78,9 +76,6 @@ class Itinerary(db.Model):
 
         Returns:
             Tuple containing the list of all the locations to be inserted in the slots and the meal locations
-
-        Raises:
-            ?
         """
         #Calculate the number of slots needed to be fulfilled
         nSlots = requirements.days * 4
@@ -103,7 +98,7 @@ class Itinerary(db.Model):
         for i in range(0,4):
             probabilities[i] = float(probabilities[i]/(sum*1.0))
 
-        #calculates how many locations I need to select in the categories: ['shopping', 'culture' 'gastronomy', 'nightlife']
+        #calculate how many locations I need to select in the categories: ['shopping', 'culture' 'gastronomy', 'nightlife']
         locationTypes = [0,0,0,0]
         pickTypes = [0,1,2,3]
 
@@ -115,7 +110,8 @@ class Itinerary(db.Model):
             randomNumber = self.__random_pick(pickTypes, probabilities)
             locationTypes[randomNumber] = locationTypes[randomNumber] + 1
 
-        #now we know how many locations types we need to pick from the DB
+        # Based on the previous calculations, the number of location that have to be picked is now known
+        # Proceed to build the query, that corresponds to the application of the knowledge rules in the engine.
         i = 0
         locations = []
         meals = []
@@ -127,7 +123,7 @@ class Itinerary(db.Model):
             'nightlife': ('entertainment', 'amusement', 'performance')
             }
 
-        
+        # Consider the locations to be included (constraints)
         if len(constraints.include) > 0:
             q1 = Location.query.filter((Location.excludedCategory==None) | (Location.excludedCategory!=requirements.client.category))
             q1 = q1.filter(Location.name.in_(constraints.include))
@@ -135,7 +131,7 @@ class Itinerary(db.Model):
 
             locations.extend(q1.all())
 
-
+		# Choose other locations from the database, based on preferences, requirements and constraints (the 'exclude' part)
         for preferenceType in preferences._fields:
             if locationTypes[i] > 0:
                 q1 = Location.query.filter(Location.category.in_(categoryMapping[preferenceType]))\
@@ -160,7 +156,7 @@ class Itinerary(db.Model):
                     meals.extend(q1.all())
             i = i + 1
 
-        
+        # Consider the presence of kids (requirements)
         if nKids > 0:
             IDsToExclude = []
             for location in locations:
@@ -172,14 +168,11 @@ class Itinerary(db.Model):
             if len(constraints.exclude) > 0:
                 q1 = q1.filter(~Location.ID.in_(constraints.exclude))
 
-            #exclude already selected locations
+            # Eliminate the possibility of choosing the same location twice, given the presence of kids
             q1 = q1.filter(~Location.ID.in_(IDsToExclude))
-
             q1 = q1.order_by(Location.rating).order_by(func.random()).limit(nKids)
-
             locations.extend(q1.all())
-
-        
+            
         return (locations, meals, evening)
 
 

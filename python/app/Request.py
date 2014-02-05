@@ -13,8 +13,6 @@ Requirements = namedtuple("Requirements", "startDate days kids freeTime client")
 Preferences = namedtuple("Preferences", "shopping culture gastronomy nightlife")
 Constraints = namedtuple("Constraints", "exclude include")
 
-
-# Note: changed class name from "Requirements" to "Request" otherwise it will get messed up
 class Request(object):
 	"""Class that has to handle the methods operationalize and specify
 
@@ -24,7 +22,6 @@ class Request(object):
         constraints: the Constraints namedtuple which represents the constraints requirements
     """
 	
-
 	def operationalize(self, startDate, numberOfDays, presenceOfKids, needsFreeTime, exclude, include, client, 
 		preferenceShopping, preferenceCulture, preferenceGastronomy, preferenceNightLife):
 		"""Divides all the parameters in requirements, preferences and constraints.
@@ -67,10 +64,11 @@ class Request(object):
 	        ?
 	    """
 		print self.requirements
+		# Create a new instance of itinerary in the database
 		itinerary = models.Itinerary(self.requirements.kids, self.requirements.freeTime, self.requirements.client.ID)
 		db.session.add(itinerary)
 		db.session.commit()
-
+		# allocate the necessary number of days for that specific itinerary, creating the skeleton
 		days = []
 		for i in range(0, self.requirements.days):
 			day = models.Day(itinerary.ID, self.requirements.startDate + timedelta(days=i))

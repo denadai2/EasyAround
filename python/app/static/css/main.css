@@ -139,19 +139,19 @@ input[type=date]{
     background: url("../images/date.png") no-repeat scroll 96% 6px rgb(255, 255, 255);
 }
 
-table {
+#proposal {
     border-spacing: 1px;
     border-collapse: separate;
 }
-th{
+#proposal th{
     padding:10px;
 }
 
-td.first{
+#proposal td.first{
     width:60px;
 }
 
-td.title{
+#proposal td.title{
     background-color: rgb(51, 51, 51);
     color: rgb(238, 238, 238);
     text-align: center;
@@ -160,7 +160,7 @@ td.title{
     width:160px;
 }
 
-td > a {
+#proposal td > a {
     width:160px;
     height:160px;
     display:block;
@@ -168,11 +168,11 @@ td > a {
     cursor: default !important;
 }
 
-td > a.active {
+#proposal td > a.active {
     cursor: pointer !important;
 }
 
-td > a.active:hover {
+#proposal td > a.active:hover {
     background: url(../images/remove.png) no-repeat;
     background-position: 20px 20px;
 }
