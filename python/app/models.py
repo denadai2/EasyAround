@@ -4,11 +4,6 @@ from sqlalchemy.sql import func
 from app import db
 import random
 
-import logging
-
-logging.basicConfig(filename='db.log')
-logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
-
 class Client(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200)) #, unique=True
@@ -84,7 +79,7 @@ class Itinerary(db.Model):
         if requirements.kids:
             nKids = (nSlots/6)
             nSlots = nSlots - nKids
-        if requirements.freeTime:
+        if requirements.freeTime or  requirements.client.category == "young":
             nSlots = nSlots - requirements.days
         #list of the probabilities. Probabilities of: ['shopping', 'culture' 'gastronomy', 'nightlife']
         probabilities = [0,0,0,0]
@@ -140,7 +135,7 @@ class Itinerary(db.Model):
                 if not preferenceType == "gastronomy":
                     q1 = q1.filter(Location.category!='gastronomy')
 
-                if requirements.client.quiet:
+                if requirements.client.quiet or requirements.client.category == "elderly":
                     q1 = q1.filter_by(intensive=False)
 
                 if len(constraints.exclude) > 0:
@@ -229,7 +224,7 @@ class Timeslot(db.Model):
     day_ID = db.Column(db.Integer, db.ForeignKey('day.ID'), primary_key=True)
     location_ID = db.Column(db.Integer, db.ForeignKey('location.ID'))
     type = db.Column(db.Enum('morning', 'afternoon', 'meal', 'evening'), primary_key=True)
-    order = db.Column(db.Integer) #todo: commentare
+    order = db.Column(db.Integer) #ausiliar column which helps to order the location results 
 
     location = db.relationship('Location', backref='timeslot')
 
@@ -245,6 +240,7 @@ class Timeslot(db.Model):
             self.order = 3
         else:
             self.order = 4
+
 
     def __repr__(self):
         return '<Timeslot %r %r>' % (self.type, self.location)
@@ -268,7 +264,7 @@ class Location(db.Model):
     description = db.Column(db.Text)
     lat = db.Column(db.Float)
     lng = db.Column(db.Float) 
-    image = db.Column(db.String(200)) #todo: documento
+    image = db.Column(db.String(200)) 
     intensive = db.Column(db.Boolean)
     rating = db.Column(db.Enum('1', '2', '3', '4', '5'))
     excludedCategory = db.Column(db.Enum('young', 'adult', 'middleAged', 'elderly'))
@@ -287,6 +283,7 @@ class Location(db.Model):
         self.category = category
         self.excludedCategory = excludedCategory
         self.forKids = forKids
+
 
     def __repr__(self):
         return '<Location %r>' % self.name 

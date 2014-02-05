@@ -113,17 +113,6 @@ def getItinerary():
     Returns:
         The HTML page with the calculated itinerary
     """
-    print request.form
-    #if the request comes from a new customer, insert them into the database
-    if request.form['existingClient'] == '0':
-        clientQuiet = request.form.get('clientQuiet', False)
-        if clientQuiet == 'yes':
-            clientQuiet = True
-        client = models.Client(request.form['clientName'], clientQuiet, 'elderly')
-        db.session.add(client)
-        db.session.commit()
-    else:
-        client = models.Client.query.get(request.form['existingClient'])
     
     # Handle the data from the request form, parsing the strings to obtain manageable data types.
     month,day,year = request.form['startDate'].split('/')
@@ -139,6 +128,25 @@ def getItinerary():
         excludeList = []
     if includeList[0] == "[]":
         includeList = []
+    ageInput = int(request.form.get('clientAge', 18))
+    category = "young"
+    if ageInput > 30 and ageInput < 40:
+        category = "adult"
+    elif ageInput >= 40 and ageInput < 60:
+        category = "middleAged"
+    elif ageInput >= 60:
+        category = "elderly"
+
+    #if the request comes from a new customer, insert them into the database
+    if request.form['existingClient'] == '0':
+        clientQuiet = request.form.get('clientQuiet', False)
+        if clientQuiet == 'yes':
+            clientQuiet = True
+        client = models.Client(request.form['clientName'], clientQuiet, category)
+        db.session.add(client)
+        db.session.commit()
+    else:
+        client = models.Client.query.get(request.form['existingClient'])
         
     # Divide coherently the initial request calling operationalize
     r = Request()

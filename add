@@ -1,0 +1,31 @@
+\section{Inference Knowledge} \label{sec:inference}
+
+
+\noindent
+\begin{tabular}{|p{2cm}|p{3cm}|p{3cm}|p{6cm}|}
+  \hline
+Inference		& Input	& Output 	& Description \\ \hline \hline
+specify		& request	& skeletal design		& the function builds the default skeletal design: the basic structure of a trip where each day is composed of: an heavy activity during the morning, a relaxing afternoon, evening and meal.
+\\ \hline
+\end{tabular}
+
+\section{Domain knowledge}
+
+\subsection{Domain schema} \label{sec:domain}
+The domain schema can be found in Figure~\ref{fig:ClassDiagram2}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{images/domain.eps}
+\caption{Domain schema}
+\label{fig:ClassDiagram2}
+\end{figure}
+
+
+\begin{description}
+  \item[Client] \hfill \\
+  The client who goes to the travel agency. He can express preferences for a quiet enviroment and express his willingness to travel long distances by foot (\emph{dynamic}). The clients are categorized by their age to avoid unsuitable locations (ex: elderly people in a climbing location).
+  
+\item[Location] \hfill \\
+  This model represents the point of interests that a customer could visit. The attribute \emph{rating} describes the quality of this place, \emph{intensive} describes if the place is not for quite people and \emph{excludedCategory} specifies if a client category is not suitable for the location (ex: elderly people in a climbing location). The method \emph{distance} takes two locations and returns the distance between them. It is useful in order to create the combination of locations to visit during a trip.
+\end{description}

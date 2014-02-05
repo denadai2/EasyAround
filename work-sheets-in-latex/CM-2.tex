@@ -29,14 +29,14 @@
 &  {\bf Content}: 
 \begin{lstlisting}[breaklines=true,mathescape=true]
 startDate: DATE 
-numberOfDays: INTEGER
+endDate: DATE 
 presenceOfKids: BOOLEAN
 needsFreeTime: BOOLEAN
 exclude: LIST
 include: LIST
 existingClient: INTEGER
 clientName: STRING 
-clientDinamicity: INTEGER
+clientAge: INTEGER
 clientQuiet: BOOLEAN
 preferenceShopping: INTEGER
 preferenceCulture: INTEGER
@@ -132,7 +132,9 @@ itineraryID: INTEGER
 &  {\bf Content}: 
 \begin{lstlisting}[breaklines=true,mathescape=true]
 itineraryID: INTEGER
-locationID: INTEGER
+excludeList: {
+   40, 50, 78...
+}
 \end{lstlisting}
    \\
 \hline

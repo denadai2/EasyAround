@@ -1,0 +1,53 @@
+\begin{tabular}%
+      {|p{4cm}%
+        |p{8cm}|}
+\hline
+{\bf Communication model} &
+   {\bf Information Exchange Specification Worksheet CM-2} \\
+\hline
+\hline
+\sc Transaction &
+   {\em
+   Insert data into the system
+   } \\
+\hline
+\sc Agents involved &
+   {\rm Sender: Travel Agent} \\
+   & {\rm Receiver: Automated System}\\
+\hline
+\sc Information items 
+&  {\bf Role}: {\em core} object
+   \\
+&  {\bf Form}: data string
+   \\
+&  {\bf Medium}: HTTP request
+   \\
+\hline
+\sc Message specifications 
+&  {\bf Communication type}: Ask
+   \\
+&  {\bf Content}: 
+\begin{lstlisting}[breaklines=true,mathescape=true]
+startDate: DATE 
+endDate: DATE 
+presenceOfKids: BOOLEAN
+needsFreeTime: BOOLEAN
+exclude: LIST
+include: LIST
+existingClient: INTEGER
+clientName: STRING 
+clientDinamicity: INTEGER
+clientAge: INTEGER
+clientQuiet: BOOLEAN
+preferenceShopping: INTEGER
+preferenceCulture: INTEGER
+preferenceGastronomy: INTEGER
+preferenceNightLife: INTEGER
+\end{lstlisting}
+   \\
+\hline
+\sc Control over messages &
+   Sequence
+   \\
+\hline
+\end{tabular}

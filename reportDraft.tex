@@ -38,11 +38,12 @@
 \usepackage{listings}
 \usepackage{caption}
 \usepackage{cite}
+\usepackage{hyperref}
 \DeclareCaptionFont{white}{\color{white}}
 \DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
 \captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
 
-
+\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
 
 \def\worksheet#1#2{%
   \begin{center}
@@ -71,30 +72,36 @@
 \lhead{}\chead{}\rhead{}
 \lfoot{}\cfoot{\thepage}\rfoot{}
 
-%%% SECTION TITLE APPEARANCE
-%\usepackage{sectsty}
-%TODO uncomment sectsty
-%\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
-% (This matches ConTeXt defaults)
 
-%%% ToC (table of contents) APPEARANCE
-%\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
-%TODO uncomment tocbibind
-%\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
-%\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
-%\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+\newcommand*{\titleGM}{\begingroup 
+\hbox{ 
+\hspace*{0.1\textwidth} 
+\rule{1pt}{\textheight} 
+\hspace*{0.05\textwidth} 
+\parbox[b]{0.75\textwidth}{ 
 
-%%% END Article customizations
+{\noindent\Huge\bfseries easyAround}\\[1\baselineskip] % Title
+{\large \textit{Knowledge Engineering project}}\\[4\baselineskip] % Tagline or further description
+%
+{\Large 
+\textsc{Claudia Minardi}
+\\
+\textcolor{gray}{\href{mailto:minardi.claudia@gmail.com}{\emph{minardi.claudia@gmail.com}}} \\\\
+\textsc{Marco De Nadai}
+\\
+\textcolor{gray}{\href{mailto:me@marcodena.it}{\emph{me@marcodena.it}}} \\
+\vspace{2.5cm}
+} % Author name
 
-%%% The "real" document content comes below...
-
-\title{easyAround}
-\author{Marco De Nadai, Claudia Minardi}
-%\date{} % Activate to display a given date or no date (if empty),
-         % otherwise the current date is printed 
+\vspace{0.4\textheight} % Whitespace between the title block and the publisher
+{\noindent \textbf{Vrije Universiteit} \\ Amsterdam, The Netherlands \\ 2014 }\\[\baselineskip] % Publisher and logo
+}}
+\endgroup}
 
 \begin{document}
-\maketitle
+\pagestyle{empty}
+\titleGM
+
 
 \section{Introduction}
 This document illustrates the process of the development of an information system according to the CommonKADS~\cite{schreiber2000knowledge} approach. \\
@@ -128,6 +135,7 @@ have an impact on and/or are affected by chosen knowledge solutions}
 \caption{Organization process}
 \label{fig:orgProcess}
 \end{figure}
+\newpage
 \worksheet{OM-5}{Checklist for the feasibility decision
 document}
 \worksheet{TM-1}{Refined description of the tasks within the
@@ -164,18 +172,18 @@ TASK-METHOD propose-and-revise;
     INTERMEDIATE:
       preferences-and-requirements: "requirements and preferences to be preferably fulfilled";
       constraints: "requirements that have to be fulfilled";
-      sketal-design: "set of slots to be filled";
-      proposal: "a possible compilation of the sketal-design";
+      skeletal-design: "set of slots to be filled";
+      proposal: "a possible compilation of the skeletal-design";
       customer-input: "set of new requirements or constraints";
       violation: "new constraints violated by the current design";
       truth-value: "boolean indicating the result of the verification";
       action-list: "ordered list of possible repair (fix) actions";
       action: "a single repair action";
-      itinerary: "a new possible compilation of the sketal-design";
+      itinerary: "a new possible compilation of the skeletal-design";
   CONTROL-STRUCTURE:
     operationalize(request -> preferences-and-requirements + constraints);
-    specify(request -> sketal-design);
-    propose(constraints + preferences-and-requirements + sketal-design -> proposal);
+    specify(request -> skeletal-design);
+    propose(constraints + preferences-and-requirements + skeletal-design -> proposal);
     itinerary := proposal ADD itinerary;
     WHILE verify(customer-input + itinerary -> truth-value + violation) IS truth-value == false DO
       critique(violation + itinerary -> action-list)
@@ -208,37 +216,35 @@ It has to be noted that the subsystem building the proposal, in the implementati
 \end{figure}
 
 \noindent
-\begin{tabular}{|p{2cm}|p{3cm}|p{3cm}|p{6cm}|}
+\begin{tabular}{|p{2.5cm}|p{2.5cm}|p{3cm}|p{6cm}|}
   \hline
 Inference		& Input	& Output 	& Description \\ \hline \hline
-specify		& request	& sketal design		& the function look-up the default sketal design: the basic structure of a trip day (heavy activity during the morning, relaxing afternoon, evening and meal).
+specify		& request	& skeletal design		& the function builds the default skeletal design: the basic structure of a trip where each day is composed of: morning, afternoon, evening and meal.
 \\ \hline 
-   optionalize	& needs of the customers		& preferences, requirements, constraints	& the needs and desires are translated into preferences ("I would like to have time for shopping and visit many cultural places. I am not interested so much in food places"), requirements ("I want a quiet trip") and contraints ("In Rome I want to visit the \emph{Colosseum} and avoid \emph{Piazza di Spagna}"). 
+   operationalize	& needs of the customers		& preferences, requirements, constraints	& the needs and desires are translated into preferences ("I would like to have time for shopping and visit many cultural places. I am not interested so much in food places"), requirements ("I want a quiet trip") and contraints ("In Rome I want to visit the \emph{Colosseum} and avoid \emph{Piazza di Spagna}"). 
 \\ \hline
-propose	& preferences and requirements, sketal design slots		& filled sketal design	& fill the slots of the sketal design with locations that fits the preferences and requirements.
+propose	& preferences and requirements, skeletal design and constraints		& filled skeletal design	& fill the slots of the skeletal design with locations that fits the preferences and requirements.
 \\
 \hline
-verify		& contraints, extension design	& the list of violated contraints	& it checks with the help of the internal contraints and those supplied by the user whether the current configuration is internally consistent. If the verification fails, it produces the violated contraints as an additional output
+verify		& proposal and customer input	& -	& it submits the proposal to the TA allowing them to gather the client's critiques.
 \\ \hline
 select 	& fix actions list		& fix action		& It simply selects an action from the fix actions list generated by the critique function.
 \\ \hline
-modify	& itinerary design, fix actions list		& fixed itinerary design		& it applies the fix actions to the design.
+modify	& itinerary design, fix action		& itinerary		& it applies the fix actions to the proposal.
 \\ \hline
-critique	& itinerary, violations, customer's inputs	& fix actions list		& it creates a series of actions which will fix the violations of the contraints, following also the customer's inputs. For example the contraint "I absolutely want to visit the \emph{Colosseum}" will produce the action "Insert the \emph{Colosseum} into the itinerary".
+critique	& itinerary and violations	& fix actions list		& it creates a series of actions which will adjust the itinerary according to the new set of contraints, contained into the violations.
 \\ \hline
 \end{tabular}
 
 \clearpage
 \section{Domain knowledge}
 
-%TODO: spiegare un po' le sorgenti di questo schema? Tipo risultati dell'intervista ecc? ma forse dobbiamo dirlo ben prima
-
 \subsection{Domain schema} \label{sec:domain}
 The domain schema can be found in Figure~\ref{fig:ClassDiagram}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=\textwidth]{images/domain.eps}
+\includegraphics[width=\textwidth]{images/new_domain.eps}
 \caption{Domain schema}
 \label{fig:ClassDiagram}
 \end{figure}
@@ -246,30 +252,24 @@ The domain schema can be found in Figure~\ref{fig:ClassDiagram}
 This schema seems complicated, for this reason every model is explained in the following list:
 \begin{description}
   \item[Client] \hfill \\
-  The client who goes to the travel agency. He could be a quite person who normally wants to visit a lot of things or very few (\emph{dynamic}). The clients are categorized by their age because some locations are not suitable for a people category (ex: elderly people in a climbing location).
+  The client who goes to the travel agency. He can express preferences for a quiet enviroment. The clients are categorized by their age to avoid unsuitable locations (ex: elderly people in a climbing location).
 
   \item[Preference] \hfill \\
-  Each client needs to specify a list of preferences, valued from 1 to 5, where 1 is ``I'm not so interested" and 5 is "I love to do it!". These preferences are related to the itinerary we want to create, consequently if the same clients wants to create another itinerary, it will specify again all the preferences he wants in this second trip.
-  \item[Contraint] \hfill \\
-  Each client needs to specify a list of contraints that have to be fulfilled. As for the \emph{Preference}, they are related to the single itinerary.
+  Each client needs to specify a list of preferences, valued from 1 to 5, where 1 is ``I'm not so interested" and 5 is ``I'd love to do it!". These preferences are related to the itinerary we want to create, consequently if the same clients wants to create another itinerary, it will specify again all the preferences he wants in this second trip.
+  \item[Constraint] \hfill \\
+  Each client needs to specify a list of contraints that have to be fulfilled. As well as the \emph{Preference}, they are related to the single itinerary.
   \item[Itinerary] \hfill \\
-  This represents the itinerary we want to create. It is composed by a fixed number of \emph{Day} and it is related to a \emph{Client} who has specified his own list of \emph{Contraint} and \emph{Preference}. If there will be kids in the itinerary, the system needs to select some \emph{Location} that could entertain them. This is a requirement as the \emph{needsFreeTime} attribute, which specifies that the clients needs to have some not scheduled time in the arrival city.\\
+  This represents the itinerary we want to create. It is composed of a fixed number of \emph{Day} and it is related to a \emph{Client} who has specified his own list of \emph{Constraint} and \emph{Preference}. If the itinerary includes kids, the system needs to select some \emph{Location} that could entertain them. This is a requirement as the \emph{needsFreeTime} attribute, which specifies that the clients needs to have some time not allocated by the TA.\\
 The method \emph{selectLocation} takes a list of \emph{Preference} and produces a list of \emph{Location} that could fit this preferences. 
   \item[Day] \hfill \\
   This describes a day of the itinerary.
   \item[Timeslot] \hfill \\
   A timeslot is a fixed part of a day. The division of the day came from the expert interview.
 \item[Location] \hfill \\
-  This model represents the point of interests that a customer could visit. The attribute \emph{rating} describes the quality of this place, \emph{intensive} describes if the place is not for quite people and \emph{excludedCategory} specifies if a client category is not suitable for the location (ex: elderly people in a climbing location). The method \emph{distance} takes two locations and returns the distance between them. It is useful in order to create the combination of locations to visit during a trip.
+  This model represents the point of interests that a customer could visit. The attribute \emph{rating} describes the quality of this place, \emph{intensive} describes if the place is not for quite people and \emph{excludedCategory} specifies if a client category is not suitable for the location (ex: elderly people in a climbing location).
 \end{description}
 
 \subsection{Domain mapping}
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{images/dom_VS_inference.eps}
-\caption{Mapping between the domain model and the inference model}
-\label{fig:MappingDomainInference}
-\end{figure}
 \noindent
 \begin{tabularx}{\textwidth}{| X | X | X | X |}
 \hline 
@@ -335,14 +335,11 @@ $\exists$itinerary.day.timeslot, timeslot.location.name$=$A;
 \end{lstlisting}
 
 
-
-%TODO!!!!
 \begin{lstlisting}[label=Rules,caption=The client is a quite person,breaklines=true,mathescape=true]
-client.quiet=true, client.needsFreeTime=true, client.active=1
+client.quiet=true, client.needsFreeTime=true
 REQUIRES
 itinerary.day.timeslot.location, location.intensive=false;
 itinerary.day.timeslot, timeslot.location=NULL;
-$\sum_{i=1}^{n-1}$i.distance(i+1) $<\delta$, $\forall$i $\in$ location;
 \end{lstlisting}
 
 
@@ -383,8 +380,6 @@ Rose, a 76 years old lady would like to visit Rome for three days with her nephe
 \subsubsection{Interview}
 
 \begin{description}
-  \item[Are you used to walk long distances?] \hfill \\
-  Not at all, I usually don't walk a lot.
   \item[In a scale from one to five, how do you enjoy shopping?] \hfill \\
   I really love to do shopping, so five!
   \item[In a scale from one to five, how do you enjoy cultural places?] \hfill \\
@@ -407,7 +402,6 @@ The system once it receives the request divides them into three categories: requ
 \begin{lstlisting}[breaklines=true,mathescape=true]
 REQUIREMENTS:
   client.quiet = true
-  client.dynamic = 1
   itinerary.withKids = true
   itinerary.needsFreeTime = true
   VAR a,b,c: day;
@@ -533,8 +527,6 @@ Richard a 30 years old guy, would like to visit Rome for two days alone.
 \begin{description}
   \item[Would you consider yourself a quite person or ready to have some fun?] \hfill \\
   Definitely have fun.
-  \item[Are you used to walk long distances?] \hfill \\
-  Yeah.
   \item[In a scale from one to five, how do you enjoy shopping?] \hfill \\
   Not that much I only need to buy some souvenirs, 1.
   \item[In a scale from one to five, how do you enjoy cultural places?] \hfill \\
@@ -557,7 +549,6 @@ The system once it receives the request divides them into three categories: requ
 \begin{lstlisting}[label=Rules,caption=Domain instance of the data inserted into the system,breaklines=true,mathescape=true]
 REQUIREMENTS:
   client.quiet = false
-  client.dynamic = 3
   itinerary.withKids = false
   itinerary.needsFreeTime = false
   VAR a,b,c,d: day;
@@ -656,8 +647,8 @@ Our Communication Process can be see in Figure~\ref{fig:CommunicationDiagram}.
 
 \newpage
 \section{Implementation}
-To implement the system in order to create a portable, scalable and user-friendly application it has been decided to develop a web-based service in python with a basic GUI using HTML, CSS and Javascript (jQuery framework).\\
-\indent As the client/server communication is based on AJAX and standard HTTP requests, we exploited the functionalities provided by the Flask framework for pyhton. Additionally, we adopted an ulterior python framework, SQLAlchemy, to manage the communicaton between the application and the database.\\
+To implement the system in order to create a portable, scalable and user-friendly application it has been decided to develop a web-based service in Python with a basic GUI using HTML, CSS and Javascript (jQuery framework).\\
+\indent As the client/server communication is based on AJAX and standard HTTP requests, we exploited the functionalities provided by the Flask framework for pyhton. Additionally, we adopted an ulterior Python framework, SQLAlchemy, to manage the communicaton between the application and the database.\\
 \indent The basic setup of the final system is built as follows:
 \begin{description}
 \item[GUI] \hfill \\
@@ -665,10 +656,10 @@ The user interface needs to be user friendly and easy to use, so to prevent the 
 Once the TA has filled in the necessary information, can request the itinerary to the system by simply clicking the \textit{Next} button. The interface will then show a list of the locations chosen for each day, which can be furtherly modified by the travel agent. By chosing to edit the itinerary, it will in fact be offered the opportunity to exclude some locations that do not satisfy the customer's desires. These modifications will then be forwarded to the system that will provide a new itinerary to show.\\
 If the customer is satisfied with the proposed itinerary, then the TA can confirm the choice and end the procedure.
 \item[Server Side] \hfill \\
-The back-end consists in the set of rules and functions that constitute the server-side of the application. It has been neatly divided using a model-view-controller approach as illustrated in the previous diagrams, and provides functionalities of communication with the database, communication with the front-end, and a "knowledge engine" embedding the TA knowledge necessary to build the itinerary.\\
+The back-end consists in the set of rules and functions that constitute the server-side of the application. It has been neatly divided using a model-view-controller approach as illustrated in the previous diagrams, and provides functionalities of communication with the database, communication with the front-end, and a ``knowledge engine" embedding the TA knowledge necessary to build the itinerary.\\
 The entire server-side application has been build on the base of the inference model designed in the previous part of the document, and will be explained further in Section \ref{sec:common}.
 \item[Database] \hfill \\
-The SQL based database contains the information relative to the client and the locations that will be handled by the "knowledge engine" to build the itinerary. The database has been build on the base of the domain model in Section \ref{sec:domain}, and has been filled with information coming directly from the \textit{TripAdvisor} database. This specific way of building and filling the database favours the reusability of the whole application (for more information see Section \ref{sec:reusability})
+The SQL based database contains the information relative to the client and the locations that will be handled by the ``knowledge engine" to build the itinerary. The database has been build on the base of the domain model in Section \ref{sec:domain}, and has been filled with information coming directly from the \textit{TripAdvisor} database. This specific way of building and filling the database favours the reusability of the whole application (for more information see Section \ref{sec:reusability})
 \end{description}
 \subsection{Role of the CommonKADS model set in the implementation} \label{sec:common}
 The implementation of the system was strongly based on the models prepared in the previous sections of this document, particularly on the Inference Model in section \ref{sec:inference} and the Domain Model in section \ref{sec:domain}.\\
@@ -695,14 +686,14 @@ The methods implemented in the software have, as well as classes and data struct
 \begin{description}
 \item[Specify(request)] \hfill \\
 Function: specify;\\
-Creates the basic structure of the itinerary, the sketal design.
+Creates the basic structure of the itinerary, the skeletal design.
 \item[Operationalize(request)] \hfill \\
 Function: operationalize;\\
 Divides all the parameters in requirements, preferences and constraints.
 \item[Propose(requirements, preferences, constraints, skeletal design)] \hfill \\
 Function: propose;\\
 Builds the itinerary based on the request of the client, using the knowledge rules.
-\item[Verify(days)] \hfill \\
+\item[Verify(proposal)] \hfill \\
 Function: verify; \\
 Submits the itinerary to the client.
 \item[Critique(violation, itinerary)] \hfill \\
@@ -715,8 +706,75 @@ For each violation, selects one single action to be performed and passes the con
 Function: modify;\\
 Takes the selected action and commits the modification into the database.
 \end{description}
+
+
 \subsection{Reflection on problems and results}
-\subsubsection{Spiral Approach}
+
+The result of this project is a piece of software that represents a first completely functioning version of what could be a much broader system for travel planning. We consider ourselves satisfied with the result as the usability and the functionality of the software is coherent with the initial objectives, even though during the development process we encountered some difficulties.
+
+The idea of developing a software in this domain was supported by the fact that knowledge is largely avaiable: information can be found on the Internet and even extracted from common sense notions (for example the fact that elderly people should not go climbing mountains). Thanks to this fact we were able to develop an efficient system without bothering too much our expert, who remained avaiable for important matters and maintained a very positive attitude towards us.\\
+The avaiability of knowledge implies that data is easily is retrievable from any online database, complete with all the attributes needed to build an efficient knowledge engine. This made our job easier because we could avoid manually inserting all the data into the system.
+
+One of the problems we faced was the broadness of the domain. Although we started by restricting it to a single city, the quantity of variables to be considered in selecting a solution remained huge. To be able to present a "minimum viable product" (MVP) able to provide basic functionalities, we adopted a spiral approach where we considered just the most important factors (extracted from a second interview with the expert) excluding complicated variables like monetary costs. 
+
+In the early stages of software development we realized that one of the objectives was too ambitious: we intended to offer an itinerary where the distances between the locations were calculated according to the customers' needs. However we soon realized that given the time and resources, the task was too complicated. The problem was analogous to the Travelling Salesman Problem (TSP) which unfortunately is NP-complete~\cite{papadimitriou1977euclidean}. We decided to avoid partial or over-simplified solutions (randomly choosing a combination of locations leaving the eventual check to the TA), and simply move these features in a more advanced level of the spiral (See section~\ref{sec:spiral}).
+
+During the implementation phase we also realized that the select-modify cycle inside the inference model template "configuration design" could have been optimized and that it did not reflect precisely the needs of our software. However we decided to remain coherent to the original template, in order to exploit the reliability of a standard model.
+
+During the whole project one of the most time expensive task was to keep the documentation syncronized with the actual implementation. Despite the fact that it was a feasible task for two people, it would have been more difficult for a larger group.
+
+We also realized the importance of calculating the risks before starting the actual development. Despite the careful designing of the models and the scheduling we constructed for the implementation, we did not consider risks related to human components of the project: the testing phase of the software was delayed of almost four days.
+
+
+\subsubsection{Spiral Approach}\label{sec:spiral}
+In this section is illustrated how the various models designed for this project can be expanded in the next phase of the spiral. By adding the functionalities relative to distance calculations, we can also demonstrate how easy it is to apply modifications to the already functioning product without disrupting its internal structure.
+\newpage
+\myparagraph{Inference Knowledge} 
+
+
+\noindent
+\begin{tabular}{|p{2cm}|p{3cm}|p{3cm}|p{6cm}|}
+  \hline
+Inference   & Input & Output  & Description \\ \hline \hline
+specify   & request & skeletal design   & the function builds the default skeletal design: the basic structure of a trip where each day is composed of: an heavy activity during the morning, a relaxing afternoon, evening and meal.
+\\ \hline
+\end{tabular}
+
+\myparagraph{Domain schema}
+
+The domain schema can be found in Figure~\ref{fig:ClassDiagram2}
+
+
+\begin{description}
+  \item[Client] \hfill \\
+  The client who goes to the travel agency. He can express preferences for a quiet enviroment and express his willingness to travel long distances by foot (\emph{dynamic}). The clients are categorized by their age to avoid unsuitable locations (ex: elderly people in a climbing location).
+
+\item[Location] \hfill \\
+  This model represents the point of interests that a customer could visit. The attribute \emph{rating} describes the quality of this place, \emph{intensive} describes if the place is not for quite people and \emph{excludedCategory} specifies if a client category is not suitable for the location (ex: elderly people in a climbing location). The method \emph{distance} takes two locations and returns the distance between them. It is useful in order to create the combination of locations to visit during a trip.
+\end{description}
+
+\myparagraph{Rule types}
+
+\begin{lstlisting}[label=Rules,caption=The client is a quite person,breaklines=true,mathescape=true]
+client.quiet=true, client.needsFreeTime=true, client.active=1
+REQUIRES
+itinerary.day.timeslot.location, location.intensive=false;
+itinerary.day.timeslot, timeslot.location=NULL;
+$\sum_{i=1}^{n-1}$i.distance(i+1) $<\delta$, $\forall$i $\in$ location;
+\end{lstlisting}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/domain.eps}
+\caption{Domain schema}
+\label{fig:ClassDiagram2}
+\end{figure}
+\newpage
+\myparagraph{Communication Knowledge}
+\worksheet{CM-2a}{Information exchange specification}
+
+
+
 \subsection{Reusability} \label{sec:reusability}
 The application was build to be completely reusable, making sure that the choice of a restricted domain (the city of Rome) would not influence the performance of the system itself.\\
 \indent If, for example, the travel agency is interested in focusing the choice of points of interest on Amsterdam instead of Rome, the only thing that would be subjected to change is the data inside the database. The construction of the database itself and the whole application are absolutely not domain dependant, so they will automatically adapt the choice for the new itinerary on the available data, independently from its origin. The only action that needs to be performed in this case is just the one that recovers the data from the \textit{TripAdvisor} database (or any other tourism-related database) accordingly to the need of the application.\\
@@ -738,13 +796,13 @@ In preparation for the interview with the expert we listed a series of concepts 
   \item Composition of the itinerary: understand the basic structure of an itinerary, and whether it can be composed automatically.
 \end{enumerate}
 
-The interviewing techniques applied were mainly two: problem solving (the interviewer poses himself as a customer and watches the expert "in action") and 20-Questions (the interviewer thinks about a destination for an hypothetical itinerary and the expert needs to guess which one it is). Relatively to the categorization of the locations, it has also been used the "Card sorting".
+The interviewing techniques applied were mainly two: problem solving (the interviewer poses himself as a customer and watches the expert ``in action") and 20-Questions (the interviewer thinks about a destination for an hypothetical itinerary and the expert needs to guess which one it is). Relatively to the categorization of the locations, it has also been used the ``Card sorting".
 The results of the interview were satisfying:
 
 \begin{enumerate}
-  \item The target of the application are the "lonely travelers", people who prefer traveling on their own, at most with their family.
-  \item It has been concluded that the target can be divided in four age-based category, such as "Young" (18-30), "Adults" (30-40), "Middle aged" (40-60), "Elderly" (60+). Relating to these categories the aspects that change the most are: need for entertainment, need for quiet, free time available, amount of time spent walking.
-  \item The locations can be divided in four main categories such as "shopping", "gastronomy", "cultural" and "entertainment"; of these, "cultural" can be divided in "historical locations" (such as monuments) and "museums", and "entertainment" can be divided in "amusement" (such as clubs, pubs and discos), "performance" (such as cinemas, theatres, \ldots)  and "outdoor" (such as amusement parks or gardens).
+  \item The target of the application are the ``lonely travelers", people who prefer traveling on their own, at most with their family.
+  \item It has been concluded that the target can be divided in four age-based category, such as ``Young" (18-30), ``Adults" (30-40), ``Middle aged" (40-60), ``Elderly" (60+). Relating to these categories the aspects that change the most are: need for entertainment, need for quiet, free time available, amount of time spent walking.
+  \item The locations can be divided in four main categories such as ``shopping", ``gastronomy", ``cultural" and ``entertainment"; of these, ``cultural" can be divided in ``historical locations" (such as monuments) and ``museums", and ``entertainment" can be divided in ``amusement" (such as clubs, pubs and discos), ``performance" (such as cinemas, theatres, \ldots)  and ``outdoor" (such as amusement parks or gardens).
   \item It has been concluded that the itinerary can be seen as an aggregation of days, which in turn have a basic fixed structure. 
 \begin{description}
   \item[Morning] non intensive activity (monuments, gardens\ldots);
