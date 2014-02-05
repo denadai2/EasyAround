@@ -187,7 +187,7 @@ END TASK-METHOD propose-and-revise;
 \end{lstlisting}
 
 \clearpage
-\section{Inference Knowledge}
+\section{Inference Knowledge} \label{sec:inference}
 
 As inference model we use a modified version of the Configuration design template, because given predefined components we need to find and assembly that satisfies the requirements. The inference model deriving from this task can be found in Figure~\ref{fig:inference}. \\
 The standard inference model for the configuration design template (propose and revise) has been modified to better express the needs of our software, in a way that the system interacts directly with the client a second time right after the proposal phase: 
@@ -671,7 +671,52 @@ The entire server-side application has been build on the base of the inference m
 The SQL based database contains the information relative to the client and the locations that will be handled by the "knowledge engine" to build the itinerary. The database has been build on the base of the domain model in Section \ref{sec:domain}, and has been filled with information coming directly from the \textit{TripAdvisor} database. This specific way of building and filling the database favours the reusability of the whole application (for more information see Section \ref{sec:reusability})
 \end{description}
 \subsection{Role of the CommonKADS model set in the implementation} \label{sec:common}
+The implementation of the system was strongly based on the models prepared in the previous sections of this document, particularly on the Inference Model in section \ref{sec:inference} and the Domain Model in section \ref{sec:domain}.\\
+In this section it is illustrated briefly the correspondence between the functions implemented in \textit{easyAround} and the roles and transfer functions of the inference model.
+\subsubsection{Roles}
+In the implementation of the software it is possible to recognize some data structures or classes that constitute the main entities of the system; each of these classes or data structures corresponds to an Inference Role. In this section it is presented a list of these data structures, complete of their role inside the Inference model and a brief explanation.
+\begin{description}
+\item[Request] \hfill \\
+Inference Role: request;\\
+This is the class that contains the initial request coming from the customer, and represents the starting point of the whole system.
+\item[Skeletal Design] \hfill \\
+Inference Role: skeletal design;\\
+This data structure is an aggregation of the days the itinerary is composed of, and needs to be later filled with appropriate locations. It constitutes the ``skeleton'' of a complete itinerary.
+\item[Preferences, Requirements and Constraints] \hfill \\
+Inference Role: preferences and requirements, constraints;\\
+These three data structures contain the information needed to correctly classify the needs of the customer and build an itinerary accordingly.
+\item[Itinerary] \hfill \\
+Inference Role: proposal, itinerary;\\
+This data structure constitutes the final itinerary, composed of all the days and the locations. It can be accepted by the customer, or rejected with new directives, and in this case it undergoes modifications.
+\end{description}
+The roles in the inference not shown in this list have been implemented as much simpler data structures such as lists or arrays, and are: \textit{violation, customer input, action list, action}.
+\subsubsection{Transfer Functions}
+The methods implemented in the software have, as well as classes and data structures, a unique correspondence to the Inference model. In this section is presented the list of the main methods implemented, complete of their role inside the Inference model and a brief explanation.
+\begin{description}
+\item[Specify(request)] \hfill \\
+Function: specify;\\
+Creates the basic structure of the itinerary, the sketal design.
+\item[Operationalize(request)] \hfill \\
+Function: operationalize;\\
+Divides all the parameters in requirements, preferences and constraints.
+\item[Propose(requirements, preferences, constraints, skeletal design)] \hfill \\
+Function: propose;\\
+Builds the itinerary based on the request of the client, using the knowledge rules.
+\item[Verify(days)] \hfill \\
+Function: verify; \\
+Submits the itinerary to the client.
+\item[Critique(violation, itinerary)] \hfill \\
+Function: critique;\\
+Edits the itinerary accordingly to the critique obtained from the client.
+\item[Select(location, itinerary)] \hfill \\
+Function: select;\\
+For each violation, selects one single action to be performed and passes the control to modify.
+\item[Modify(constraints)] \hfill \\
+Function: modify;\\
+Takes the selected action and commits the modification into the database.
+\end{description}
 \subsection{Reflection on problems and results}
+\subsubsection{Spiral Approach}
 \subsection{Reusability} \label{sec:reusability}
 The application was build to be completely reusable, making sure that the choice of a restricted domain (the city of Rome) would not influence the performance of the system itself.\\
 \indent If, for example, the travel agency is interested in focusing the choice of points of interest on Amsterdam instead of Rome, the only thing that would be subjected to change is the data inside the database. The construction of the database itself and the whole application are absolutely not domain dependant, so they will automatically adapt the choice for the new itinerary on the available data, independently from its origin. The only action that needs to be performed in this case is just the one that recovers the data from the \textit{TripAdvisor} database (or any other tourism-related database) accordingly to the need of the application.\\
