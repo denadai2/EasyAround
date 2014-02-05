@@ -160,7 +160,32 @@ td.title{
     width:160px;
 }
 
+td > a {
+    width:160px;
+    height:160px;
+    display:block;
+    background-position: 20px 20px;
+    cursor: default !important;
+}
 
+td > a.active {
+    cursor: pointer !important;
+}
+
+td > a.active:hover {
+    background: url(../images/remove.png) no-repeat;
+    background-position: 20px 20px;
+}
+
+button.alert, .button.alert {
+    background-color: rgb(240, 65, 36);
+    border-color: rgb(207, 40, 14);
+    color: white;
+}
+
+#showNewItinerary{
+    display:none;
+}
 
 
 /* ==========================================================================

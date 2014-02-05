@@ -1,5 +1,7 @@
 
 
+var excludeList = Array();
+
 $(document).ready(function() {
 	$( "input[type=date]" ).datepicker();
 
@@ -18,7 +20,6 @@ $(document).ready(function() {
 		source: "getClients",
 		minLength: 2,
 		select: function (event, ui) {
-			console.log(ui.item);
 			event.preventDefault();
 	        $("#clientName").val(ui.item.label); // display the selected text
 	        $("#existingClient").val(ui.item.value); // save selected id to hidden input
@@ -41,9 +42,34 @@ $(document).ready(function() {
             }
         });
 
-
-
 	$("#submit").click(function(){
 		$("form").submit();
 	});
+
+
+	$( "#modifyItinerary" ).click(function(event){
+		$("td > a").addClass("active");
+		$("#showNewItinerary").show();
+		$(this).hide();
+		$("#confirmItinerary").hide();
+		event.preventDefault();
+	});
+
+	$( "td > a" ).click(function(event){
+		if($(this).hasClass("active")){
+			$(this).parent().css('opacity', '0.3');
+			$(this).removeClass('active');
+			excludeList.push($(this).attr("id").replace("location", ""));
+		}
+		event.preventDefault();
+	});
+
+	$( "#showNewItinerary" ).click(function(event){
+		$(this).attr("href", $(this).attr("href")+"?excludeList="+excludeList.join(","));
+	});
+
+	$( "#confirmItinerary" ).click(function(event){
+		alert("Thank you, your trip has been confirmed");
+	});
+	
 });

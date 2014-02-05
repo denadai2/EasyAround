@@ -27,8 +27,10 @@
                     {% if timeslot.location is none %}
                     <td></td>
                     {% else %}
-                    <td>
-                        <img src="{{ url_for('static', filename='images/locations/'+timeslot.location.image) }}" alt="" width="160" height="160" />
+                    <td style="background:url({{ url_for('static', filename='images/locations/'+timeslot.location.image) }});">
+                        <a href="#" id="location{{ timeslot.location.ID }}">
+                            
+                        </a>
                     </td>
                     {% endif %}
                 {% endfor %}
@@ -36,6 +38,12 @@
             {% endfor %}
 
         </table>
+
+        <div style="text-align:right;margin-top:20px">
+            <a href="#" class="button secondary alert" id="modifyItinerary">Modify itinerary</a>
+            <a href="/" class="button secondary success" id="confirmItinerary">Confirm itinerary</a>
+            <a href="{{ url_for('excludeLocations', itinerary_ID=itinerary.ID) }}" class="button secondary" id="showNewItinerary">Show new itinerary</a>
+        </div>
 
     </div>
 </div>

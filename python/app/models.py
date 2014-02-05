@@ -39,6 +39,7 @@ class Itinerary(db.Model):
                                 lazy='dynamic')
     preferences = db.relationship('Preference', backref='locations',
                                 lazy='dynamic')
+    client = db.relationship('Client', backref='itinerary')
 
 
     def __init__(self, withKids, needsFreeTime, client_ID):
@@ -47,14 +48,14 @@ class Itinerary(db.Model):
         self.client_ID = client_ID
 
 
-    def modify(constraints):
+    def modify(self, constraints):
     	''' Takes the selected action and commits the modification into the database
 		ArgS:
 			constraints: single action that the modify commits to make it permanent
 		Returns: -
 		'''
-    	session.db.add(constraints)
-        session.db.commit()
+    	db.session.add(constraints)
+        db.session.commit()
 
 
     def select(self, locationID, itineraryID):

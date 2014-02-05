@@ -71,24 +71,25 @@ def getLocations():
     return jsonify(response);
 
 
-@app.route('/excludeLocations', methods = ['POST'])
-def excludeLocations():
-	'''Exclude a list of locations from an itinerary
+@app.route('/excludeLocations/<int:itinerary_ID>', methods = ['GET'])
+def excludeLocations(itinerary_ID):
+    '''Exclude a list of locations from an itinerary
 		Args:
-			itineraryID: POST variable which represent the ID of the considered itinerary
-			clientID: POST variable which represent the ID of the client
-			locations: POST variable which represent the list of locations ID to be excluded
+			itineraryID: GET variable which represent the ID of the considered itinerary
+			excludeList: GET variable which represent the list of locations ID to be excluded
 
 		Returns:
 		   The new itinerary with the requested modifications
 		Raises:
 			? '''
-	oldItinerary = Itinerary.query.filter_by(ID = request.form['itineraryID']).first()
-	eA = easyAround()
-	locations = request.form.get('locations').replace('["', "").replace('"]', "").split('","')
-	violation = Violation(request.form['itineraryID'], request.form['clientID'], locations)
-	days = eA.critique(violation, oldItinerary)
-	return render_template('proposeItinerary.html', days=days, step=2)
+    excludeList = request.args.get('excludeList').split(',')
+    oldItinerary = models.Itinerary.query.filter_by(ID = itinerary_ID).first()
+    eA = easyAround()
+    violation = Violation(itinerary_ID, oldItinerary.client_ID, excludeList)
+    proposal = eA.critique(violation, oldItinerary)
+    verify = eA.verify(proposal)
+
+    return verify
 
 
 @app.route('/proposeItinerary', methods = ['POST'])
@@ -137,8 +138,8 @@ def getItinerary():
     sketal_design = r.specify()
 
     eA = easyAround()
-    days = eA.propose(r.requirements, r.preferences, sketal_design, r.constraints)
-    verify = eA.verify(days)
+    proposal = eA.propose(r.requirements, r.preferences, sketal_design, r.constraints)
+    verify = eA.verify(proposal)
 
     return verify
 

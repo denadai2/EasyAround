@@ -4,8 +4,9 @@ from app import models
 from collections import namedtuple
 from flask import render_template
 
-
 Requirements = namedtuple("Requirements", "startDate days kids freeTime client")
+Preferences = namedtuple("Preferences", "shopping culture gastronomy nightlife")
+Constraints = namedtuple("Constraints", "exclude include")
 
 class easyAround(object):
     """Class that has to propose the itinerary to the TA
@@ -23,6 +24,7 @@ class easyAround(object):
             constraints: the Constraints namedtuple which represents the constraints requirements
 
         Returns:
+            the itinerary and 
             the list of the days inserted in the database (and their respective assigned locations)
 
         Raises:
@@ -65,26 +67,26 @@ class easyAround(object):
 
             db.session.commit()
 
-        return sketal_design[1]
+        return sketal_design
            
     def verify(self, proposal):
         ''' submits the proposal to the client
         Args:
-            proposal: list of the days inserted in the database (and their respective assigned locations)
+            proposal: the itinerary and the list of the days inserted in the database (and their respective assigned locations)
         Returns: 
             The HTML ready for the client
         '''
-        return render_template('proposeItinerary.html', days=proposal, step=2)
+        return render_template('proposeItinerary.html', days=proposal[1], step=2, itinerary=proposal[0])
 
 
-	def critique(self, violation, itinerary):
-		''' Edits the itinerary accordingly to the critique obtained from the client.
+    def critique(self, violation, itinerary):
+        ''' Edits the itinerary accordingly to the critique obtained from the client.
         Args:
-			violation: the new set of constraints from the client
-			itinerary: the old itinerary to be modified
-		Returns: 
+            violation: the new set of constraints from the client
+            itinerary: the old itinerary to be modified
+        Returns: 
             The list of days of the modified itinerary
-		'''
+        '''
         #passes control to select() and modify() to make the fix actions permanent
         if len(violation.locations) > 0:
             for locationID in violation.locations:
@@ -107,7 +109,7 @@ class easyAround(object):
             preferences = Preferences(preferenceShopping.range, preferenceCulture.range, preferenceGastronomy.range, preferenceNightLife.range)
 
             days = models.Day.query.filter_by(itinerary_ID = violation.itineraryID).all()
-            requirements = Requirements(0, len(days), itinerary.withKids, itinerary.needsFreeTime, itinerary.client_ID)
+            requirements = Requirements(0, len(days), itinerary.withKids, itinerary.needsFreeTime, itinerary.client)
 			#performs a selectLocation to chose new locations that will overwrite the violations
 			#locations: places, meals, eveningPlaces
             locations = itinerary.selectLocation(requirements, preferences, constraints)
@@ -123,7 +125,8 @@ class easyAround(object):
                     timeslot.location_ID = ID
                     db.session.add(timeslot)
             db.session.commit()
-        return days
+
+        return (itinerary, days)
 
     		
 
