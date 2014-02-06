@@ -1,3 +1,7 @@
+
+''' ==========================================================================
+   Scraper. It visits tripadvisor in order to get all the necessary content
+   ========================================================================== '''
 from bs4 import BeautifulSoup
 from urllib2 import urlopen
 import urllib
@@ -21,16 +25,6 @@ def get_places_links(section_url):
     soup = make_soup(section_url)
     category_links = [BASE_URL + block.find("a", {'class':"property_title"})['href'] for block in soup.findAll("div", {'class':"listing"})]
     return category_links
-
-def get_category_winner(category_url):
-    soup = make_soup(category_url)
-    category = soup.find("h1", "headline").string
-    winner = [h2.string for h2 in soup.findAll("h2", "boc1")]
-    runners_up = [h2.string for h2 in soup.findAll("h2", "boc2")]
-    return {"category": category,
-            "category_url": category_url,
-            "winner": winner,
-            "runners_up": runners_up}
 
 def getHeroPhoto(list):
     for dict in list:
@@ -72,8 +66,8 @@ if __name__ == '__main__':
                 intensive = False
                 rating = int(float(soup.find("img", {"class": "sprite-ratings"})["content"]))
                 type = key
-                excludedCategory=None
-                forKids=None
+                excludedCategory = None
+                forKids = None
 
                 
                 scripts = soup.findAll('script')

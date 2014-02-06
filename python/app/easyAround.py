@@ -1,12 +1,10 @@
 from app import app
 from app import db
 from app import models
-from collections import namedtuple
+from app import Requirements
+from app import Preferences
+from app import Constraints
 from flask import render_template
-
-Requirements = namedtuple("Requirements", "startDate days kids freeTime client")
-Preferences = namedtuple("Preferences", "shopping culture gastronomy nightlife")
-Constraints = namedtuple("Constraints", "exclude include")
 
 class easyAround(object):
     """Class that has to propose the itinerary to the TA
@@ -48,7 +46,7 @@ class easyAround(object):
 		# Fetch the locations accordingly to the knowledge rules in selectLocation
         #locations: places, meals, eveningPlaces
         locations = itinerary.selectLocation(requirements, preferences, constraints)
-        mapping = { 'morning': 0, 'afternoon': 0, 'meal':1, 'evening':2}
+        mapping = { 'morning': 0, 'afternoon': 0, 'meal': 1, 'evening': 2}
 		#for each timeslot in each day, assign one of the chosen locations to fill in the itinerary
         for day in sketal_design[1]:
             db.session.add(day)
@@ -72,8 +70,10 @@ class easyAround(object):
            
     def verify(self, proposal):
         ''' submits the proposal to the client
+        
         Args:
             proposal: the itinerary and the list of the days inserted in the database (and their respective assigned locations)
+
         Returns: 
             The HTML ready for the client
         '''
@@ -82,9 +82,11 @@ class easyAround(object):
 
     def critique(self, violation, itinerary):
         ''' Edits the itinerary accordingly to the critique obtained from the client.
+
         Args:
             violation: the new set of constraints from the client
             itinerary: the old itinerary to be modified
+
         Returns: 
             The list of days of the modified itinerary
         '''

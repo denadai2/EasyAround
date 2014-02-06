@@ -5,16 +5,25 @@ from flask import jsonify
 from flask import json
 from flask import render_template
 from app import app
+from app import Violation
 from app import models
 from app.Request import *
 from app.easyAround import *
-from collections import namedtuple
 import datetime
-
-Violation = namedtuple("Violation", "itineraryID clientID locations")
 
 @app.route('/')
 def index():
+    """Shows the initial page of easyAround, where the form is displayed
+
+    Args:
+        None
+
+    Returns:
+        the HTML of the page
+
+    Raises:
+        ?
+    """
     return render_template('index.html', step=1)
 
 
@@ -104,6 +113,7 @@ def getItinerary():
 		include: list of locations to be included
 		existingClient: identifier of the customer (if is a new customer, this equals zero)
 		clientName: name of the client
+        clientAge: age of the client
 		clientQuiet: the preference of the client towards quiet environment
 		preferenceShopping: preference towards shopping activities, in a range from 1 to 5
 		preferenceCulture: preference towards cultural activities, in a range from 1 to 5
@@ -128,17 +138,18 @@ def getItinerary():
         excludeList = []
     if includeList[0] == "[]":
         includeList = []
-    ageInput = int(request.form.get('clientAge', 18))
-    category = "young"
-    if ageInput > 30 and ageInput < 40:
-        category = "adult"
-    elif ageInput >= 40 and ageInput < 60:
-        category = "middleAged"
-    elif ageInput >= 60:
-        category = "elderly"
 
     #if the request comes from a new customer, insert them into the database
     if request.form['existingClient'] == '0':
+        ageInput = int(request.form.get('clientAge', 18))
+        category = "young"
+        if ageInput > 30 and ageInput < 40:
+            category = "adult"
+        elif ageInput >= 40 and ageInput < 60:
+            category = "middleAged"
+        elif ageInput >= 60:
+            category = "elderly"
+
         clientQuiet = request.form.get('clientQuiet', False)
         if clientQuiet == 'yes':
             clientQuiet = True

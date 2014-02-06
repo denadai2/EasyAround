@@ -1,17 +1,12 @@
 #!flask/bin/python
 from app import app
 from app import db
+from app import Requirements
+from app import Preferences
+from app import Constraints
 import models
 from collections import namedtuple
 from datetime import timedelta
-
-#---------------
-# Classes and data structures
-#---------------
-
-Requirements = namedtuple("Requirements", "startDate days kids freeTime client")
-Preferences = namedtuple("Preferences", "shopping culture gastronomy nightlife")
-Constraints = namedtuple("Constraints", "exclude include")
 
 class Request(object):
 	"""Class that has to handle the methods operationalize and specify
@@ -63,7 +58,6 @@ class Request(object):
 	    Raises:
 	        ?
 	    """
-		print self.requirements
 		# Create a new instance of itinerary in the database
 		itinerary = models.Itinerary(self.requirements.kids, self.requirements.freeTime, self.requirements.client.ID)
 		db.session.add(itinerary)

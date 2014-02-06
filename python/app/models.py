@@ -6,11 +6,9 @@ import random
 
 class Client(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200)) #, unique=True
+    name = db.Column(db.String(200))
     quiet = db.Column(db.Boolean)
-    #dynamic = db.Column(db.Enum('1', '2', '3')) modificare
     category = db.Column(db.Enum('young', 'adult', 'middleAged', 'elderly'))
-    itineraries = db.relationship('Itinerary', backref='clients', lazy='dynamic')
     
     def __init__(self, name, quiet, category):
         self.name = name
@@ -28,10 +26,6 @@ class Itinerary(db.Model):
     client_ID = db.Column(db.Integer, db.ForeignKey('client.ID'))
     days = db.relationship('Day')
 
-    constraints = db.relationship('Constraint', backref='locations',
-                                lazy='dynamic')
-    preferences = db.relationship('Preference', backref='locations',
-                                lazy='dynamic')
     client = db.relationship('Client', backref='itinerary')
 
 
@@ -43,9 +37,11 @@ class Itinerary(db.Model):
 
     def modify(self, constraints):
     	''' Takes the selected action and commits the modification into the database
-		ArgS:
+		
+        Args:
 			constraints: single action that the modify commits to make it permanent
-		Returns: -
+		
+        Returns: -
 		'''
     	db.session.add(constraints)
         db.session.commit()
@@ -53,9 +49,11 @@ class Itinerary(db.Model):
 
     def select(self, locationID, itineraryID):
         ''' Foreach violation, selects one single action to be performed and passes the control to modify
+        
         ArgS:
             locationID: the location that corresponds to the violation, the single action that needs to be selected
             itineraryID: the id of the itinerary to be modified
+        
         Returns: -
         '''
         self.modify(Constraint(itineraryID, locationID, 'avoid'))
@@ -70,28 +68,26 @@ class Itinerary(db.Model):
             constraints: the Constraints namedtuple which represents the constraints requirements
 
         Returns:
-            Tuple containing the list of all the locations to be inserted in the slots and the meal locations
+            Tuple containing the list of all the locations to be inserted in the slots, the meal locations and the 
+            evening locations
+
+            ([morning/afternoon Locations], [meal Locations], [evening Locations])
+
+        Raises:
+            -
         """
-        #Calculate the number of slots needed to be fulfilled
+        #Calculate the number of slots needed to be fulfilled (morning, afternoon, meal, evening)
         nSlots = requirements.days * 4
         #calculate the kids locations, that needs to be inserted in the slots. 1/6 of the locations must be for kids
         nKids = 0
         if requirements.kids:
             nKids = (nSlots/6)
             nSlots = nSlots - nKids
+        #if the user requires freeTime or he is young, the system will not schedule some slots
         if requirements.freeTime or  requirements.client.category == "young":
             nSlots = nSlots - requirements.days
         #list of the probabilities. Probabilities of: ['shopping', 'culture' 'gastronomy', 'nightlife']
-        probabilities = [0,0,0,0]
-        sum = 0.0
-        i = 0
-        for preferenceType in preferences._fields:
-            probabilities[i] = float(getattr(preferences, preferenceType))
-            sum = sum + probabilities[i]
-            i = i+1
-        
-        for i in range(0,4):
-            probabilities[i] = float(probabilities[i]/(sum*1.0))
+        probabilities = self.__calculateProbabilities(preferences)
 
         #calculate how many locations I need to select in the categories: ['shopping', 'culture' 'gastronomy', 'nightlife']
         locationTypes = [0,0,0,0]
@@ -191,6 +187,37 @@ class Itinerary(db.Model):
             if x < cumulative_probability: 
                 break
         return item
+
+
+    def __calculateProbabilities(self, preferences):
+        """It will pick one item from some_list following the probabilities list
+
+        Args:
+            preferences: Preferences data structure containing the numbers between 1 and 5 of each preference type
+
+        Returns:
+            a list containing all the probabilities for each type (['shopping', 'culture' 'gastronomy', 'nightlife'])
+        
+            [0.15, 0.15, 0.30, 0.40]
+
+            which means that shopping has probability 0.15 etc...
+
+        Raises:
+            ?
+        """
+        probabilities = [0,0,0,0]
+        sum = 0.0
+        i = 0
+        for preferenceType in preferences._fields:
+            probabilities[i] = float(getattr(preferences, preferenceType))
+            sum = sum + probabilities[i]
+            i = i+1
+        
+        #the sum of the probabilities needs to be 1.0
+        for i in range(0,4):
+            probabilities[i] = float(probabilities[i]/(sum*1.0))
+
+        return probabilities
 
 
 class Constraint(db.Model):
