@@ -88,8 +88,8 @@ if __name__ == '__main__':
 
                 im = Image.open('images/'+imgName)
                 width, height = im.size   # Get dimensions
-                new_width = 150
-                new_height = 150
+                new_width = 160
+                new_height = 160
 
                 left = (width - new_width)/2
                 top = (height - new_height)/2

@@ -299,7 +299,7 @@ requirement-rule  & static    & Client, Itinerary
 \\ \hline
 \end{tabularx}
 
-\subsection{Rule types}
+\subsection{Rule types}\label{sec:rules}
 
 \begin{lstlisting}[label=Rules,caption=Rules,breaklines=true]
 RULE TYPE constraint-rule;
@@ -661,6 +661,11 @@ The entire server-side application has been build on the base of the inference m
 \item[Database] \hfill \\
 The SQL based database contains the information relative to the client and the locations that will be handled by the ``knowledge engine" to build the itinerary. The database has been build on the base of the domain model in Section \ref{sec:domain}, and has been filled with information coming directly from the \textit{TripAdvisor} database. This specific way of building and filling the database favours the reusability of the whole application (for more information see Section \ref{sec:reusability})
 \end{description}
+
+\subsection{Knowledge inside the software}
+The three types of rules designed for our system (constraint-rules, preference-rules, requirement-rules) have been implemented in the function \textit{selectLocation()}. The rules have been implemented as a series of SQL queries to the database to carefully select the right locations, with the aid of a probability function, needed to implement the connector \textit{prefers-with-probability} (see Section \ref{sec:rules}).
+
+
 \subsection{Role of the CommonKADS model set in the implementation} \label{sec:common}
 The implementation of the system was strongly based on the models prepared in the previous sections of this document, particularly on the Inference Model in section \ref{sec:inference} and the Domain Model in section \ref{sec:domain}.\\
 In this section it is illustrated briefly the correspondence between the functions implemented in \textit{easyAround} and the roles and transfer functions of the inference model.
